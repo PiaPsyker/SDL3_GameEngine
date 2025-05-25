@@ -1,5 +1,4 @@
 #include "Map.hpp"
-#include <iostream>
 
 //---------------------------------------------------------//
 /* Class Implementation */
