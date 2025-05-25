@@ -16,6 +16,7 @@
 #include "map/LTexture.hpp"
 #include "map/Tile.hpp"
 #include "map/Layer.hpp"
+#include "map/Map.hpp"
 #include "renderer/Presenter.hpp"
 
 //---------------------------------------------------------//
@@ -60,11 +61,16 @@ SDL_Renderer* gRenderer{nullptr};
 LTexture* playerTex;
 LTexture* backgroundTex;
 
+LTexture* backgroundTex2;
+
 Presenter* gPresenter;
 
 Tile* test_tile{nullptr};
 
 Layer* test_layer{nullptr};
+Layer* test_layer2{nullptr};
+
+Map* test_map{nullptr};
 
 int px = 0;
 int py = 0;
@@ -104,13 +110,17 @@ bool loadMedia() {
     
     playerTex = new LTexture(gPresenter->getRenderer());
     backgroundTex = new LTexture(gPresenter->getRenderer());
+    backgroundTex2 = new LTexture(gPresenter->getRenderer());
 
     bool success{true};
 
     if(success = playerTex->loadFromFile("resources/sprite.png"); !success) {
         SDL_Log("Couldnt load PNG image");
     }
-    if(success = backgroundTex->loadFromFile("resources/001-Grassland01.png"); !success) {
+    if(success = backgroundTex->loadFromFile("resources/Outside_A5.png"); !success) {
+        SDL_Log("Couldnt load PNG image");
+    }
+    if(success = backgroundTex2->loadFromFile("resources/Outside_B.png"); !success) {
         SDL_Log("Couldnt load PNG image");
     }
 
@@ -120,12 +130,17 @@ bool loadMedia() {
     playerTex->setSize(48,48);
     playerTex->setClip(downX,downY,48,48);
 
-    //
     test_layer = new Layer(backgroundTex);
+    test_layer2 = new Layer(backgroundTex2);
     
     test_layer->readTileMap("tilemaps/test.txt");
+    test_layer2->readTileMap("tilemaps/test2.txt");
 
-    //test_tile = new Tile(backgroundTex, 0, 32.f, true);
+    test_map = new Map();
+
+    test_map->addLayer(test_layer2);
+    test_map->addLayer(test_layer);
+    
 
     return success;
 
@@ -201,13 +216,15 @@ int main(int argc, char* args[]) {
 
             bool quit{false};
 
+            test_map->addLayer(test_layer);
+
             while(quit == false) {
 
                 SDL_RenderClear(gRenderer);
 
                 handleInput(&quit);
 
-                test_layer->renderTileMap();
+                test_map->renderLayers();
 
                 gPresenter->render();
 

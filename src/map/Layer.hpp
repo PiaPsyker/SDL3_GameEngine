@@ -33,6 +33,8 @@ class Layer {
 
         void readTileMap(std::string path);
 
+        void loadTileMap();
+
         void renderTileMap();
 
     private:

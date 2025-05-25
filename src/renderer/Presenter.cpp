@@ -37,6 +37,7 @@ void Presenter::addRenderObject(LTexture* obj) {
     renderObjects.push_front(obj);
 
 }
+
 //---------------------------------------------------------//
 
 void Presenter::free() {

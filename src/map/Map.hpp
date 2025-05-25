@@ -29,6 +29,10 @@ class Map{
 
         Map();
 
+        void addLayer(Layer* layer);
+
+        void renderLayers();
+
     private:
 
         std::list<Layer *> layers;
