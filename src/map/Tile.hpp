@@ -25,15 +25,15 @@ class Tile {
 
     public:
 
-        Tile(LTexture* sprite, int index=0);
+        Tile(LTexture* sprite, int index=0, float spriteSize = 0.f, bool mv = true);
 
         bool isMoveable();
+
+        void render();
 
     private:
 
         LTexture* spriteSheet;
-
-        SDL_FRect spriteClip;
 
         bool moveable;
 

@@ -14,6 +14,7 @@
 #include <SDL3_image/SDL_image.h>
 #include <string>
 #include "map/LTexture.hpp"
+#include "map/Tile.hpp"
 #include "renderer/Presenter.hpp"
 
 //---------------------------------------------------------//
@@ -60,6 +61,8 @@ LTexture* gBackground;
 
 Presenter* gPresenter;
 
+Tile* test_tile{nullptr};
+
 int px = 0;
 int py = 0;
 
@@ -104,7 +107,7 @@ bool loadMedia() {
     if(success = gPngTexture->loadFromFile("resources/sprite.png"); !success) {
         SDL_Log("Couldnt load PNG image");
     }
-    if(success = gBackground->loadFromFile("resources/bg_universe.png"); !success) {
+    if(success = gBackground->loadFromFile("resources/001-Grassland01.png"); !success) {
         SDL_Log("Couldnt load PNG image");
     }
 
@@ -113,6 +116,8 @@ bool loadMedia() {
 
     gPngTexture->setSize(48,48);
     gPngTexture->setClip(downX,downY,48,48);
+
+    test_tile = new Tile(gBackground, 4, 32.f, true);
 
     //gBackground->setSize(256,256);
 
