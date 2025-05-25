@@ -125,7 +125,6 @@ bool loadMedia() {
     }
 
     gPresenter->addRenderObject(playerTex);
-    gPresenter->addRenderObject(backgroundTex);
 
     playerTex->setSize(48,48);
     playerTex->setClip(downX,downY,48,48);

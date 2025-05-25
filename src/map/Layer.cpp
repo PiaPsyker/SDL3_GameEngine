@@ -77,16 +77,10 @@ void Layer::readTileMap(std::string path) {
 void Layer::loadTileMap() {
     for(int i = 0; i <= 15; i++) {
         for(int j = 0; j <= 15; j++) {
+
             tileArray[i][j] = new Tile(tileSheet, map[i][j], 48.f, true);
             tileArray[i][j]->setPosition(i* 48, j * 48);
             tileArray[i][j]->render();
-        }
-    }
-}
-
-void Layer::renderTileMap() {
-    for(int i = 0; i <= 15; i++) {
-        for(int j = 0; j <= 15; j++) {
             
         }
     }

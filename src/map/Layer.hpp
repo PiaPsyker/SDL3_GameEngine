@@ -35,8 +35,6 @@ class Layer {
 
         void loadTileMap();
 
-        void renderTileMap();
-
     private:
 
         LTexture* tileSheet;
