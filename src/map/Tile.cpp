@@ -21,15 +21,16 @@ Tile::Tile(LTexture* sprite, int index, float spriteSize, bool mv) {
     // index 9 -> x: tilesize * 1, y: tilesize * 1
 
     int cols = 8;
-    int rows = 18;
 
     int x = (index % cols) * spriteSize;
-    int y = (index / rows) * spriteSize;
+    int y = (index / cols) * spriteSize;
 
-    sprite->setClip(x,y,spriteSize,spriteSize);
-    sprite->setSize(spriteSize, spriteSize);
+    spriteSheet->setClip(x,y,spriteSize,spriteSize);
+    spriteSheet->setSize(spriteSize, spriteSize);
 
 }
+
+//---------------------------------------------------------//
 
 bool Tile::isMoveable() {
 
@@ -37,8 +38,16 @@ bool Tile::isMoveable() {
 
 }
 
-void Tile::render(){
+//---------------------------------------------------------//
+
+void Tile::render() {
 
     spriteSheet->render();
+    
+}
+
+void Tile::setPosition(float x, float y) {
+
+    spriteSheet->setPosition(x, y);
 
 }

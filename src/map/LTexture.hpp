@@ -34,6 +34,7 @@ class LTexture{
 
         void move(float x, float y);
 
+        void setPosition(float x, float y);
         void setSize(float x, float y);
         void setClip(float x, float y, float w, float h);
 

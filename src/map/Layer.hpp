@@ -15,6 +15,8 @@
 #include <SDL3/SDL_main.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3_image/SDL_image.h>
+#include <string>
+#include "LTexture.hpp"
 #include "Tile.hpp"
 
 //---------------------------------------------------------//
@@ -25,13 +27,17 @@ class Layer {
 
     public:
 
-        Layer();
+        Layer(LTexture* sheet = nullptr);
 
         bool isMoveable(float x, float y);
 
+        void readTileMap(std::string path);
+
     private:
 
-        Tile tileArray[16][16];
+        LTexture* tileSheet;
+
+        Tile* tileArray[16][16];
 
 };
 

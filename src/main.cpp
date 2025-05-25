@@ -15,6 +15,7 @@
 #include <string>
 #include "map/LTexture.hpp"
 #include "map/Tile.hpp"
+#include "map/Layer.hpp"
 #include "renderer/Presenter.hpp"
 
 //---------------------------------------------------------//
@@ -56,12 +57,14 @@ SDL_Window* gWindow{nullptr};
     
 SDL_Renderer* gRenderer{nullptr};
 
-LTexture* gPngTexture;
-LTexture* gBackground;
+LTexture* playerTex;
+LTexture* backgroundTex;
 
 Presenter* gPresenter;
 
 Tile* test_tile{nullptr};
+
+Layer* test_layer{nullptr};
 
 int px = 0;
 int py = 0;
@@ -99,27 +102,29 @@ bool init() {
 
 bool loadMedia() {
     
-    gPngTexture = new LTexture(gPresenter->getRenderer());
-    gBackground = new LTexture(gPresenter->getRenderer());
+    playerTex = new LTexture(gPresenter->getRenderer());
+    backgroundTex = new LTexture(gPresenter->getRenderer());
 
     bool success{true};
 
-    if(success = gPngTexture->loadFromFile("resources/sprite.png"); !success) {
+    if(success = playerTex->loadFromFile("resources/sprite.png"); !success) {
         SDL_Log("Couldnt load PNG image");
     }
-    if(success = gBackground->loadFromFile("resources/001-Grassland01.png"); !success) {
+    if(success = backgroundTex->loadFromFile("resources/001-Grassland01.png"); !success) {
         SDL_Log("Couldnt load PNG image");
     }
 
-    gPresenter->addRenderObject(gPngTexture);
-    gPresenter->addRenderObject(gBackground);
+    gPresenter->addRenderObject(playerTex);
+    gPresenter->addRenderObject(backgroundTex);
 
-    gPngTexture->setSize(48,48);
-    gPngTexture->setClip(downX,downY,48,48);
+    playerTex->setSize(48,48);
+    playerTex->setClip(downX,downY,48,48);
 
-    test_tile = new Tile(gBackground, 4, 32.f, true);
+    //
+    test_layer = new Layer(backgroundTex);
+    
 
-    //gBackground->setSize(256,256);
+    //test_tile = new Tile(backgroundTex, 0, 32.f, true);
 
     return success;
 
@@ -138,20 +143,20 @@ void handleInput(bool* quit) {
         } else if(e.type == SDL_EVENT_KEY_DOWN){
             switch(e.key.key){
                 case SDLK_UP:
-                    gPngTexture->move(0.0f,-48.0f);
-                    gPngTexture->setClip(upX,upY,48,48);
+                    playerTex->move(0.0f,-48.0f);
+                    playerTex->setClip(upX,upY,48,48);
                     break;
                 case SDLK_DOWN:
-                    gPngTexture->move(0.0f,48.0f);
-                    gPngTexture->setClip(downX,downY,48,48);
+                    playerTex->move(0.0f,48.0f);
+                    playerTex->setClip(downX,downY,48,48);
                     break;
                 case SDLK_LEFT:
-                    gPngTexture->move(-48.0f,0.0f);
-                    gPngTexture->setClip(leftX,leftY,48,48);
+                    playerTex->move(-48.0f,0.0f);
+                    playerTex->setClip(leftX,leftY,48,48);
                     break;
                 case SDLK_RIGHT:
-                    gPngTexture->move(48.0f,0.0f);
-                    gPngTexture->setClip(rightX,rightY,48,48);
+                    playerTex->move(48.0f,0.0f);
+                    playerTex->setClip(rightX,rightY,48,48);
                     break;
             }
         }
@@ -197,7 +202,11 @@ int main(int argc, char* args[]) {
 
             while(quit == false) {
 
+                SDL_RenderClear(gRenderer);
+
                 handleInput(&quit);
+
+                test_layer->readTileMap("tilemaps/test.txt");
 
                 gPresenter->render();
 

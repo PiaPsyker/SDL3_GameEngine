@@ -45,6 +45,15 @@ void LTexture::move(float x, float y) {
 
 //---------------------------------------------------------//
 
+void LTexture::setPosition(float x, float y) {
+
+    posX = x;
+    posY = y;
+
+}
+
+//---------------------------------------------------------//
+
 void LTexture::setSize(float x, float y) {
 
     rWidth = x;

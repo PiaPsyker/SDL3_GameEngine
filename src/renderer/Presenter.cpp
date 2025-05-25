@@ -14,7 +14,7 @@ Presenter::Presenter() {
 
 void Presenter::render() {
 
-    SDL_RenderClear(mRenderer);
+    
 
     for(LTexture* object : renderObjects) {
         object->render();
@@ -39,7 +39,6 @@ void Presenter::addRenderObject(LTexture* obj) {
     renderObjects.push_front(obj);
 
 }
-
 //---------------------------------------------------------//
 
 void Presenter::free() {

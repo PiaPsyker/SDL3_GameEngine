@@ -25,9 +25,11 @@ class Tile {
 
     public:
 
-        Tile(LTexture* sprite, int index=0, float spriteSize = 0.f, bool mv = true);
+        Tile(LTexture* sprite = nullptr, int index=0, float spriteSize = 0.f, bool mv = true);
 
         bool isMoveable();
+
+        void setPosition(float x, float y);
 
         void render();
 
