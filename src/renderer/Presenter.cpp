@@ -14,8 +14,6 @@ Presenter::Presenter() {
 
 void Presenter::render() {
 
-    
-
     for(LTexture* object : renderObjects) {
         object->render();
     }

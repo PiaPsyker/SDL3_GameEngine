@@ -33,9 +33,13 @@ class Layer {
 
         void readTileMap(std::string path);
 
+        void renderTileMap();
+
     private:
 
         LTexture* tileSheet;
+
+        int map[16][16];
 
         Tile* tileArray[16][16];
 

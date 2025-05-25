@@ -123,6 +123,7 @@ bool loadMedia() {
     //
     test_layer = new Layer(backgroundTex);
     
+    test_layer->readTileMap("tilemaps/test.txt");
 
     //test_tile = new Tile(backgroundTex, 0, 32.f, true);
 
@@ -206,7 +207,7 @@ int main(int argc, char* args[]) {
 
                 handleInput(&quit);
 
-                test_layer->readTileMap("tilemaps/test.txt");
+                test_layer->renderTileMap();
 
                 gPresenter->render();
 
