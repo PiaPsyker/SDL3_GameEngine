@@ -32,6 +32,7 @@ build/test: src/main.cpp
 	src/*.cpp \
 	src/renderer/*.cpp \
 	src/map/*.cpp \
+	src/entities/*.cpp \
 	$(LDFLAGS) $(WARNFLAGS)
 
 .PHONY: test clean

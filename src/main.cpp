@@ -13,11 +13,11 @@
 #include <SDL3/SDL_oldnames.h>
 #include <SDL3_image/SDL_image.h>
 #include <string>
-#include "entities/Player.hpp"
 #include "map/LTexture.hpp"
 #include "map/Tile.hpp"
 #include "map/Layer.hpp"
 #include "map/Map.hpp"
+#include "entities/Player.hpp"
 #include "renderer/Presenter.hpp"
 
 //---------------------------------------------------------//
@@ -73,10 +73,7 @@ Layer* test_layer2{nullptr};
 
 Map* test_map{nullptr};
 
-Player* player{nullptr};
-
-int px = 0;
-int py = 0;
+Player* test_player{nullptr};
 
 //---------------------------------------------------------//
 /* Function Implementation */
@@ -127,12 +124,12 @@ bool loadMedia() {
         SDL_Log("Couldnt load PNG image");
     }
 
-    gPresenter->addRenderObject(playerTex);
-
     playerTex->setSize(48,48);
     playerTex->setClip(downX,downY,48,48);
 
-    player = new Player(playerTex, px, py, 1);
+    test_player = new Player(playerTex, 0, 0, 48, 0);
+
+    //-------------------------------------
 
     test_layer = new Layer(backgroundTex);
     test_layer2 = new Layer(backgroundTex2);
@@ -141,11 +138,11 @@ bool loadMedia() {
     test_layer2->readTileMap("tilemaps/test2.txt");
 
     test_map = new Map();
-
-    //
     
     test_map->addLayer(test_layer);
     test_map->addLayer(test_layer2);
+
+    test_player->setMap(test_map);
     
     return success;
 
@@ -164,19 +161,19 @@ void handleInput(bool* quit) {
         } else if(e.type == SDL_EVENT_KEY_DOWN){
             switch(e.key.key){
                 case SDLK_UP:
-                    playerTex->move(0.0f,-48.0f);
+                    test_player->move(0, -1);
                     playerTex->setClip(upX,upY,48,48);
                     break;
                 case SDLK_DOWN:
-                    playerTex->move(0.0f,48.0f);
+                    test_player->move(0, 1);
                     playerTex->setClip(downX,downY,48,48);
                     break;
                 case SDLK_LEFT:
-                    playerTex->move(-48.0f,0.0f);
+                    test_player->move(-1, 0);
                     playerTex->setClip(leftX,leftY,48,48);
                     break;
                 case SDLK_RIGHT:
-                    playerTex->move(48.0f,0.0f);
+                    test_player->move(1, 0);
                     playerTex->setClip(rightX,rightY,48,48);
                     break;
             }
@@ -228,6 +225,8 @@ int main(int argc, char* args[]) {
                 handleInput(&quit);
 
                 test_map->renderLayers();
+
+                test_player->render();
 
                 gPresenter->render();
 

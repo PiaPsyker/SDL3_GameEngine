@@ -14,8 +14,10 @@ Layer::Layer(LTexture* sheet) {
 
 bool Layer::isMoveable(int x, int y) {
 
-    if(x >= 0 && x <= 16 && y >= 0 && y <= 16){
+    if(x >= 0 && x < 16 && y >= 0 && y < 16){
+
         return tileArray[x][y]->isMoveable();
+
     }
 
     return false;
