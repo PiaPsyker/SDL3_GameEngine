@@ -25,7 +25,7 @@ class Tile {
 
     public:
 
-        Tile(LTexture* sprite);
+        Tile(LTexture* sprite, int index=0);
 
         bool isMoveable();
 

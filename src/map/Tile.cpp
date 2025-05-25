@@ -6,7 +6,7 @@
 /* Class Implementation */
 //---------------------------------------------------------//
 
-Tile::Tile(LTexture* sprite) {
+Tile::Tile(LTexture* sprite, int index) {
     spriteSheet = sprite;
     posX = spriteSheet->getWidth();
     posY = spriteSheet->getHeight();
