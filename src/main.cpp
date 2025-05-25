@@ -13,6 +13,7 @@
 #include <SDL3/SDL_oldnames.h>
 #include <SDL3_image/SDL_image.h>
 #include <string>
+#include "entities/Player.hpp"
 #include "map/LTexture.hpp"
 #include "map/Tile.hpp"
 #include "map/Layer.hpp"
@@ -72,6 +73,8 @@ Layer* test_layer2{nullptr};
 
 Map* test_map{nullptr};
 
+Player* player{nullptr};
+
 int px = 0;
 int py = 0;
 
@@ -129,6 +132,8 @@ bool loadMedia() {
     playerTex->setSize(48,48);
     playerTex->setClip(downX,downY,48,48);
 
+    player = new Player(playerTex, px, py, 1);
+
     test_layer = new Layer(backgroundTex);
     test_layer2 = new Layer(backgroundTex2);
     
@@ -137,10 +142,11 @@ bool loadMedia() {
 
     test_map = new Map();
 
-    test_map->addLayer(test_layer2);
-    test_map->addLayer(test_layer);
+    //
     
-
+    test_map->addLayer(test_layer);
+    test_map->addLayer(test_layer2);
+    
     return success;
 
 }
@@ -214,8 +220,6 @@ int main(int argc, char* args[]) {
         } else {
 
             bool quit{false};
-
-            test_map->addLayer(test_layer);
 
             while(quit == false) {
 

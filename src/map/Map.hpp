@@ -16,7 +16,6 @@
 #include <SDL3/SDL_rect.h>
 #include <SDL3_image/SDL_image.h>
 #include <stdlib.h>
-#include <list>
 #include "Layer.hpp"
 
 //---------------------------------------------------------//
@@ -31,11 +30,15 @@ class Map{
 
         void addLayer(Layer* layer);
 
+        bool isMoveable(int x, int y, int layer_id);
+
         void renderLayers();
 
     private:
 
-        std::list<Layer *> layers;
+        Layer* layers[10];
+
+        int layer_count;
 
 };
 

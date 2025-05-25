@@ -12,11 +12,15 @@ Layer::Layer(LTexture* sheet) {
     
 }
 
-// void Layer::setTileSheet(LTexture* sheet) {
+bool Layer::isMoveable(int x, int y) {
 
-//     tileSheet = sheet;
+    if(x >= 0 && x <= 16 && y >= 0 && y <= 16){
+        return tileArray[x][y]->isMoveable();
+    }
 
-// }
+    return false;
+
+}
 
 //---------------------------------------------------------//
 
@@ -81,7 +85,7 @@ void Layer::loadTileMap() {
             tileArray[i][j] = new Tile(tileSheet, map[i][j], 48.f, true);
             tileArray[i][j]->setPosition(i* 48, j * 48);
             tileArray[i][j]->render();
-            
+
         }
     }
 }

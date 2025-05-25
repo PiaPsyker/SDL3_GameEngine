@@ -7,41 +7,33 @@
 //---------------------------------------------------------//
 /* Library Loading */
 //---------------------------------------------------------//
-
-#ifndef LAYER_H
-#define LAYER_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
-#include <SDL3/SDL_rect.h>
 #include <SDL3_image/SDL_image.h>
-#include <string>
-#include "LTexture.hpp"
-#include "Tile.hpp"
+#include "../map/LTexture.hpp"
 
 //---------------------------------------------------------//
 /* Class Prototype */
 //---------------------------------------------------------//
 
-class Layer {
+class Player {
 
     public:
 
-        Layer(LTexture* sheet = nullptr);
+        Player(LTexture* spr, int x, int y, int sz);
 
-        bool isMoveable(int x, int y);
-
-        void readTileMap(std::string path);
-
-        void loadTileMap();
+        void move(int x, int y);
 
     private:
 
-        LTexture* tileSheet;
+        LTexture* sprite;
 
-        int map[16][16];
-
-        Tile* tileArray[16][16];
+        int size;
+        int z_index;
+        int posX,posY;
 
 };
 
