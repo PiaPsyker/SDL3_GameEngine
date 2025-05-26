@@ -1,1 +1,3 @@
-Make the Layer take in a proper file to read for indexing the tiles
+- Finish Tilemap class to properly corrolate an index to a tile-name
+    - Write down naming scheme for tilesets
+- Redo layers for use with tilemaps

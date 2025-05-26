@@ -1,5 +1,6 @@
 #include "Layer.hpp"
 #include <fstream>
+#include <iostream>
 
 //---------------------------------------------------------//
 /* Class Implementation */
@@ -21,6 +22,17 @@ bool Layer::isMoveable(int x, int y) {
     }
 
     return false;
+
+}
+
+//---------------------------------------------------------//
+
+void Layer::processTileSet(std::string tpath, std::string cpath) {
+
+    std::ifstream tmap(tpath);
+    std::ifstream cmap(cpath);
+
+
 
 }
 
@@ -54,19 +66,14 @@ void Layer::readTileMap(std::string path) {
         int j = 0;
 
         for(int k = 0; k <= sizeof(c2); k++) {
-            if(c2[k] != '\n'){
-
+            if(c2[k] != '\n') {
                 arr[i][j] = (int)c2[k] - 48 ;
                 i++;
-
             } else {
-
                 j++;
                 i = 0;
-
             }
         }
-
         for(int x = 0; x <= 15; x++){
             for(int y = 0; y <= 15; y++) {
 

@@ -17,6 +17,7 @@
 #include "map/Tile.hpp"
 #include "map/Layer.hpp"
 #include "map/Map.hpp"
+#include "map/Tilemap.hpp"
 #include "entities/Player.hpp"
 #include "renderer/Presenter.hpp"
 
@@ -72,6 +73,8 @@ Layer* test_layer{nullptr};
 Layer* test_layer2{nullptr};
 
 Map* test_map{nullptr};
+
+Tilemap* test_tilemap{nullptr};
 
 Player* test_player{nullptr};
 
@@ -143,6 +146,11 @@ bool loadMedia() {
     test_map->addLayer(test_layer2);
 
     test_player->setMap(test_map);
+
+    test_tilemap = new Tilemap(8, 2, 48);
+    test_tilemap->processTileSet("tilemaps/Dungeon_A1.txt");
+    
+    //test_tilemap->getMap();
     
     return success;
 

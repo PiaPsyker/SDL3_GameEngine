@@ -1,0 +1,16 @@
+﻿Water A|0
+Deep Water|0
+Swamp Grass|1
+Lotus Pads (Flowers)|1
+Lava|0
+Waterfall A (Lava Cave)0
+Water B (Grass Maze)|0
+Waterfall B (Grass Maze)|0
+Water C (Dirt Cave)|0
+Waterfall C (Dirt Cave)|0
+Water D (Rock Cave)|0
+Waterfall D (Rock Cave)|0
+Water E (Crystal)|0
+Waterfall E (Crystal)|0
+Canal|0
+Waterfall (Stone Wall)|0

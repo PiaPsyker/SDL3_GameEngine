@@ -13,13 +13,6 @@ Tile::Tile(LTexture* sprite, int index, float spriteSize, bool mv) {
 
     moveable = mv;
 
-    // tilesheet : x : 8 tiles; y: 18 tiles
-
-    // index 0 -> x: 0, y: 0
-    // index 1 -> x: tilesize *1, y: 0
-    // index 8 -> x: 0, y: tilesize * 1
-    // index 9 -> x: tilesize * 1, y: tilesize * 1
-
     int x = (index % 8) * spriteSize;
     int y = (index / 8) * spriteSize;
 

@@ -8,8 +8,8 @@
 /* Library Loading */
 //---------------------------------------------------------//
 
-#ifndef LAYER_H
-#define LAYER_H
+#ifndef TILEMAP_H
+#define TILEMAP_H
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
@@ -17,35 +17,31 @@
 #include <SDL3_image/SDL_image.h>
 #include <string>
 #include "LTexture.hpp"
-#include "Tile.hpp"
 
 //---------------------------------------------------------//
 /* Class Prototype */
 //---------------------------------------------------------//
 
-class Layer {
+class Tilemap {
 
     public:
 
-        Layer(LTexture* sheet = nullptr);
+        Tilemap(int w, int h, int ts);
 
-        bool isMoveable(int x, int y);
+        void processTileSet(std::string cpath);
 
-        void processTileSet(std::string tpath, std::string cpath);
-
-        void readTileMap(std::string path);
-
-        void loadTileMap();
+        int** getMap();
 
     private:
 
+        int tilemapWidth;
+        int tilemapHeight;
         int tileSize;
 
-        LTexture* tileSheet;
-
-        int map[15][15];
-
-        Tile* tileArray[16][16];
+        LTexture* tilemapTex;
+        
+        std::string* configMap;
+        int** map;
 
 };
 
