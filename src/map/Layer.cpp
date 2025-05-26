@@ -1,6 +1,5 @@
 #include "Layer.hpp"
 #include <fstream>
-#include <iostream>
 
 //---------------------------------------------------------//
 /* Class Implementation */
@@ -22,17 +21,6 @@ bool Layer::isMoveable(int x, int y) {
     }
 
     return false;
-
-}
-
-//---------------------------------------------------------//
-
-void Layer::processTileSet(std::string tpath, std::string cpath) {
-
-    std::ifstream tmap(tpath);
-    std::ifstream cmap(cpath);
-
-
 
 }
 

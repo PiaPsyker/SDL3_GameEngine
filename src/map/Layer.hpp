@@ -31,8 +31,6 @@ class Layer {
 
         bool isMoveable(int x, int y);
 
-        void processTileSet(std::string tpath, std::string cpath);
-
         void readTileMap(std::string path);
 
         void loadTileMap();

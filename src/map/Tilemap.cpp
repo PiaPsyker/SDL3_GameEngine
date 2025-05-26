@@ -1,5 +1,4 @@
 #include "Tilemap.hpp"
-#include <cstddef>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -22,13 +21,10 @@ Tilemap::Tilemap(int w, int h, int ts) {
         
         map[i] = new int[tilemapHeight];
 
-        // for(int j = 0; j < tilemapHeight; j++) {
-        
-        //     map[i][j] = -1;
-        
-        // }
     }
 }
+
+//---------------------------------------------------------//
 
 void Tilemap::processTileSet(std::string cpath) {
 
@@ -60,6 +56,8 @@ void Tilemap::processTileSet(std::string cpath) {
     }
 }
 
+//---------------------------------------------------------//
+
 void Tilemap::loadTileMap(std::string path) {
 
     std::ifstream f(path);
@@ -83,6 +81,8 @@ void Tilemap::loadTileMap(std::string path) {
     
 }
 
+//---------------------------------------------------------//
+
 void Tilemap::setTileMap() {
 
     int i = 0;
@@ -95,6 +95,7 @@ void Tilemap::setTileMap() {
     int count = 0;
 
     for(char ch : t) {
+
         if(ch != '|' && ch != '\n') {
 
             if(count == 0) {
@@ -132,16 +133,9 @@ void Tilemap::setTileMap() {
     }
 }
 
+//---------------------------------------------------------//
+
 int** Tilemap::getMap(){
-
-    // for (int i = 0; i < tilemapWidth; i++) {
-
-    //     for(int j = 0; j < tilemapHeight; j++) {
-        
-    //         std::cout << map[i][j] << std::endl;
-        
-    //     }
-    // }
 
     return map;
 
