@@ -2,3 +2,5 @@
     - Write down naming scheme for tilesets
 - Integrate Tilemap Class into Layer class with overworked indexes
 - Redo layers for use with tilemaps
+- Redo main.cpp to clean up old functions
+- Recheck presenter (is it neccessary?)
