@@ -1,7 +1,8 @@
 #include "Tilemap.hpp"
-#include <SDL3/SDL_log.h>
+#include <cstddef>
 #include <fstream>
 #include <iostream>
+#include <string>
 
 //---------------------------------------------------------//
 /* Class Implementation */
@@ -21,11 +22,11 @@ Tilemap::Tilemap(int w, int h, int ts) {
         
         map[i] = new int[tilemapHeight];
 
-        for(int j = 0; j < tilemapHeight; j++) {
+        // for(int j = 0; j < tilemapHeight; j++) {
         
-            map[i][j] = 0;
+        //     map[i][j] = -1;
         
-        }
+        // }
     }
 }
 
@@ -54,6 +55,78 @@ void Tilemap::processTileSet(std::string cpath) {
         for(int i = 0; i < tilemapWidth * tilemapHeight; i++){
 
             std::cout << "Index " << i << " : " << configMap[i] << std::endl;
+
+        }
+    }
+}
+
+void Tilemap::loadTileMap(std::string path) {
+
+    std::ifstream f(path);
+
+    if(!f.is_open()) {
+        SDL_Log("Error opening Tilemap Map file");
+    } else {
+        char c;
+        
+        while(f.get(c)) {
+        
+            std::cout << "Adding " << c << " to t[" << "]" << std::endl;
+            t.push_front(c);
+
+        }
+
+        t.reverse();
+    }
+    
+    f.close();
+    
+}
+
+void Tilemap::setTileMap() {
+
+    int i = 0;
+    int j = 0;
+
+    int i1;
+    int i2;
+    int i3;
+
+    int count = 0;
+
+    for(char ch : t) {
+        if(ch != '|' && ch != '\n') {
+
+            if(count == 0) {
+
+                i1 = (int)ch -48;
+                count++;
+
+            }
+            else if(count == 1) {
+
+                i2 = i1 * 10;
+                i2 += (int)ch -48;
+                count++;
+
+            } else {
+
+                i3 = i2 * 10;
+                i3 += (int)ch -48;
+                std::cout << "Adding " << i3 << " to map[" << i << "][" << j << "]" << std::endl;
+                map[i][j] = i3;
+                count++;
+
+            }
+        } else if(ch == '|') {
+
+            count = 0;
+            i++;
+
+        } else if (ch == '\n') {
+
+            j++;
+            i = 0;
 
         }
     }

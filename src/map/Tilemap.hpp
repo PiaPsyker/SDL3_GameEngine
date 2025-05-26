@@ -16,6 +16,7 @@
 #include <SDL3/SDL_rect.h>
 #include <SDL3_image/SDL_image.h>
 #include <string>
+#include <list>
 #include "LTexture.hpp"
 
 //---------------------------------------------------------//
@@ -30,6 +31,10 @@ class Tilemap {
 
         void processTileSet(std::string cpath);
 
+        void loadTileMap(std::string path);
+
+        void setTileMap();
+
         int** getMap();
 
     private:
@@ -41,6 +46,7 @@ class Tilemap {
         LTexture* tilemapTex;
         
         std::string* configMap;
+        std::list<char> t;
         int** map;
 
 };

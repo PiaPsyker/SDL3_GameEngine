@@ -1,3 +1,4 @@
 - Finish Tilemap class to properly corrolate an index to a tile-name
     - Write down naming scheme for tilesets
+- Integrate Tilemap Class into Layer class with overworked indexes
 - Redo layers for use with tilemaps

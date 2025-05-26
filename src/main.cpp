@@ -137,7 +137,7 @@ bool loadMedia() {
     test_layer = new Layer(backgroundTex);
     test_layer2 = new Layer(backgroundTex2);
     
-    test_layer->readTileMap("tilemaps/test.txt");
+    test_layer->readTileMap("tilemaps/test2.txt");
     test_layer2->readTileMap("tilemaps/test2.txt");
 
     test_map = new Map();
@@ -147,9 +147,10 @@ bool loadMedia() {
 
     test_player->setMap(test_map);
 
-    test_tilemap = new Tilemap(8, 2, 48);
+    test_tilemap = new Tilemap(16, 16, 48);
     test_tilemap->processTileSet("tilemaps/Dungeon_A1.txt");
-    
+    test_tilemap->loadTileMap("tilemaps/test.txt");
+    test_tilemap->setTileMap();
     //test_tilemap->getMap();
     
     return success;
