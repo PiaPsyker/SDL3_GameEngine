@@ -44,6 +44,7 @@ void Player::move(int x, int y) {
         posY = mapY * size;
 
         sprite->setPosition(posX, posY);
+        
     //}
 }
 

@@ -117,14 +117,12 @@ void Tilemap::setTileMap() {
                 i2 += (int)ch -48;
                 count++;
 
-            } else {
+            } else if(count == 2) {
 
                 i3 = i2 * 10;
                 i3 += (int)ch -48;
                 std::cout << "Adding " << i3 << " to map[" << i << "][" << j << "]" << std::endl;
                 map[i][j] = i3;
-                count++;
-
             }
         } else if(ch == '|') {
 
@@ -135,6 +133,7 @@ void Tilemap::setTileMap() {
 
             j++;
             i = 0;
+            count = 0;
 
         }
     }
@@ -148,13 +147,8 @@ void Tilemap::renderTileMap() {
 
         for(int j = 0; j < tilemapHeight; j++) {
 
-            std::cout << "Adding Tile with index " << map[i][j] << " to tileArray" << std::endl;
             tileArray[i][j] = new Tile(tilemapTex, map[i][j], 48.f, true);
-        
-            std::cout << "Setting Position for tile" << std::endl;
             tileArray[i][j]->setPosition(i * 48, j * 48);
-
-            std::cout << "Render tile" << std::endl;
             tileArray[i][j]->render();
 
         }

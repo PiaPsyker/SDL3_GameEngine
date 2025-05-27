@@ -148,7 +148,7 @@ bool loadMedia() {
     test_player->setMap(test_map);
 
     test_tilemap = new Tilemap(backgroundTex, 17, 17, 48);
-    test_tilemap->processTileSet("tilemaps/Dungeon_A1.txt");
+    //test_tilemap->processTileSet("tilemaps/Dungeon_A1.txt");
     test_tilemap->loadTileMap("tilemaps/test.txt");
     test_tilemap->setTileMap();
     //test_tilemap->getMap();
