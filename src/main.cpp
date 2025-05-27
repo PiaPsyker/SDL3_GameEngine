@@ -105,7 +105,7 @@ bool loadMedia() {
     if(success = playerTex->loadFromFile("resources/sprite.png"); !success) {
         SDL_Log("Couldnt load PNG image");
     }
-    if(success = backgroundTex->loadFromFile("resources/Outside_A5.png"); !success) {
+    if(success = backgroundTex->loadFromFile("resources/tileset.png"); !success) {
         SDL_Log("Couldnt load PNG image");
     }
 
@@ -119,6 +119,7 @@ bool loadMedia() {
     gMap = new Map();
     
     gTilemap = new Tilemap(backgroundTex, 17, 17, 48);
+    gTilemap->processTileSet("resources/tileset.txt");
     gTilemap->loadTileMap("tilemaps/test.txt");
     gTilemap->setTileMap();
 

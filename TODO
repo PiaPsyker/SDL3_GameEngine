@@ -1,6 +1,3 @@
-- Finish Tilemap class to properly corrolate an index to a tile-name
-    - Write down naming scheme for tilesets
-- Integrate Tilemap Class into Layer class with overworked indexes
-- Redo layers for use with tilemaps
-- Redo main.cpp to clean up old functions
-- Recheck presenter (is it neccessary?)
+- Fix Tilemap Indexing -> some Tiles dont show up properly according to defined index
+- Write down naming scheme for tilesets
+

@@ -28,7 +28,7 @@ LDFLAGS = -w -lSDL3 -lSDL3_image -Iinclude -Lsrc
 #cp -r ./resources ./build/
 
 build/test: src/main.cpp
-	g++ -g -o build/test \
+	g++ -std=c++11 -g -o build/test \
 	src/*.cpp \
 	src/map/*.cpp \
 	src/entities/*.cpp \

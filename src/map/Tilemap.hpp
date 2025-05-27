@@ -52,7 +52,17 @@ class Tilemap {
         
         Tile*** tileArray;
 
+        struct config{
+            int index;
+            std::string name;
+            bool moveable;
+            bool interaction;
+        };
+
         std::string* configMap;
+        
+        config* arr;
+
         std::list<char> t;
         int** map;
 

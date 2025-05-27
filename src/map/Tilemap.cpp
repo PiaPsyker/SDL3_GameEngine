@@ -4,6 +4,8 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <stdlib.h>
 
 //---------------------------------------------------------//
 /* Class Implementation */
@@ -15,6 +17,8 @@ Tilemap::Tilemap(LTexture* tex, int w, int h, int ts) {
     tilemapHeight = h;
     tileSize = ts;
     tilemapTex = tex;
+
+    arr = new config[tilemapWidth * tilemapHeight];
 
     configMap = new std::string[tilemapWidth * tilemapHeight];
 
@@ -46,7 +50,48 @@ void Tilemap::processTileSet(std::string cpath) {
 
         while(getline(cmap, s)){
 
-            configMap[count] = s;
+            std::stringstream ss(s);
+            std::string t;
+            char del = '|';
+
+            int i = 0;
+
+            while(getline(ss,t,del)){
+
+                std::stringstream temp;
+                int index;
+
+                if(i == 0) {
+
+                    temp << t;
+                    temp >> index;
+                    arr[count].index = index;
+                    index = -1;
+
+                } else if(i == 1) {
+
+                    arr[count].name = t;
+
+                } else if(i == 2) {
+
+                    temp << t;
+                    temp >> index;
+                    arr[count].moveable = (bool)index;
+                    index = -1;
+
+                } else if(i == 3) {
+
+                    temp << t;
+                    temp >> index;
+                    arr[count].interaction = (bool)index;
+                    index = -1;
+
+                }
+
+                i++;
+
+            }
+            //configMap[count] = s;
             count++;
 
         }
@@ -55,7 +100,7 @@ void Tilemap::processTileSet(std::string cpath) {
         
         for(int i = 0; i < tilemapWidth * tilemapHeight; i++){
 
-            std::cout << "Index " << i << " : " << configMap[i] << std::endl;
+            std::cout << "Index " << i << " : " << arr[i].moveable << std::endl;
 
         }
     }
@@ -107,22 +152,23 @@ void Tilemap::setTileMap() {
 
             if(count == 0) {
 
-                i1 = (int)ch -48;
+                i1 = (int)ch - 48;
                 count++;
 
             }
             else if(count == 1) {
 
                 i2 = i1 * 10;
-                i2 += (int)ch -48;
+                i2 += (int)ch - 48;
                 count++;
 
             } else if(count == 2) {
 
                 i3 = i2 * 10;
-                i3 += (int)ch -48;
-                std::cout << "Adding " << i3 << " to map[" << i << "][" << j << "]" << std::endl;
+                i3 += (int)ch - 48;
+                //std::cout << "Adding " << i3 << " to map[" << i << "][" << j << "]" << std::endl;
                 map[i][j] = i3;
+
             }
         } else if(ch == '|') {
 
@@ -147,7 +193,7 @@ void Tilemap::renderTileMap() {
 
         for(int j = 0; j < tilemapHeight; j++) {
 
-            tileArray[i][j] = new Tile(tilemapTex, map[i][j], 48.f, true);
+            tileArray[i][j] = new Tile(tilemapTex, map[i][j], 48.f, arr[map[i][j]].moveable);
             tileArray[i][j]->setPosition(i * 48, j * 48);
             tileArray[i][j]->render();
 
