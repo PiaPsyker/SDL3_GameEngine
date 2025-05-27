@@ -1,4 +1,6 @@
 #include "Tilemap.hpp"
+#include "LTexture.hpp"
+#include "Tile.hpp"
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -7,19 +9,22 @@
 /* Class Implementation */
 //---------------------------------------------------------//
 
-Tilemap::Tilemap(int w, int h, int ts) {
+Tilemap::Tilemap(LTexture* tex, int w, int h, int ts) {
 
     tilemapWidth = w;
     tilemapHeight = h;
     tileSize = ts;
+    tilemapTex = tex;
 
     configMap = new std::string[tilemapWidth * tilemapHeight];
 
     map = new int*[tilemapWidth];
+    tileArray = new Tile**[tilemapWidth];
 
     for (int i = 0; i < tilemapWidth; i++) {
         
         map[i] = new int[tilemapHeight];
+        tileArray[i] = new Tile*[tilemapHeight];
 
     }
 }
@@ -63,13 +68,15 @@ void Tilemap::loadTileMap(std::string path) {
     std::ifstream f(path);
 
     if(!f.is_open()) {
+
         SDL_Log("Error opening Tilemap Map file");
+
     } else {
+
         char c;
         
         while(f.get(c)) {
-        
-            std::cout << "Adding " << c << " to t[" << "]" << std::endl;
+
             t.push_front(c);
 
         }
@@ -128,6 +135,27 @@ void Tilemap::setTileMap() {
 
             j++;
             i = 0;
+
+        }
+    }
+}
+
+//---------------------------------------------------------//
+
+void Tilemap::renderTileMap() {
+
+    for(int i = 0; i < tilemapWidth; i++){
+
+        for(int j = 0; j < tilemapHeight; j++) {
+
+            std::cout << "Adding Tile with index " << map[i][j] << " to tileArray" << std::endl;
+            tileArray[i][j] = new Tile(tilemapTex, map[i][j], 48.f, true);
+        
+            std::cout << "Setting Position for tile" << std::endl;
+            tileArray[i][j]->setPosition(i * 48, j * 48);
+
+            std::cout << "Render tile" << std::endl;
+            tileArray[i][j]->render();
 
         }
     }

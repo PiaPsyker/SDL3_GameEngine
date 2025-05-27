@@ -147,7 +147,7 @@ bool loadMedia() {
 
     test_player->setMap(test_map);
 
-    test_tilemap = new Tilemap(16, 16, 48);
+    test_tilemap = new Tilemap(backgroundTex, 17, 17, 48);
     test_tilemap->processTileSet("tilemaps/Dungeon_A1.txt");
     test_tilemap->loadTileMap("tilemaps/test.txt");
     test_tilemap->setTileMap();
@@ -233,7 +233,8 @@ int main(int argc, char* args[]) {
 
                 handleInput(&quit);
 
-                test_map->renderLayers();
+                //test_map->renderLayers();
+                test_tilemap->renderTileMap();
 
                 test_player->render();
 

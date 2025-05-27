@@ -18,6 +18,7 @@
 #include <string>
 #include <list>
 #include "LTexture.hpp"
+#include "Tile.hpp"
 
 //---------------------------------------------------------//
 /* Class Prototype */
@@ -27,13 +28,15 @@ class Tilemap {
 
     public:
 
-        Tilemap(int w, int h, int ts);
+        Tilemap(LTexture* tex, int w, int h, int ts);
 
         void processTileSet(std::string cpath);
 
         void loadTileMap(std::string path);
 
         void setTileMap();
+
+        void renderTileMap();
 
         int** getMap();
 
@@ -45,6 +48,8 @@ class Tilemap {
 
         LTexture* tilemapTex;
         
+        Tile*** tileArray;
+
         std::string* configMap;
         std::list<char> t;
         int** map;
