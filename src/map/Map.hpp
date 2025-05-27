@@ -15,8 +15,8 @@
 #include <SDL3/SDL_main.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3_image/SDL_image.h>
-#include <stdlib.h>
-#include "Layer.hpp"
+#include "Tile.hpp"
+#include "Tilemap.hpp"
 
 //---------------------------------------------------------//
 /* Class Prototype */
@@ -28,7 +28,7 @@ class Map{
 
         Map();
 
-        void addLayer(Layer* layer);
+        void addLayer(Tilemap* layer);
 
         bool isMoveable(int x, int y, int layer_id);
 
@@ -36,7 +36,7 @@ class Map{
 
     private:
 
-        Layer* layers[10];
+        Tilemap* layers[10];
 
         int layer_count;
 

@@ -162,3 +162,15 @@ int** Tilemap::getMap(){
     return map;
 
 }
+
+bool Tilemap::isMoveable(int x, int y) {
+
+    if(x >= 0 && x < tilemapWidth && y >= 0 && y < tilemapHeight){
+
+        return tileArray[x][y]->isMoveable();
+
+    }
+
+    return false;
+
+}

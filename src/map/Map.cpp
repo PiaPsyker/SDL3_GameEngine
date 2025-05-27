@@ -10,7 +10,7 @@ Map::Map():
 
 }
 
-void Map::addLayer(Layer* layer) {
+void Map::addLayer(Tilemap* layer) {
 
     layers[layer_count] = layer;
     layer_count++;
@@ -26,6 +26,6 @@ bool Map::isMoveable(int x, int y, int layer_id) {
 void Map::renderLayers() {
 
     for(int i = 0; i < layer_count; i++) {
-        layers[i]->loadTileMap();
+        layers[i]->renderTileMap();
     }
 }

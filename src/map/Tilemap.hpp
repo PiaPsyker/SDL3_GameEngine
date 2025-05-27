@@ -38,6 +38,8 @@ class Tilemap {
 
         void renderTileMap();
 
+        bool isMoveable(int x, int y);
+
         int** getMap();
 
     private:

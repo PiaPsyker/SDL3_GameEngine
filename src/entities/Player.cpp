@@ -1,4 +1,5 @@
 #include "Player.hpp"
+#include <iostream>
 
 //---------------------------------------------------------//
 /* Class Implementation */
@@ -36,16 +37,18 @@ bool Player::checkCollision(int x, int y){
 
 void Player::move(int x, int y) {
 
-    //if(checkCollision(mapX + x, mapY + y) == true) {
+    if(checkCollision(mapX + x, mapY + y) == true) {
 
         mapX += x;
         mapY += y;
         posX = mapX * size;
         posY = mapY * size;
 
+        std::cout << "PX: " << mapX << " | PY: " << mapY << std::endl;
+
         sprite->setPosition(posX, posY);
-        
-    //}
+
+    }
 }
 
 void Player::render() {

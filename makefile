@@ -30,7 +30,6 @@ build/test: src/main.cpp
 	cp -r ./resources ./build/
 	g++ -g -o build/test \
 	src/*.cpp \
-	src/renderer/*.cpp \
 	src/map/*.cpp \
 	src/entities/*.cpp \
 	$(LDFLAGS) $(WARNFLAGS)

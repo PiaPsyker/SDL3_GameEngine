@@ -11,15 +11,14 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <SDL3/SDL_oldnames.h>
+#include <SDL3/SDL_render.h>
 #include <SDL3_image/SDL_image.h>
 #include <string>
 #include "map/LTexture.hpp"
 #include "map/Tile.hpp"
-#include "map/Layer.hpp"
 #include "map/Map.hpp"
 #include "map/Tilemap.hpp"
 #include "entities/Player.hpp"
-#include "renderer/Presenter.hpp"
 
 //---------------------------------------------------------//
 /* Constants */
@@ -65,12 +64,7 @@ LTexture* backgroundTex;
 
 LTexture* backgroundTex2;
 
-Presenter* gPresenter;
-
 Tile* test_tile{nullptr};
-
-Layer* test_layer{nullptr};
-Layer* test_layer2{nullptr};
 
 Map* test_map{nullptr};
 
@@ -93,15 +87,12 @@ bool init() {
 
     }
 
-    if(!SDL_CreateWindowAndRenderer("SDL3 Text", kScreenWidth, kScreenHeight, 0, &gWindow, &gRenderer)) {
+    if(!SDL_CreateWindowAndRenderer("SDL3 Text", kScreenWidth, kScreenHeight, SDL_WINDOW_RESIZABLE, &gWindow, &gRenderer)) {
 
         SDL_Log("Window couldnt be created! SDL Error: %s\n", SDL_GetError());
         return false;
 
     }
-
-    gPresenter = new Presenter();
-    gPresenter->setRenderer(gRenderer);
 
     return success;
 
@@ -111,9 +102,9 @@ bool init() {
 
 bool loadMedia() {
     
-    playerTex = new LTexture(gPresenter->getRenderer());
-    backgroundTex = new LTexture(gPresenter->getRenderer());
-    backgroundTex2 = new LTexture(gPresenter->getRenderer());
+    playerTex = new LTexture(gRenderer);
+    backgroundTex = new LTexture(gRenderer);
+    backgroundTex2 = new LTexture(gRenderer);
 
     bool success{true};
 
@@ -134,17 +125,8 @@ bool loadMedia() {
 
     //-------------------------------------
 
-    test_layer = new Layer(backgroundTex);
-    test_layer2 = new Layer(backgroundTex2);
-    
-    test_layer->readTileMap("tilemaps/test2.txt");
-    test_layer2->readTileMap("tilemaps/test2.txt");
-
     test_map = new Map();
     
-    test_map->addLayer(test_layer);
-    test_map->addLayer(test_layer2);
-
     test_player->setMap(test_map);
 
     test_tilemap = new Tilemap(backgroundTex, 17, 17, 48);
@@ -152,6 +134,8 @@ bool loadMedia() {
     test_tilemap->loadTileMap("tilemaps/test.txt");
     test_tilemap->setTileMap();
     //test_tilemap->getMap();
+
+    test_map->addLayer(test_tilemap);
     
     return success;
 
@@ -194,8 +178,8 @@ void handleInput(bool* quit) {
 
 void close() {
 
-    gPresenter->free();
-
+    SDL_DestroyRenderer(gRenderer);
+    gRenderer = nullptr;
     SDL_DestroyWindow( gWindow );
     gWindow = nullptr;
 
@@ -233,12 +217,11 @@ int main(int argc, char* args[]) {
 
                 handleInput(&quit);
 
-                //test_map->renderLayers();
-                test_tilemap->renderTileMap();
+                test_map->renderLayers();
 
                 test_player->render();
 
-                gPresenter->render();
+                SDL_RenderPresent(gRenderer);
 
             }
         }
