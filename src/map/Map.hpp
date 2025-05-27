@@ -15,7 +15,6 @@
 #include <SDL3/SDL_main.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3_image/SDL_image.h>
-#include "Tile.hpp"
 #include "Tilemap.hpp"
 
 //---------------------------------------------------------//

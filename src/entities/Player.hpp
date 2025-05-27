@@ -37,6 +37,7 @@ class Player {
     private:
 
         LTexture* sprite;
+        
         Map* map;
 
         int size;

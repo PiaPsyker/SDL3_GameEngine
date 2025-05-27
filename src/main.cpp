@@ -15,7 +15,6 @@
 #include <SDL3_image/SDL_image.h>
 #include <string>
 #include "map/LTexture.hpp"
-#include "map/Tile.hpp"
 #include "map/Map.hpp"
 #include "map/Tilemap.hpp"
 #include "entities/Player.hpp"
@@ -62,15 +61,11 @@ SDL_Renderer* gRenderer{nullptr};
 LTexture* playerTex;
 LTexture* backgroundTex;
 
-LTexture* backgroundTex2;
+Map* gMap{nullptr};
 
-Tile* test_tile{nullptr};
+Tilemap* gTilemap{nullptr};
 
-Map* test_map{nullptr};
-
-Tilemap* test_tilemap{nullptr};
-
-Player* test_player{nullptr};
+Player* gPlayer{nullptr};
 
 //---------------------------------------------------------//
 /* Function Implementation */
@@ -104,7 +99,6 @@ bool loadMedia() {
     
     playerTex = new LTexture(gRenderer);
     backgroundTex = new LTexture(gRenderer);
-    backgroundTex2 = new LTexture(gRenderer);
 
     bool success{true};
 
@@ -114,28 +108,23 @@ bool loadMedia() {
     if(success = backgroundTex->loadFromFile("resources/Outside_A5.png"); !success) {
         SDL_Log("Couldnt load PNG image");
     }
-    if(success = backgroundTex2->loadFromFile("resources/Outside_B.png"); !success) {
-        SDL_Log("Couldnt load PNG image");
-    }
+
+    //-----------------------------------------------------//
 
     playerTex->setSize(48,48);
     playerTex->setClip(downX,downY,48,48);
 
-    test_player = new Player(playerTex, 0, 0, 48, 0);
+    gPlayer = new Player(playerTex, 0, 0, 48, 0);
 
-    //-------------------------------------
-
-    test_map = new Map();
+    gMap = new Map();
     
-    test_player->setMap(test_map);
+    gTilemap = new Tilemap(backgroundTex, 17, 17, 48);
+    gTilemap->loadTileMap("tilemaps/test.txt");
+    gTilemap->setTileMap();
 
-    test_tilemap = new Tilemap(backgroundTex, 17, 17, 48);
-    //test_tilemap->processTileSet("tilemaps/Dungeon_A1.txt");
-    test_tilemap->loadTileMap("tilemaps/test.txt");
-    test_tilemap->setTileMap();
-    //test_tilemap->getMap();
+    gMap->addLayer(gTilemap);
 
-    test_map->addLayer(test_tilemap);
+    gPlayer->setMap(gMap);
     
     return success;
 
@@ -154,19 +143,19 @@ void handleInput(bool* quit) {
         } else if(e.type == SDL_EVENT_KEY_DOWN){
             switch(e.key.key){
                 case SDLK_UP:
-                    test_player->move(0, -1);
+                    gPlayer->move(0, -1);
                     playerTex->setClip(upX,upY,48,48);
                     break;
                 case SDLK_DOWN:
-                    test_player->move(0, 1);
+                    gPlayer->move(0, 1);
                     playerTex->setClip(downX,downY,48,48);
                     break;
                 case SDLK_LEFT:
-                    test_player->move(-1, 0);
+                    gPlayer->move(-1, 0);
                     playerTex->setClip(leftX,leftY,48,48);
                     break;
                 case SDLK_RIGHT:
-                    test_player->move(1, 0);
+                    gPlayer->move(1, 0);
                     playerTex->setClip(rightX,rightY,48,48);
                     break;
             }
@@ -217,9 +206,9 @@ int main(int argc, char* args[]) {
 
                 handleInput(&quit);
 
-                test_map->renderLayers();
+                gMap->renderLayers();
 
-                test_player->render();
+                gPlayer->render();
 
                 SDL_RenderPresent(gRenderer);
 
