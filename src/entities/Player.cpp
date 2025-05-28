@@ -18,6 +18,7 @@ Player::Player(LTexture* spr, int x, int y, int sz, int z, SDL_FRect* cam) {
 
 
     sprite->setSize(size, size);
+    sprite->setPosition(posX, posY);
 
 }
 

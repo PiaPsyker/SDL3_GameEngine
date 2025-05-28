@@ -1,3 +1,7 @@
-- Fix Tilemap Indexing -> some Tiles dont show up properly according to defined index
+- Camera class maybe? check if neccessary
+- Timing and VSync integration for making stuff based on frame-time
+- Build out Player class for animation handling // animation handler class?
+
+- Expand map functionality -> interactions
 - Write down naming scheme for tilesets
 
