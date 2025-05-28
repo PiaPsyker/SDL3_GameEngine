@@ -12,6 +12,7 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
+#include <SDL3/SDL_rect.h>
 #include <SDL3_image/SDL_image.h>
 #include <string>
 
@@ -34,11 +35,12 @@ class LTexture{
 
         void move(float x, float y);
 
+        void setCamera(SDL_FRect* cam);
         void setPosition(float x, float y);
         void setSize(float x, float y);
         void setClip(float x, float y, float w, float h);
 
-        void render();
+        void render(SDL_FRect* camera=nullptr);
 
         int getWidth();
         int getHeight();
@@ -47,6 +49,7 @@ class LTexture{
 
         SDL_Texture* mTexture;
         SDL_Renderer* mRenderer;
+        SDL_FRect* camera;
 
         int mWidth;
         int mHeight;

@@ -21,6 +21,15 @@
 #include "Tile.hpp"
 
 //---------------------------------------------------------//
+
+struct config{
+    int index;
+    std::string name;
+    bool moveable;
+    bool interaction;
+};
+
+//---------------------------------------------------------//
 /* Class Prototype */
 //---------------------------------------------------------//
 
@@ -28,7 +37,7 @@ class Tilemap {
 
     public:
 
-        Tilemap(LTexture* tex, int w, int h, int ts);
+        Tilemap(LTexture* tex, int w, int h, int ts, SDL_FRect* cam);
 
         void processTileSet(std::string cpath);
 
@@ -49,15 +58,9 @@ class Tilemap {
         int tileSize;
 
         LTexture* tilemapTex;
+        SDL_FRect* camera;
         
         Tile*** tileArray;
-
-        struct config{
-            int index;
-            std::string name;
-            bool moveable;
-            bool interaction;
-        };
 
         std::string* configMap;
         

@@ -4,9 +4,10 @@
 /* Class Implementation */
 //---------------------------------------------------------//
 
-Tile::Tile(LTexture* sprite, int index, float spriteSize, bool mv, int cols) {
+Tile::Tile(LTexture* sprite, int index, float spriteSize, bool mv, int cols, SDL_FRect* cam) {
 
     spriteSheet = sprite;
+    camera = cam;
 
     posX = spriteSheet->getWidth();
     posY = spriteSheet->getHeight();
@@ -33,7 +34,7 @@ bool Tile::isMoveable() {
 
 void Tile::render() {
 
-    spriteSheet->render();
+    spriteSheet->render(camera);
 
 }
 

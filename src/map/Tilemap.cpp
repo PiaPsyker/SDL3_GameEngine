@@ -1,6 +1,7 @@
 #include "Tilemap.hpp"
 #include "LTexture.hpp"
 #include "Tile.hpp"
+#include <SDL3/SDL_rect.h>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -11,12 +12,13 @@
 /* Class Implementation */
 //---------------------------------------------------------//
 
-Tilemap::Tilemap(LTexture* tex, int w, int h, int ts) {
+Tilemap::Tilemap(LTexture* tex, int w, int h, int ts, SDL_FRect* cam) {
 
     tilemapWidth = w;
     tilemapHeight = h;
     tileSize = ts;
     tilemapTex = tex;
+    camera = cam;
 
     arr = new config[tilemapWidth * tilemapHeight];
 
@@ -187,7 +189,7 @@ void Tilemap::renderTileMap() {
 
         for(int j = 0; j < tilemapHeight; j++) {
 
-            tileArray[i][j] = new Tile(tilemapTex, map[i][j], 48.f, arr[map[i][j]].moveable, 6);
+            tileArray[i][j] = new Tile(tilemapTex, map[i][j], 48.f, arr[map[i][j]].moveable, 6, camera);
             tileArray[i][j]->setPosition(i * 48, j * 48);
             tileArray[i][j]->render();
 
@@ -196,12 +198,6 @@ void Tilemap::renderTileMap() {
 }
 
 //---------------------------------------------------------//
-
-int** Tilemap::getMap(){
-
-    return map;
-
-}
 
 bool Tilemap::isMoveable(int x, int y) {
 
@@ -214,3 +210,13 @@ bool Tilemap::isMoveable(int x, int y) {
     return false;
 
 }
+
+//---------------------------------------------------------//
+
+int** Tilemap::getMap(){
+
+    return map;
+
+}
+
+//---------------------------------------------------------//

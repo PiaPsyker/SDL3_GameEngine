@@ -11,6 +11,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <SDL3/SDL_oldnames.h>
+#include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3_image/SDL_image.h>
 #include <string>
@@ -60,6 +61,8 @@ SDL_Window* gWindow{nullptr};
     
 SDL_Renderer* gRenderer{nullptr};
 
+SDL_FRect camera{ 0.f, 0.f, kScreenWidth, kScreenHeight };
+
 LTexture* playerTex;
 LTexture* backgroundTex;
 
@@ -68,6 +71,7 @@ Map* gMap{nullptr};
 Tilemap* gTilemap{nullptr};
 
 Player* gPlayer{nullptr};
+
 
 //---------------------------------------------------------//
 /* Function Implementation */
@@ -84,7 +88,7 @@ bool init() {
 
     }
 
-    if(!SDL_CreateWindowAndRenderer("SDL3 Text", kScreenWidth, kScreenHeight, SDL_WINDOW_RESIZABLE, &gWindow, &gRenderer)) {
+    if(!SDL_CreateWindowAndRenderer("SDL3 Text", kScreenWidth, kScreenHeight, SDL_WINDOW_FULLSCREEN, &gWindow, &gRenderer)) {
 
         SDL_Log("Window couldnt be created! SDL Error: %s\n", SDL_GetError());
         return false;
@@ -113,14 +117,13 @@ bool loadMedia() {
 
     //-----------------------------------------------------//
 
-    playerTex->setSize(s,s);
     playerTex->setClip(downX,downY,s,s);
 
-    gPlayer = new Player(playerTex, 0, 0, s, 0);
+    gPlayer = new Player(playerTex, 6, 6, s, 0, &camera);
 
     gMap = new Map();
     
-    gTilemap = new Tilemap(backgroundTex, 17, 17, s);
+    gTilemap = new Tilemap(backgroundTex, 17, 17, s, &camera);
     gTilemap->processTileSet("resources/tileset.txt");
     gTilemap->loadTileMap("tilemaps/test.txt");
     gTilemap->setTileMap();
@@ -206,6 +209,9 @@ int main(int argc, char* args[]) {
             while(quit == false) {
 
                 SDL_RenderClear(gRenderer);
+
+                camera.x = static_cast<int>( gPlayer->getPosX() + gPlayer->getSprite()->getWidth() / 2 - kScreenWidth / 2 );
+                camera.y = static_cast<int>( gPlayer->getPosY() + gPlayer->getSprite()->getHeight() / 2 - kScreenHeight / 2 );
 
                 handleInput(&quit);
 

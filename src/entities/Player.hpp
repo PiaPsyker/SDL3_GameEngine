@@ -24,7 +24,7 @@ class Player {
 
     public:
 
-        Player(LTexture* spr, int x, int y, int sz, int z);
+        Player(LTexture* spr, int x, int y, int sz, int z, SDL_FRect* cam);
 
         void move(int x, int y);
 
@@ -34,9 +34,15 @@ class Player {
 
         void render();
 
+        LTexture* getSprite();
+
+        int getPosX();
+        int getPosY();
+
     private:
 
         LTexture* sprite;
+        SDL_FRect* camera;
         
         Map* map;
 

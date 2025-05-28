@@ -5,7 +5,7 @@
 /* Class Implementation */
 //---------------------------------------------------------//
 
-Player::Player(LTexture* spr, int x, int y, int sz, int z) {
+Player::Player(LTexture* spr, int x, int y, int sz, int z, SDL_FRect* cam) {
 
     sprite = spr;
     size = sz;
@@ -14,6 +14,10 @@ Player::Player(LTexture* spr, int x, int y, int sz, int z) {
     mapY = y;
     posX = mapX * size;
     posY = mapY * size;
+    camera = cam;
+
+
+    sprite->setSize(size, size);
 
 }
 
@@ -53,6 +57,24 @@ void Player::move(int x, int y) {
 
 void Player::render() {
 
-    sprite->render();
+    sprite->render(camera);
+
+}
+
+LTexture* Player::getSprite() {
+
+    return sprite;
+
+}
+
+int Player::getPosX() {
+
+    return posX;
+
+}
+
+int Player::getPosY() {
+
+    return posY;
 
 }

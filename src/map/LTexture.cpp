@@ -1,4 +1,5 @@
 #include "LTexture.hpp"
+#include <SDL3/SDL_rect.h>
 
 
 //---------------------------------------------------------//
@@ -40,6 +41,14 @@ void LTexture::move(float x, float y) {
 
     posX += x;
     posY += y;
+
+}
+
+//---------------------------------------------------------//
+
+void LTexture::setCamera(SDL_FRect* cam) {
+
+    camera = cam;
 
 }
 
@@ -121,9 +130,9 @@ void LTexture::free() {
 
 //---------------------------------------------------------//
 
-void LTexture::render(){
+void LTexture::render(SDL_FRect* camera){
 
-    SDL_FRect dstRect = {posX, posY, static_cast<float>(mWidth), static_cast<float>(mHeight)};
+    SDL_FRect dstRect = {posX - camera->x, posY - camera->y, static_cast<float>(mWidth), static_cast<float>(mHeight)};
 
     dstRect.w = rWidth;
     dstRect.h = rHeight;    

@@ -25,7 +25,7 @@ class Tile {
 
     public:
 
-        Tile(LTexture* sprite = nullptr, int index=0, float spriteSize = 0.f, bool mv = true, int cols = 0);
+        Tile(LTexture* sprite = nullptr, int index=0, float spriteSize = 0.f, bool mv = true, int cols = 0, SDL_FRect* cam = nullptr);
 
         bool isMoveable();
 
@@ -36,6 +36,7 @@ class Tile {
     private:
 
         LTexture* spriteSheet;
+        SDL_FRect* camera;
 
         bool moveable;
 
