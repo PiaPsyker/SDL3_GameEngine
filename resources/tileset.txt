@@ -9,7 +9,7 @@
 8|empty|0|0
 9|empty|0|0
 10|empty|0|0
-11|empty|0|0
+11|empty|1|0
 12|stoneWallS|0|0
 13|woodWallS|0|0
 14|empty|0|0

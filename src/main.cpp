@@ -23,20 +23,22 @@
 /* Constants */
 //---------------------------------------------------------//
 
+#define s 48
+
 constexpr int kScreenWidth{640};
 constexpr int kScreenHeight{480};
 
 constexpr float upX = 0.f;
-constexpr float upY = 48.f;
+constexpr float upY = s;
 
 constexpr float downX = 0.f;
 constexpr float downY = 0.f;
 
-constexpr float leftX = 48.f;
+constexpr float leftX = s;
 constexpr float leftY = 0.f;
 
-constexpr float rightX = 48.f;
-constexpr float rightY = 48.f;
+constexpr float rightX = s;
+constexpr float rightY = s;
 
 //---------------------------------------------------------//
 /* Function Prototypes */
@@ -111,14 +113,14 @@ bool loadMedia() {
 
     //-----------------------------------------------------//
 
-    playerTex->setSize(48,48);
-    playerTex->setClip(downX,downY,48,48);
+    playerTex->setSize(s,s);
+    playerTex->setClip(downX,downY,s,s);
 
-    gPlayer = new Player(playerTex, 0, 0, 48, 0);
+    gPlayer = new Player(playerTex, 0, 0, s, 0);
 
     gMap = new Map();
     
-    gTilemap = new Tilemap(backgroundTex, 17, 17, 48);
+    gTilemap = new Tilemap(backgroundTex, 17, 17, s);
     gTilemap->processTileSet("resources/tileset.txt");
     gTilemap->loadTileMap("tilemaps/test.txt");
     gTilemap->setTileMap();
@@ -145,19 +147,19 @@ void handleInput(bool* quit) {
             switch(e.key.key){
                 case SDLK_UP:
                     gPlayer->move(0, -1);
-                    playerTex->setClip(upX,upY,48,48);
+                    playerTex->setClip(upX,upY,s,s);
                     break;
                 case SDLK_DOWN:
                     gPlayer->move(0, 1);
-                    playerTex->setClip(downX,downY,48,48);
+                    playerTex->setClip(downX,downY,s,s);
                     break;
                 case SDLK_LEFT:
                     gPlayer->move(-1, 0);
-                    playerTex->setClip(leftX,leftY,48,48);
+                    playerTex->setClip(leftX,leftY,s,s);
                     break;
                 case SDLK_RIGHT:
                     gPlayer->move(1, 0);
-                    playerTex->setClip(rightX,rightY,48,48);
+                    playerTex->setClip(rightX,rightY,s,s);
                     break;
             }
         }

@@ -98,11 +98,6 @@ void Tilemap::processTileSet(std::string cpath) {
 
         std::cout << "Build configMap from " << cpath << " with following data:" << std::endl;
         
-        for(int i = 0; i < tilemapWidth * tilemapHeight; i++){
-
-            std::cout << "Index " << i << " : " << arr[i].moveable << std::endl;
-
-        }
     }
 }
 
@@ -166,7 +161,6 @@ void Tilemap::setTileMap() {
 
                 i3 = i2 * 10;
                 i3 += (int)ch - 48;
-                //std::cout << "Adding " << i3 << " to map[" << i << "][" << j << "]" << std::endl;
                 map[i][j] = i3;
 
             }
@@ -193,7 +187,7 @@ void Tilemap::renderTileMap() {
 
         for(int j = 0; j < tilemapHeight; j++) {
 
-            tileArray[i][j] = new Tile(tilemapTex, map[i][j], 48.f, arr[map[i][j]].moveable);
+            tileArray[i][j] = new Tile(tilemapTex, map[i][j], 48.f, arr[map[i][j]].moveable, 6);
             tileArray[i][j]->setPosition(i * 48, j * 48);
             tileArray[i][j]->render();
 

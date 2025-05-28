@@ -4,7 +4,7 @@
 /* Class Implementation */
 //---------------------------------------------------------//
 
-Tile::Tile(LTexture* sprite, int index, float spriteSize, bool mv) {
+Tile::Tile(LTexture* sprite, int index, float spriteSize, bool mv, int cols) {
 
     spriteSheet = sprite;
 
@@ -13,8 +13,8 @@ Tile::Tile(LTexture* sprite, int index, float spriteSize, bool mv) {
 
     moveable = mv;
 
-    int x = (index % 8) * spriteSize;
-    int y = (index / 8) * spriteSize;
+    int x = (index % cols) * spriteSize;
+    int y = (index / cols) * spriteSize;
 
     spriteSheet->setClip(x,y,spriteSize,spriteSize);
     spriteSheet->setSize(spriteSize, spriteSize);
