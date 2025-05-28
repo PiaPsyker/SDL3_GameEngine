@@ -26,8 +26,8 @@
 
 #define s 48
 
-constexpr int kScreenWidth{640};
-constexpr int kScreenHeight{480};
+constexpr int kScreenWidth{1920};
+constexpr int kScreenHeight{1080};
 
 constexpr float upX = 0.f;
 constexpr float upY = s;
