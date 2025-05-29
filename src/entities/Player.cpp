@@ -49,7 +49,7 @@ void Player::move(int x, int y) {
         posX = mapX * size;
         posY = mapY * size;
 
-        // std::cout << "PX: " << mapX << " | PY: " << mapY << std::endl;
+        std::cout << "PX: " << mapX << " | PY: " << mapY << std::endl;
 
         sprite->setPosition(posX, posY);
 
@@ -77,5 +77,17 @@ int Player::getPosX() {
 int Player::getPosY() {
 
     return posY;
+
+}
+
+int Player::getMapX() {
+
+    return mapX;
+
+}
+
+int Player::getMapY() {
+
+    return mapY;
 
 }

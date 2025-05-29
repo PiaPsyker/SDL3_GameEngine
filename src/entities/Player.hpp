@@ -39,6 +39,9 @@ class Player {
         int getPosX();
         int getPosY();
 
+        int getMapX();
+        int getMapY();
+
     private:
 
         LTexture* sprite;

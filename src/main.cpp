@@ -22,7 +22,7 @@
 #include "map/Tilemap.hpp"
 #include "entities/Player.hpp"
 
-#include "noise/Perlin.hpp"
+#include "noise/FractalNoise.hpp"
 
 //---------------------------------------------------------//
 /* Constants */
@@ -76,7 +76,7 @@ Tilemap* gTilemap{nullptr};
 
 Player* gPlayer{nullptr};
 
-Perlin* gNoise{nullptr};
+FractalNoise *noiseMaker = new FractalNoise();
 
 
 //---------------------------------------------------------//
@@ -140,7 +140,9 @@ bool loadMedia() {
 
     gPlayer->setMap(gMap);
     
-    gNoise = new Perlin();
+    noiseMaker->setBaseFrequency(.25f);
+    noiseMaker->setBaseAmplitude(.25f);
+    noiseMaker->setOctaves(1);
 
     return success;
 
@@ -161,22 +163,22 @@ void handleInput(bool* quit) {
                 case SDLK_UP:
                     gPlayer->move(0, -1);
                     playerTex->setClip(upX,upY,s,s);
-                    std::cout << (int)((gNoise->noise((gPlayer->getPosX()) / 100, (gPlayer->getPosY()) / 100, .25f)) * 100) << std::endl;
+                    std::cout << abs((int)((noiseMaker->noise(gPlayer->getMapX(), gPlayer->getMapY(), .10f)) * 100)) << std::endl;
                     break;
                 case SDLK_DOWN:
                     gPlayer->move(0, 1);
                     playerTex->setClip(downX,downY,s,s);
-                    std::cout << (int)((gNoise->noise((gPlayer->getPosX()) / 100, (gPlayer->getPosY()) / 100, .25f)) * 100) << std::endl;
+                    std::cout << abs((int)((noiseMaker->noise(gPlayer->getMapX(), gPlayer->getMapY(), .10f)) * 100)) << std::endl;
                     break;
                 case SDLK_LEFT:
                     gPlayer->move(-1, 0);
                     playerTex->setClip(leftX,leftY,s,s);
-                    std::cout << (int)((gNoise->noise((gPlayer->getPosX()) / 100, (gPlayer->getPosY()) / 100, .25f)) * 100) << std::endl;
+                    std::cout << abs((int)((noiseMaker->noise(gPlayer->getMapX(), gPlayer->getMapY(), .10f)) * 100)) << std::endl;
                     break;
                 case SDLK_RIGHT:
                     gPlayer->move(1, 0);
                     playerTex->setClip(rightX,rightY,s,s);
-                    std::cout << (int)((gNoise->noise((gPlayer->getPosX()) / 100, (gPlayer->getPosY()) / 100, .25f)) * 100) << std::endl;
+                    std::cout << abs((int)((noiseMaker->noise(gPlayer->getMapX(), gPlayer->getMapY(), .10f)) * 100)) << std::endl;
                     break;
             }
         }
@@ -219,6 +221,8 @@ int main(int argc, char* args[]) {
         } else {
 
             bool quit{false};
+
+            
 
             while(quit == false) {
 

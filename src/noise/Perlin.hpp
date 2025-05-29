@@ -11,10 +11,6 @@
 #ifndef PERLIN_H
 #define PERLIN_H
 
-#include <cstdlib>
-#include <ctime>
-#include <cmath>
-
 //---------------------------------------------------------//
 /* Class Prototype */
 //---------------------------------------------------------//
