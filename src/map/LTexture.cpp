@@ -74,7 +74,7 @@ void LTexture::setSize(float x, float y) {
 
 void LTexture::setClip(float x, float y, float w, float h) {
 
-    clip = new SDL_FRect{x,y,w,h};
+    *clip = {x,y,w,h};
 
 }
 

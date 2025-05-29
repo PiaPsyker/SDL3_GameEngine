@@ -61,10 +61,8 @@ class Tilemap {
         SDL_FRect* camera;
         
         Tile*** tileArray;
-
-        std::string* configMap;
         
-        config* arr;
+        config* configMap;
 
         std::list<char> t;
         int** map;

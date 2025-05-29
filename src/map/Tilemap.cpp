@@ -20,9 +20,7 @@ Tilemap::Tilemap(LTexture* tex, int w, int h, int ts, SDL_FRect* cam) {
     tilemapTex = tex;
     camera = cam;
 
-    arr = new config[tilemapWidth * tilemapHeight];
-
-    configMap = new std::string[tilemapWidth * tilemapHeight];
+    configMap = new config[tilemapWidth * tilemapHeight];
 
     map = new int*[tilemapWidth];
     tileArray = new Tile**[tilemapWidth];
@@ -67,25 +65,25 @@ void Tilemap::processTileSet(std::string cpath) {
 
                     temp << t;
                     temp >> index;
-                    arr[count].index = index;
+                    configMap[count].index = index;
                     index = -1;
 
                 } else if(i == 1) {
 
-                    arr[count].name = t;
+                    configMap[count].name = t;
 
                 } else if(i == 2) {
 
                     temp << t;
                     temp >> index;
-                    arr[count].moveable = (bool)index;
+                    configMap[count].moveable = (bool)index;
                     index = -1;
 
                 } else if(i == 3) {
 
                     temp << t;
                     temp >> index;
-                    arr[count].interaction = (bool)index;
+                    configMap[count].interaction = (bool)index;
                     index = -1;
 
                 }
@@ -93,7 +91,7 @@ void Tilemap::processTileSet(std::string cpath) {
                 i++;
 
             }
-            //configMap[count] = s;
+
             count++;
 
         }
@@ -187,7 +185,8 @@ void Tilemap::setTileMap() {
 
             tileArray[x][y] = new Tile(tilemapTex, -1, 48.f, true, 6, camera);
             tileArray[x][y]->setPosition(x * 48, y * 48);
-            tileArray[x][y]->init(map[x][y], tileSize, arr[map[x][y]].moveable, 6);
+            tileArray[x][y]->init(map[x][y], tileSize, configMap[map[x][y]].moveable, 6);
+
         }
     }
 
