@@ -25,11 +25,16 @@ class Tile {
 
     public:
 
-        Tile(LTexture* sprite = nullptr, int index=0, float spriteSize = 0.f, bool mv = true, int cols = 0, SDL_FRect* cam = nullptr);
+        Tile(LTexture* sprite = nullptr, int index=-1, float spriteSize = 0.f, bool mv = true, int cols = 0, SDL_FRect* cam = nullptr);
 
         bool isMoveable();
 
         void setPosition(float x, float y);
+
+        void init(int index, float spriteSize, bool mv, int cols);
+
+        int getPosX();
+        int getPosY();
 
         void render();
 

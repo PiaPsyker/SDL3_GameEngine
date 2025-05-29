@@ -95,6 +95,8 @@ bool init() {
 
     }
 
+    // SDL_SetRenderVSync( gRenderer, ( true ) ? 1 : SDL_RENDERER_VSYNC_DISABLED );
+
     return success;
 
 }
@@ -214,7 +216,7 @@ int main(int argc, char* args[]) {
                 camera.y = static_cast<int>( gPlayer->getPosY() + gPlayer->getSprite()->getHeight() / 2 - kScreenHeight / 2 );
 
                 handleInput(&quit);
-
+                
                 gMap->renderLayers();
 
                 gPlayer->render();

@@ -26,6 +26,8 @@ bool Map::isMoveable(int x, int y, int layer_id) {
 void Map::renderLayers() {
 
     for(int i = 0; i < layer_count; i++) {
+
         layers[i]->renderTileMap();
+        
     }
 }
