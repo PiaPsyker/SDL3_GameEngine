@@ -18,6 +18,7 @@
 class Perlin {
 
     public:
+    
         Perlin();
         
         float noise(float sample_x, float sample_y, float sample_z);

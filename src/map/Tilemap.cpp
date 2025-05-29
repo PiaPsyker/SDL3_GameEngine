@@ -162,7 +162,7 @@ void Tilemap::setTileMap() {
                 i3 = i2 * 10;
                 i3 += (int)ch - 48;
                 indexMap[i][j] = i3;
-                std::cout << "Adding : " << i3 << " to indexMap[" << i << "][" << j << "] " << std::endl;
+                //std::cout << "Adding : " << i3 << " to indexMap[" << i << "][" << j << "] " << std::endl;
 
             }
         } else if(ch == '|') {

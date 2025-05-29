@@ -48,10 +48,10 @@ void Player::move(int x, int y) {
         mapY += y;
         posX = mapX * size;
         posY = mapY * size;
-
+        sprite->setPosition(posX, posY);
         std::cout << "PX: " << mapX << " | PY: " << mapY << std::endl;
 
-        sprite->setPosition(posX, posY);
+        
 
     }
 }

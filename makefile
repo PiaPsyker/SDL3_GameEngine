@@ -25,9 +25,10 @@ LDFLAGS = -w -lSDL3 -lSDL3_image -Iinclude -Lsrc
 	-Wwrite-strings
 
 #-g $(CFLAGS)
-#cp -r ./resources ./build/
+#
 
 build/test: src/main.cpp
+	cp -r ./resources ./build/
 	g++ -std=c++17 -g -o build/test \
 	src/*.cpp \
 	src/map/*.cpp \

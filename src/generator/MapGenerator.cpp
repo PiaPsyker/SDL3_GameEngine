@@ -10,8 +10,8 @@ MapGenerator::MapGenerator(int width, int height) {
 
     noiseEngine = new FractalNoise();
 
-    noiseEngine->setBaseFrequency(.035f);
-    noiseEngine->setBaseAmplitude(.25f);
+    noiseEngine->setBaseFrequency(.02f);
+    noiseEngine->setBaseAmplitude(.2f);
     noiseEngine->setOctaves(1);
 
     std::remove("build/currentMap.bin");

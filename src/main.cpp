@@ -24,12 +24,14 @@
 
 #include "generator/MapGenerator.hpp"
 
+#include "Loader.hpp"
+
 //---------------------------------------------------------//
 /* Constants */
 //---------------------------------------------------------//
 
 #define s 48
-#define MAP_SIZE 128
+#define MAP_SIZE 512
 
 constexpr int kScreenWidth{1920};
 constexpr int kScreenHeight{1080};
@@ -77,6 +79,8 @@ Tilemap* gTilemap{nullptr};
 
 Player* gPlayer{nullptr};
 
+Loader* loader;
+
 //---------------------------------------------------------//
 /* Function Implementation */
 //---------------------------------------------------------//
@@ -99,9 +103,12 @@ bool init() {
 
     }
 
-    // SDL_SetRenderVSync( gRenderer, ( true ) ? 1 : SDL_RENDERER_VSYNC_DISABLED );
+    SDL_SetRenderVSync( gRenderer, ( true ) ? 1 : SDL_RENDERER_VSYNC_DISABLED );
 
     MapGenerator* genMap = new MapGenerator(MAP_SIZE, MAP_SIZE);
+
+    loader = new Loader();
+    loader->loadMedia();
 
     return success;
 

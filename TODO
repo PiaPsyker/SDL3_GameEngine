@@ -1,3 +1,5 @@
+- Finish Loader Class for dynamic loading of textures and other assets
+
 - Camera class maybe? check if neccessary
 - Timing and VSync integration for making stuff based on frame-time
 - Build out Player class for animation handling // animation handler class?
