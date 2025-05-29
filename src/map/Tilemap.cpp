@@ -162,6 +162,7 @@ void Tilemap::setTileMap() {
                 i3 = i2 * 10;
                 i3 += (int)ch - 48;
                 indexMap[i][j] = i3;
+                std::cout << "Adding : " << i3 << " to indexMap[" << i << "][" << j << "] " << std::endl;
 
             }
         } else if(ch == '|') {
@@ -183,7 +184,7 @@ void Tilemap::setTileMap() {
         for(int y = 0; y < tilemapHeight; y++) {
 
             tileArray[x][y] = new Tile(tilemapTex, -1, tileSize, true, 6, camera);
-            tileArray[x][y]->setPosition(x * tileSize, y * tileSize);
+            tileArray[x][y]->setPosition(x * tileSize, y * 48);
             tileArray[x][y]->init(indexMap[x][y], tileSize, configMap[indexMap[x][y]].moveable, 6);
 
         }

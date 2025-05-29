@@ -33,6 +33,7 @@ build/test: src/main.cpp
 	src/map/*.cpp \
 	src/entities/*.cpp \
 	src/noise/*.cpp \
+	src/generator/*.cpp \
 	$(LDFLAGS) $(WARNFLAGS)
 
 .PHONY: test clean

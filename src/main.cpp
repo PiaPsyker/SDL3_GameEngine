@@ -23,6 +23,7 @@
 #include "entities/Player.hpp"
 
 #include "noise/FractalNoise.hpp"
+#include "generator/MapGenerator.hpp"
 
 //---------------------------------------------------------//
 /* Constants */
@@ -103,6 +104,8 @@ bool init() {
 
     // SDL_SetRenderVSync( gRenderer, ( true ) ? 1 : SDL_RENDERER_VSYNC_DISABLED );
 
+    MapGenerator* genMap = new MapGenerator(255, 255);
+
     return success;
 
 }
@@ -130,10 +133,13 @@ bool loadMedia() {
     gPlayer = new Player(playerTex, 6, 6, s, 0, &camera);
 
     gMap = new Map();
+
     
-    gTilemap = new Tilemap(backgroundTex, 17, 17, s, &camera);
+    
+    gTilemap = new Tilemap(backgroundTex, 255, 255, s, &camera);
+    gTilemap->loadTileMap("currentMap.bin");
     gTilemap->processTileSet("resources/tileset.txt");
-    gTilemap->loadTileMap("tilemaps/test.txt");
+    
     gTilemap->setTileMap();
 
     gMap->addLayer(gTilemap);
@@ -221,8 +227,6 @@ int main(int argc, char* args[]) {
         } else {
 
             bool quit{false};
-
-            
 
             while(quit == false) {
 
