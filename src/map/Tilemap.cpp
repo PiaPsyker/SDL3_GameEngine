@@ -185,9 +185,9 @@ void Tilemap::setTileMap() {
 
         for(int y = 0; y < tilemapHeight; y++) {
 
-            tileArray[x][y] = new Tile(tilemapTex, -1, 48.f, true, 6, camera);
-            //tileArray[x][y]->setPosition(x * 48, y * 48);
-            //tileArray[x][y]->init(map[x][y], tileSize, arr[map[x][y]].moveable, 6);
+            tileArray[x][y] = new Tile(new LTexture(*tilemapTex), -1, 48.f, true, 6, camera);
+            tileArray[x][y]->setPosition(x * 48, y * 48);
+            tileArray[x][y]->init(map[x][y], tileSize, arr[map[x][y]].moveable, 6);
         }
     }
 
@@ -203,8 +203,8 @@ void Tilemap::renderTileMap() {
 
             // Cant set the tiles everytime we render cause that causes memory nom nom....
             //tileArray[i][j] = new Tile(tilemapTex, map[i][j], tileSize, arr[map[i][j]].moveable, 6, camera);
-            tileArray[i][j]->init(map[i][j], tileSize, arr[map[i][j]].moveable, 6);
-            tileArray[i][j]->setPosition(i * 48, j * 48);
+            //tileArray[i][j]->init(map[i][j], tileSize, arr[map[i][j]].moveable, 6);
+            //tileArray[i][j]->setPosition(i * 48, j * 48);
             tileArray[i][j]->render();
 
         }

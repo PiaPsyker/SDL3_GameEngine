@@ -27,6 +27,8 @@ class LTexture{
         LTexture(SDL_Renderer* pRenderer);
         ~LTexture();
 
+        LTexture(const LTexture& texture);
+
         void setRender(SDL_Renderer* ren);
 
         bool loadFromFile(std::string path);

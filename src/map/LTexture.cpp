@@ -20,6 +20,17 @@ LTexture::LTexture(SDL_Renderer* pRenderer):
     this->mRenderer = pRenderer;
 }
 
+LTexture::LTexture(const LTexture& texture) {
+    this->mTexture = texture.mTexture;
+    this->mRenderer = texture.mRenderer;
+    this->mWidth = texture.mWidth;
+    this->mHeight = texture.mHeight;
+    this->posX = texture.posX;
+    this->posY = texture.posY;
+    this->clip = texture.clip;
+    this->mRenderer = texture.mRenderer;
+};
+
 //---------------------------------------------------------//
 
 LTexture::~LTexture() {
