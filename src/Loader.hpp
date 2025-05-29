@@ -49,6 +49,8 @@ class Loader {
 
         void close();
 
+        void setRenderer(SDL_Renderer* ren);
+
         SDL_Renderer* getRenderer();
 
     private:

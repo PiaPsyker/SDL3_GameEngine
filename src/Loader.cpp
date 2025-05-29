@@ -45,7 +45,7 @@ bool Loader::loadMedia() {
 
     for (const auto& dirEntry : std::filesystem::recursive_directory_iterator("resources")) {
 
-        std::cout << dirEntry << std::endl;
+        
 
         if(dirEntry.path().extension() == ".png") {
 
@@ -56,6 +56,8 @@ bool Loader::loadMedia() {
             TextureInfo* tex = new TextureInfo{dirEntry.path().filename(), tempTex};
 
             textures.push_front(tex);
+
+            std::cout << "Added Texture: " << dirEntry.path().filename() << std::endl;
     
         }
     }
@@ -76,6 +78,12 @@ void Loader::close() {
     }
 
     SDL_Quit();
+
+}
+
+void Loader::setRenderer(SDL_Renderer* ren) {
+
+    gRenderer = ren;
 
 }
 

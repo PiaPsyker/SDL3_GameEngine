@@ -108,7 +108,7 @@ bool init() {
     MapGenerator* genMap = new MapGenerator(MAP_SIZE, MAP_SIZE);
 
     loader = new Loader();
-    loader->loadMedia();
+    
 
     return success;
 
@@ -147,6 +147,8 @@ bool loadMedia() {
     gMap->addLayer(gTilemap);
 
     gPlayer->setMap(gMap);
+
+    
 
     return success;
 
@@ -221,6 +223,9 @@ int main(int argc, char* args[]) {
         } else {
 
             bool quit{false};
+
+            loader->setRenderer(gRenderer);
+            loader->loadMedia();
 
             while(quit == false) {
 
