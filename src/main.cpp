@@ -22,7 +22,6 @@
 #include "map/Tilemap.hpp"
 #include "entities/Player.hpp"
 
-#include "noise/FractalNoise.hpp"
 #include "generator/MapGenerator.hpp"
 
 //---------------------------------------------------------//
@@ -30,6 +29,7 @@
 //---------------------------------------------------------//
 
 #define s 48
+#define MAP_SIZE 128
 
 constexpr int kScreenWidth{1920};
 constexpr int kScreenHeight{1080};
@@ -77,9 +77,6 @@ Tilemap* gTilemap{nullptr};
 
 Player* gPlayer{nullptr};
 
-FractalNoise *noiseMaker = new FractalNoise();
-
-
 //---------------------------------------------------------//
 /* Function Implementation */
 //---------------------------------------------------------//
@@ -104,7 +101,7 @@ bool init() {
 
     // SDL_SetRenderVSync( gRenderer, ( true ) ? 1 : SDL_RENDERER_VSYNC_DISABLED );
 
-    MapGenerator* genMap = new MapGenerator(255, 255);
+    MapGenerator* genMap = new MapGenerator(MAP_SIZE, MAP_SIZE);
 
     return success;
 
@@ -133,10 +130,8 @@ bool loadMedia() {
     gPlayer = new Player(playerTex, 6, 6, s, 0, &camera);
 
     gMap = new Map();
-
     
-    
-    gTilemap = new Tilemap(backgroundTex, 255, 255, s, &camera);
+    gTilemap = new Tilemap(backgroundTex, MAP_SIZE, MAP_SIZE, s, &camera);
     gTilemap->loadTileMap("build/currentMap.bin");
     gTilemap->processTileSet("resources/tileset.txt");
     
@@ -145,10 +140,6 @@ bool loadMedia() {
     gMap->addLayer(gTilemap);
 
     gPlayer->setMap(gMap);
-    
-    noiseMaker->setBaseFrequency(.25f);
-    noiseMaker->setBaseAmplitude(.25f);
-    noiseMaker->setOctaves(1);
 
     return success;
 
@@ -169,22 +160,18 @@ void handleInput(bool* quit) {
                 case SDLK_UP:
                     gPlayer->move(0, -1);
                     playerTex->setClip(upX,upY,s,s);
-                    std::cout << abs((int)((noiseMaker->noise(gPlayer->getMapX(), gPlayer->getMapY(), .10f)) * 100)) << std::endl;
                     break;
                 case SDLK_DOWN:
                     gPlayer->move(0, 1);
                     playerTex->setClip(downX,downY,s,s);
-                    std::cout << abs((int)((noiseMaker->noise(gPlayer->getMapX(), gPlayer->getMapY(), .10f)) * 100)) << std::endl;
                     break;
                 case SDLK_LEFT:
                     gPlayer->move(-1, 0);
                     playerTex->setClip(leftX,leftY,s,s);
-                    std::cout << abs((int)((noiseMaker->noise(gPlayer->getMapX(), gPlayer->getMapY(), .10f)) * 100)) << std::endl;
                     break;
                 case SDLK_RIGHT:
                     gPlayer->move(1, 0);
                     playerTex->setClip(rightX,rightY,s,s);
-                    std::cout << abs((int)((noiseMaker->noise(gPlayer->getMapX(), gPlayer->getMapY(), .10f)) * 100)) << std::endl;
                     break;
             }
         }
