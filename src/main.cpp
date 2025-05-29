@@ -15,10 +15,14 @@
 #include <SDL3/SDL_render.h>
 #include <SDL3_image/SDL_image.h>
 #include <string>
+#include <iostream>
+
 #include "map/LTexture.hpp"
 #include "map/Map.hpp"
 #include "map/Tilemap.hpp"
 #include "entities/Player.hpp"
+
+#include "noise/Perlin.hpp"
 
 //---------------------------------------------------------//
 /* Constants */
@@ -71,6 +75,8 @@ Map* gMap{nullptr};
 Tilemap* gTilemap{nullptr};
 
 Player* gPlayer{nullptr};
+
+Perlin* gNoise{nullptr};
 
 
 //---------------------------------------------------------//
@@ -134,6 +140,8 @@ bool loadMedia() {
 
     gPlayer->setMap(gMap);
     
+    gNoise = new Perlin();
+
     return success;
 
 }
@@ -153,18 +161,22 @@ void handleInput(bool* quit) {
                 case SDLK_UP:
                     gPlayer->move(0, -1);
                     playerTex->setClip(upX,upY,s,s);
+                    std::cout << (int)((gNoise->noise((gPlayer->getPosX()) / 100, (gPlayer->getPosY()) / 100, .25f)) * 100) << std::endl;
                     break;
                 case SDLK_DOWN:
                     gPlayer->move(0, 1);
                     playerTex->setClip(downX,downY,s,s);
+                    std::cout << (int)((gNoise->noise((gPlayer->getPosX()) / 100, (gPlayer->getPosY()) / 100, .25f)) * 100) << std::endl;
                     break;
                 case SDLK_LEFT:
                     gPlayer->move(-1, 0);
                     playerTex->setClip(leftX,leftY,s,s);
+                    std::cout << (int)((gNoise->noise((gPlayer->getPosX()) / 100, (gPlayer->getPosY()) / 100, .25f)) * 100) << std::endl;
                     break;
                 case SDLK_RIGHT:
                     gPlayer->move(1, 0);
                     playerTex->setClip(rightX,rightY,s,s);
+                    std::cout << (int)((gNoise->noise((gPlayer->getPosX()) / 100, (gPlayer->getPosY()) / 100, .25f)) * 100) << std::endl;
                     break;
             }
         }

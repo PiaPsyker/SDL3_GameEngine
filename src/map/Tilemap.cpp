@@ -22,12 +22,12 @@ Tilemap::Tilemap(LTexture* tex, int w, int h, int ts, SDL_FRect* cam) {
 
     configMap = new config[tilemapWidth * tilemapHeight];
 
-    map = new int*[tilemapWidth];
+    indexMap = new int*[tilemapWidth];
     tileArray = new Tile**[tilemapWidth];
 
     for (int i = 0; i < tilemapWidth; i++) {
         
-        map[i] = new int[tilemapHeight];
+        indexMap[i] = new int[tilemapHeight];
         tileArray[i] = new Tile*[tilemapHeight];
 
     }
@@ -37,9 +37,9 @@ Tilemap::Tilemap(LTexture* tex, int w, int h, int ts, SDL_FRect* cam) {
 
 void Tilemap::processTileSet(std::string cpath) {
 
-    std::ifstream cmap(cpath);
+    std::ifstream configFile(cpath);
 
-    if(!cmap.is_open()) {
+    if(!configFile.is_open()) {
 
         SDL_Log("Error opening Tilemap Config file");
 
@@ -48,43 +48,43 @@ void Tilemap::processTileSet(std::string cpath) {
         std::string s;
         int count = 0;
 
-        while(getline(cmap, s)){
+        while(getline(configFile, s)){
 
-            std::stringstream ss(s);
-            std::string t;
+            std::stringstream fullLine(s);
+            std::string delimitedString;
             char del = '|';
 
             int i = 0;
 
-            while(getline(ss,t,del)){
+            while(getline(fullLine,delimitedString,del)){
 
                 std::stringstream temp;
-                int index;
+                int tempInt;
 
                 if(i == 0) {
 
-                    temp << t;
-                    temp >> index;
-                    configMap[count].index = index;
-                    index = -1;
+                    temp << delimitedString;
+                    temp >> tempInt;
+                    configMap[count].index = tempInt;
+                    tempInt = -1;
 
                 } else if(i == 1) {
 
-                    configMap[count].name = t;
+                    configMap[count].name = delimitedString;
 
                 } else if(i == 2) {
 
-                    temp << t;
-                    temp >> index;
-                    configMap[count].moveable = (bool)index;
-                    index = -1;
+                    temp << delimitedString;
+                    temp >> tempInt;
+                    configMap[count].moveable = (bool)tempInt;
+                    tempInt = -1;
 
                 } else if(i == 3) {
 
-                    temp << t;
-                    temp >> index;
-                    configMap[count].interaction = (bool)index;
-                    index = -1;
+                    temp << delimitedString;
+                    temp >> tempInt;
+                    configMap[count].interaction = (bool)tempInt;
+                    tempInt = -1;
 
                 }
 
@@ -95,19 +95,19 @@ void Tilemap::processTileSet(std::string cpath) {
             count++;
 
         }
-
-        std::cout << "Build configMap from " << cpath << " with following data:" << std::endl;
-        
     }
+
+    configFile.close();
+
 }
 
 //---------------------------------------------------------//
 
 void Tilemap::loadTileMap(std::string path) {
 
-    std::ifstream f(path);
+    std::ifstream mapFile(path);
 
-    if(!f.is_open()) {
+    if(!mapFile.is_open()) {
 
         SDL_Log("Error opening Tilemap Map file");
 
@@ -115,16 +115,16 @@ void Tilemap::loadTileMap(std::string path) {
 
         char c;
         
-        while(f.get(c)) {
+        while(mapFile.get(c)) {
 
-            t.push_front(c);
+            configSettings.push_front(c);
 
         }
 
-        t.reverse();
+        configSettings.reverse();
     }
     
-    f.close();
+    mapFile.close();
     
 }
 
@@ -141,7 +141,7 @@ void Tilemap::setTileMap() {
 
     int count = 0;
 
-    for(char ch : t) {
+    for(char ch : configSettings) {
 
         if(ch != '|' && ch != '\n') {
 
@@ -161,7 +161,7 @@ void Tilemap::setTileMap() {
 
                 i3 = i2 * 10;
                 i3 += (int)ch - 48;
-                map[i][j] = i3;
+                indexMap[i][j] = i3;
 
             }
         } else if(ch == '|') {
@@ -178,14 +178,13 @@ void Tilemap::setTileMap() {
         }
     }
 
-    // Somehow this doesnt work, when just calling the renderer on the filled array it only shows green tiles..
     for(int x = 0; x < tilemapWidth; x++){
 
         for(int y = 0; y < tilemapHeight; y++) {
 
-            tileArray[x][y] = new Tile(tilemapTex, -1, 48.f, true, 6, camera);
-            tileArray[x][y]->setPosition(x * 48, y * 48);
-            tileArray[x][y]->init(map[x][y], tileSize, configMap[map[x][y]].moveable, 6);
+            tileArray[x][y] = new Tile(tilemapTex, -1, tileSize, true, 6, camera);
+            tileArray[x][y]->setPosition(x * tileSize, y * tileSize);
+            tileArray[x][y]->init(indexMap[x][y], tileSize, configMap[indexMap[x][y]].moveable, 6);
 
         }
     }
@@ -200,10 +199,6 @@ void Tilemap::renderTileMap() {
 
         for(int j = 0; j < tilemapHeight; j++) {
 
-            // Cant set the tiles everytime we render cause that causes memory nom nom....
-            //tileArray[i][j] = new Tile(tilemapTex, map[i][j], tileSize, arr[map[i][j]].moveable, 6, camera);
-            //tileArray[i][j]->init(map[i][j], tileSize, arr[map[i][j]].moveable, 6);
-            //tileArray[i][j]->setPosition(i * 48, j * 48);
             tileArray[i][j]->render();
 
         }
@@ -228,7 +223,7 @@ bool Tilemap::isMoveable(int x, int y) {
 
 int** Tilemap::getMap(){
 
-    return map;
+    return indexMap;
 
 }
 

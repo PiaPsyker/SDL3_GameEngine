@@ -64,8 +64,8 @@ class Tilemap {
         
         config* configMap;
 
-        std::list<char> t;
-        int** map;
+        std::list<char> configSettings;
+        int** indexMap;
 
 };
 

@@ -23,10 +23,6 @@ Tile::Tile(LTexture* sprite, int index, float spriteSize, bool mv, int cols, SDL
 
     clip = new SDL_FRect{tileX,tileY,this->spriteSize,this->spriteSize};
 
-    if(spriteSheet!=nullptr) {
-
-    }
-
 }
 
 void Tile::init(int index, float spriteSize, bool mv, int cols) {
@@ -37,6 +33,7 @@ void Tile::init(int index, float spriteSize, bool mv, int cols) {
 
     tileX = (index % cols) * this->spriteSize;
     tileY = (index / cols) * this->spriteSize;
+
 }
 
 //---------------------------------------------------------//
@@ -74,4 +71,5 @@ void Tile::setPosition(float x, float y) {
 
     posX = x;
     posY = y;
+    
 }
