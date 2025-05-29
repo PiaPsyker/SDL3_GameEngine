@@ -14,20 +14,18 @@ Tile::Tile(LTexture* sprite, int index, float spriteSize, bool mv, int cols, SDL
 
     moveable = mv;
 
-    int x;
-    int y;
+    this->spriteSize = spriteSize;
 
     if(index != -1) {
-        x = (index % cols) * spriteSize;
-        y = (index / cols) * spriteSize;
+        tileX = (index % cols) * this->spriteSize;
+        tileY = (index / cols) * this->spriteSize;
     }
-    
+
+    clip = new SDL_FRect{tileX,tileY,this->spriteSize,this->spriteSize};
 
     if(spriteSheet!=nullptr) {
-        spriteSheet->setClip(x,y,spriteSize,spriteSize);
-        spriteSheet->setSize(spriteSize, spriteSize);
+
     }
-    
 
 }
 
@@ -35,12 +33,10 @@ void Tile::init(int index, float spriteSize, bool mv, int cols) {
 
     moveable = mv;
 
-    int x = (index % cols) * spriteSize;
-    int y = (index / cols) * spriteSize;
+    this->spriteSize = spriteSize;
 
-    spriteSheet->setClip(x,y,spriteSize,spriteSize);
-    spriteSheet->setSize(spriteSize, spriteSize);
-
+    tileX = (index % cols) * this->spriteSize;
+    tileY = (index / cols) * this->spriteSize;
 }
 
 //---------------------------------------------------------//
@@ -67,6 +63,9 @@ int Tile::getPosY() {
 
 void Tile::render() {
 
+    spriteSheet->setClip(tileX,tileY,spriteSize,spriteSize);
+    spriteSheet->setSize(spriteSize, spriteSize);
+    spriteSheet->setPosition(posX, posY);
     spriteSheet->render(camera);
 
 }
@@ -75,6 +74,4 @@ void Tile::setPosition(float x, float y) {
 
     posX = x;
     posY = y;
-    spriteSheet->setPosition(posX, posY);
-
 }

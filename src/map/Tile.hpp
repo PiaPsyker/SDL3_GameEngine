@@ -48,6 +48,13 @@ class Tile {
         float posX;
         float posY;
 
+        float tileX;
+        float tileY;
+
+        float spriteSize;
+
+        SDL_FRect* clip;
+
 };
 
 #endif
