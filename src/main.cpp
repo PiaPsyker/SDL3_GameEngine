@@ -137,7 +137,7 @@ bool loadMedia() {
     
     
     gTilemap = new Tilemap(backgroundTex, 255, 255, s, &camera);
-    gTilemap->loadTileMap("currentMap.bin");
+    gTilemap->loadTileMap("build/currentMap.bin");
     gTilemap->processTileSet("resources/tileset.txt");
     
     gTilemap->setTileMap();

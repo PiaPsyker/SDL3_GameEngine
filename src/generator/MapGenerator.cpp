@@ -10,11 +10,12 @@ MapGenerator::MapGenerator(int width, int height) {
 
     noiseEngine = new FractalNoise();
 
-    noiseEngine->setBaseFrequency(.2f);
-    noiseEngine->setBaseAmplitude(.1f);
+    noiseEngine->setBaseFrequency(.05f);
+    noiseEngine->setBaseAmplitude(.3f);
     noiseEngine->setOctaves(1);
 
-    outputFile.open("currentMap.bin", std::ios::out);
+    std::remove("build/currentMap.bin");
+    outputFile.open("build/currentMap.bin", std::ios::out);
 
     int i = 0;
     int j = 0;
