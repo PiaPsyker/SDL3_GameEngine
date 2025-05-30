@@ -1,13 +1,12 @@
 #include "Player.hpp"
 #include <iostream>
-
+#include "../Loader.hpp"
 //---------------------------------------------------------//
 /* Class Implementation */
 //---------------------------------------------------------//
 
-Player::Player(LTexture* spr, int x, int y, int sz, int z, SDL_FRect* cam) {
+Player::Player(std::string spriteName, int x, int y, int sz, int z, SDL_FRect* cam) {
 
-    sprite = spr;
     size = sz;
     z_index = z;
     mapX = x;
@@ -15,6 +14,9 @@ Player::Player(LTexture* spr, int x, int y, int sz, int z, SDL_FRect* cam) {
     posX = mapX * size;
     posY = mapY * size;
     camera = cam;
+
+
+    sprite = Loader::getLoader()->getTexture(spriteName);
 
 
     sprite->setSize(size, size);
@@ -42,18 +44,35 @@ bool Player::checkCollision(int x, int y){
 
 void Player::move(int x, int y) {
 
-    if(checkCollision(mapX + x, mapY + y) == true) {
+    //if(checkCollision(mapX + x, mapY + y) == true) {
+
+        if(x > 0) {
+            sprite->setClip(size, size, size, size);
+        }
+        if(x < 0) {
+            sprite->setClip(size, 0.f, size, size);
+        }
+        if(y > 0) {
+            sprite->setClip(0.f, 0.f, size, size);
+        }
+        if(y < 0) {
+            sprite->setClip(0.f, size, size, size);
+        }
 
         mapX += x;
         mapY += y;
+        
         posX = mapX * size;
         posY = mapY * size;
+
         sprite->setPosition(posX, posY);
         std::cout << "PX: " << mapX << " | PY: " << mapY << std::endl;
 
-        
+        camera->x = static_cast<int>( posX + sprite->getWidth() / 2 - Loader::getLoader()->getScreenWidth() / 2 );
+        camera->y = static_cast<int>( posY + sprite->getHeight() / 2 - Loader::getLoader()->getScreenHeight() / 2 );
 
-    }
+
+    //}
 }
 
 void Player::render() {

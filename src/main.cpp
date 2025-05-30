@@ -31,7 +31,7 @@
 //---------------------------------------------------------//
 
 #define s 48
-#define MAP_SIZE 512
+#define MAP_SIZE 128
 
 constexpr int kScreenWidth{1920};
 constexpr int kScreenHeight{1080};
@@ -64,96 +64,26 @@ void close();
 /* Global Variables */
 //---------------------------------------------------------//
 
-SDL_Window* gWindow{nullptr};
+//SDL_Window* gWindow{nullptr};
     
-SDL_Renderer* gRenderer{nullptr};
+//SDL_Renderer* gRenderer{nullptr};
 
-SDL_FRect camera{ 0.f, 0.f, kScreenWidth, kScreenHeight };
-
-LTexture* playerTex;
-LTexture* backgroundTex;
+//SDL_FRect camera{ 0.f, 0.f, kScreenWidth, kScreenHeight };
+// 
+// LTexture* playerTex;
+// LTexture* backgroundTex;
 
 Map* gMap{nullptr};
 
 Tilemap* gTilemap{nullptr};
 
 Player* gPlayer{nullptr};
+LTexture* playerTex{nullptr};
 
 Loader* loader;
 
 //---------------------------------------------------------//
 /* Function Implementation */
-//---------------------------------------------------------//
-
-bool init() {
-    
-    bool success{true};
-
-    if(!SDL_Init(SDL_INIT_VIDEO)) {
-
-        SDL_Log("SDL couldnt initialize! SDL Error: %s\n", SDL_GetError());
-        return false;
-
-    }
-
-    if(!SDL_CreateWindowAndRenderer("SDL3 Text", kScreenWidth, kScreenHeight, SDL_WINDOW_FULLSCREEN, &gWindow, &gRenderer)) {
-
-        SDL_Log("Window couldnt be created! SDL Error: %s\n", SDL_GetError());
-        return false;
-
-    }
-
-    SDL_SetRenderVSync( gRenderer, ( true ) ? 1 : SDL_RENDERER_VSYNC_DISABLED );
-
-    MapGenerator* genMap = new MapGenerator(MAP_SIZE, MAP_SIZE);
-
-    loader = new Loader();
-    
-
-    return success;
-
-}
-
-//---------------------------------------------------------//
-
-bool loadMedia() {
-    
-    playerTex = new LTexture(gRenderer);
-    backgroundTex = new LTexture(gRenderer);
-
-    bool success{true};
-
-    if(success = playerTex->loadFromFile("resources/sprite.png"); !success) {
-        SDL_Log("Couldnt load PNG image");
-    }
-    if(success = backgroundTex->loadFromFile("resources/tileset.png"); !success) {
-        SDL_Log("Couldnt load PNG image");
-    }
-
-    //-----------------------------------------------------//
-
-    playerTex->setClip(downX,downY,s,s);
-
-    gPlayer = new Player(playerTex, 6, 6, s, 0, &camera);
-
-    gMap = new Map();
-    
-    gTilemap = new Tilemap(backgroundTex, MAP_SIZE, MAP_SIZE, s, &camera);
-    gTilemap->loadTileMap("build/currentMap.bin");
-    gTilemap->processTileSet("resources/tileset.txt");
-    
-    gTilemap->setTileMap();
-
-    gMap->addLayer(gTilemap);
-
-    gPlayer->setMap(gMap);
-
-    
-
-    return success;
-
-}
-
 //---------------------------------------------------------//
 
 void handleInput(bool* quit) {
@@ -168,36 +98,23 @@ void handleInput(bool* quit) {
             switch(e.key.key){
                 case SDLK_UP:
                     gPlayer->move(0, -1);
-                    playerTex->setClip(upX,upY,s,s);
+                    //playerTex->setClip(upX,upY,s,s);
                     break;
                 case SDLK_DOWN:
                     gPlayer->move(0, 1);
-                    playerTex->setClip(downX,downY,s,s);
+                    //playerTex->setClip(downX,downY,s,s);
                     break;
                 case SDLK_LEFT:
                     gPlayer->move(-1, 0);
-                    playerTex->setClip(leftX,leftY,s,s);
+                    //playerTex->setClip(leftX,leftY,s,s);
                     break;
                 case SDLK_RIGHT:
                     gPlayer->move(1, 0);
-                    playerTex->setClip(rightX,rightY,s,s);
+                    //playerTex->setClip(rightX,rightY,s,s);
                     break;
             }
         }
     }
-}
-
-//---------------------------------------------------------//
-
-void close() {
-
-    SDL_DestroyRenderer(gRenderer);
-    gRenderer = nullptr;
-    SDL_DestroyWindow( gWindow );
-    gWindow = nullptr;
-
-    SDL_Quit();
-
 }
 
 //---------------------------------------------------------//
@@ -208,14 +125,16 @@ int main(int argc, char* args[]) {
 
     int exitCode{0};
 
-    if(!init()){
+    loader = Loader::getLoader();
+
+    if(!loader->init()){
 
         SDL_Log("Unable to init");
         exitCode = 1;
 
     } else {
 
-        if(!loadMedia()) {
+        if(!loader->loadTextures()) {
 
             SDL_Log("Unable to load media");
             exitCode = 2;
@@ -224,15 +143,20 @@ int main(int argc, char* args[]) {
 
             bool quit{false};
 
-            loader->setRenderer(gRenderer);
-            loader->loadMedia();
+            gPlayer = new Player("sprite.png", 1, 1, 48, 0, loader->getCamera());
+
+            gMap = new Map();
+    
+            gTilemap = new Tilemap(loader->getTexture("tileset.png"), MAP_SIZE, MAP_SIZE, s, loader->getCamera());
+            gTilemap->loadTileMap("build/currentMap.bin");
+            gTilemap->processTileSet("resources/tileset.txt");
+            gTilemap->setTileMap();
+
+            gMap->addLayer(gTilemap);
 
             while(quit == false) {
 
-                SDL_RenderClear(gRenderer);
-
-                camera.x = static_cast<int>( gPlayer->getPosX() + gPlayer->getSprite()->getWidth() / 2 - kScreenWidth / 2 );
-                camera.y = static_cast<int>( gPlayer->getPosY() + gPlayer->getSprite()->getHeight() / 2 - kScreenHeight / 2 );
+                SDL_RenderClear(loader->getRenderer());
 
                 handleInput(&quit);
                 
@@ -240,13 +164,13 @@ int main(int argc, char* args[]) {
 
                 gPlayer->render();
 
-                SDL_RenderPresent(gRenderer);
+                SDL_RenderPresent(loader->getRenderer());
 
             }
         }
     }
 
-    close();
+    loader->close();
 
     return exitCode;
 

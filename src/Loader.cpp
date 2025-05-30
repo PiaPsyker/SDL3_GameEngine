@@ -7,8 +7,33 @@
 /* Class Implementation */
 //---------------------------------------------------------//
 
-Loader::Loader() {
+Loader * Loader::singleton = nullptr;
 
+Loader* Loader::getLoader() {
+    
+    if (Loader::singleton == nullptr) {
+        Loader::singleton = new Loader(1920, 1080, 128);
+
+    }
+    return Loader::singleton;
+}
+
+
+Loader::Loader(int screenW, int screenH, int mapS):
+
+    window{nullptr},
+    renderer{nullptr}
+
+{
+
+    screenWidth = screenW;
+    screenHeight = screenH;
+
+    mapSize = mapS;    
+
+    camera = { 0.f, 0.f, (float)screenWidth, (float)screenHeight };
+
+    genMap = new MapGenerator(mapSize, mapSize);
 
 
 }
@@ -18,39 +43,30 @@ bool Loader::init() {
     bool success{true};
 
     if(!SDL_Init(SDL_INIT_VIDEO)) {
-
         SDL_Log("SDL couldnt initialize! SDL Error: %s\n", SDL_GetError());
         return false;
-
     }
-
-    if(!SDL_CreateWindowAndRenderer("SDL3 Text", screenWidth, ScreenHeight, SDL_WINDOW_FULLSCREEN, &gWindow, &gRenderer)) {
-
+    if(!SDL_CreateWindowAndRenderer("SDL3 Text", screenWidth, screenHeight, SDL_WINDOW_FULLSCREEN, &window, &renderer)) {
         SDL_Log("Window couldnt be created! SDL Error: %s\n", SDL_GetError());
         return false;
-
     }
 
-    SDL_SetRenderVSync( gRenderer, ( true ) ? 1 : SDL_RENDERER_VSYNC_DISABLED );
-
-    genMap = new MapGenerator(128, 128);
+    SDL_SetRenderVSync( renderer, ( true ) ? 1 : SDL_RENDERER_VSYNC_DISABLED );
 
     return success;
 
 }
 
-bool Loader::loadMedia() {
+bool Loader::loadTextures() {
 
     bool success{true};
 
     for (const auto& dirEntry : std::filesystem::recursive_directory_iterator("resources")) {
 
-        
-
         if(dirEntry.path().extension() == ".png") {
 
-            LTexture* tempTex = new LTexture(gRenderer);
-            tempTex->setCamera(camera);
+            LTexture* tempTex = new LTexture(renderer);
+            tempTex->setCamera(&camera);
             tempTex->loadFromFile(dirEntry.path());
 
             TextureInfo* tex = new TextureInfo{dirEntry.path().filename(), tempTex};
@@ -68,10 +84,10 @@ bool Loader::loadMedia() {
 
 void Loader::close() {
 
-    SDL_DestroyRenderer(gRenderer);
-    gRenderer = nullptr;
-    SDL_DestroyWindow( gWindow );
-    gWindow = nullptr;
+    SDL_DestroyRenderer(renderer);
+    renderer = nullptr;
+    SDL_DestroyWindow( window );
+    window = nullptr;
 
     for(TextureInfo* texInfo : textures) {
         texInfo->texture->free();
@@ -83,12 +99,44 @@ void Loader::close() {
 
 void Loader::setRenderer(SDL_Renderer* ren) {
 
-    gRenderer = ren;
+    renderer = ren;
+
+}
+
+int Loader::getScreenWidth() {
+
+    return screenWidth;
+
+}
+
+int Loader::getScreenHeight() {
+
+    return screenHeight;
+
+}
+
+LTexture* Loader::getTexture(std::string name) {
+
+    for(TextureInfo* tex : textures) {
+
+        if(tex->fileName == name) {
+
+            return tex->texture;
+
+        }
+
+    }
+
+}
+
+SDL_FRect* Loader::getCamera() {
+
+    return &camera;
 
 }
 
 SDL_Renderer* Loader::getRenderer() {
 
-    return gRenderer;
+    return renderer;
 
 }

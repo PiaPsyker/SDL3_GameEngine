@@ -40,29 +40,45 @@ class Loader {
 
     public:
 
-        Loader();
-        ~Loader();
+        static Loader * getLoader();    
 
         bool init();
 
         bool loadMedia();
 
+        bool loadTextures();
+
+        bool loadMap();
+
         void close();
 
         void setRenderer(SDL_Renderer* ren);
+
+        int getScreenWidth();
+        int getScreenHeight();
+
+        LTexture* getTexture(std::string name);
+
+        SDL_FRect* getCamera();
 
         SDL_Renderer* getRenderer();
 
     private:
 
+        Loader(int screenW, int screenH, int mapS);
+        ~Loader();
+
+        static Loader* singleton;
+
         int screenWidth;
-        int ScreenHeight;
+        int screenHeight;
+        int mapSize;
 
-        SDL_Window* gWindow;
+        SDL_Window* window;
     
-        SDL_Renderer* gRenderer;
+        SDL_Renderer* renderer;
 
-        SDL_FRect* camera;
+        SDL_FRect camera;
 
         MapGenerator* genMap;
 
