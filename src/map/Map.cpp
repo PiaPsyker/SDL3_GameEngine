@@ -39,11 +39,11 @@ void Map::renderLayers() {
 
 void Map::generateMap(int** index) {
 
-
     layers[0] = new Tilemap(Loader::getLoader()->getTexture("tileset.png"), 128, 128, 48, Loader::getLoader()->getCamera());
     layers[0]->processTileSet("resources/tileset.txt");
+
     layers[0]->setGeneratedTileMap(index);
-    layer_count++;
+    layer_count = 1;
 
 }
 

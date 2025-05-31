@@ -15,12 +15,14 @@ Player::Player(std::string spriteName, int x, int y, int sz, int z, SDL_FRect* c
     posY = mapY * size;
     camera = cam;
 
-
     sprite = Loader::getLoader()->getTexture(spriteName);
-
 
     sprite->setSize(size, size);
     sprite->setPosition(posX, posY);
+    sprite->setClip(0.f, 0.f, size, size);
+
+    camera->x = static_cast<int>( posX + sprite->getWidth() / 2 - Loader::getLoader()->getScreenWidth() / 2 );
+    camera->y = static_cast<int>( posY + sprite->getHeight() / 2 - Loader::getLoader()->getScreenHeight() / 2 );
 
 }
 
