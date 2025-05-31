@@ -88,6 +88,7 @@ void handleInput(bool* quit) {
                 case SDLK_R:
                     mapEngine = new MapGenerator(128, 128);
                     mapEngine->generateMap();
+                    gPlayer->setMap(mapEngine->getMap());
                     break;
             }
         }
@@ -148,7 +149,7 @@ int main(int argc, char* args[]) {
             // gMap->addLayer(gTilemap);
             
 
-            // gPlayer->setMap(gMap);
+            gPlayer->setMap(mapEngine->getMap());
 
             while(quit == false) {
 

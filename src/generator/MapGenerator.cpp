@@ -36,7 +36,6 @@ MapGenerator::MapGenerator(int width, int height) {
         int index = abs((int)((noiseEngine->noise(i, j, 0.f)) * 100));
         
         indexMap[i][j] = index;
-        std::cout << "indexMap[" << i << "][" << j << "] = " << index << std::endl;
 
         if(index < 10 ) {
             outputIndex = "00" + std::to_string(index);
