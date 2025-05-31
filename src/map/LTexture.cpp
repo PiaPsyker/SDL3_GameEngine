@@ -1,5 +1,8 @@
 #include "LTexture.hpp"
 #include <SDL3/SDL_rect.h>
+#include <SDL3/SDL_render.h>
+#include <SDL3/SDL_surface.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 
 //---------------------------------------------------------//
@@ -114,6 +117,30 @@ bool LTexture::loadFromFile(std::string path) {
 
 }
 
+bool LTexture::loadFromText(TTF_Font* font, std::string text, SDL_Color textColor) {
+
+    if(SDL_Surface* loadedSurface = TTF_RenderText_Solid(font, text.c_str(), 0, textColor); loadedSurface == nullptr) {
+        SDL_Log("Unable to load Text! SDL Error: %s\n", SDL_GetError());
+    } else {
+        if(mTexture = SDL_CreateTextureFromSurface(mRenderer,loadedSurface); mTexture == nullptr) {
+            SDL_Log( "Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError() );
+        } else {
+            mWidth = loadedSurface->w;
+            mHeight = loadedSurface->h;
+
+            rWidth =  mWidth;
+            rHeight = mHeight;
+
+            clip = new SDL_FRect{0.f, 0.f, static_cast<float>(mWidth), static_cast<float>(mHeight)};
+        }
+
+        SDL_DestroySurface(loadedSurface);
+    }
+
+    return mTexture != nullptr;
+
+}
+
 //---------------------------------------------------------//
 
 void LTexture::free() {
@@ -132,7 +159,14 @@ void LTexture::free() {
 
 void LTexture::render(SDL_FRect* camera){
 
-    SDL_FRect dstRect = {posX - camera->x, posY - camera->y, static_cast<float>(mWidth), static_cast<float>(mHeight)};
+    SDL_FRect dstRect;
+
+    if(camera == nullptr) {
+        dstRect = {posX, posY, static_cast<float>(mWidth), static_cast<float>(mHeight)};
+    } else {
+        dstRect = {posX - camera->x, posY - camera->y, static_cast<float>(mWidth), static_cast<float>(mHeight)};
+    }
+    
 
     dstRect.w = rWidth;
     dstRect.h = rHeight;    

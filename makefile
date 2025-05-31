@@ -1,6 +1,6 @@
 CFLAGS = -std=c++17
 #-O2
-LDFLAGS = -w -lSDL3 -lSDL3_image -Iinclude -Lsrc
+LDFLAGS = -w -lSDL3 -lSDL3_image -lSDL3_ttf -Iinclude -Lsrc
 
 #WARNFLAGS = -Wall -Weffc++ -pedantic  \
 	-pedantic-errors -Wextra -Waggregate-return -Wcast-align \

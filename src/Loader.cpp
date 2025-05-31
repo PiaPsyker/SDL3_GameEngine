@@ -1,6 +1,7 @@
 #include "Loader.hpp"
 #include "map/LTexture.hpp"
 #include <SDL3/SDL_render.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <filesystem>
 
 //---------------------------------------------------------//
@@ -44,6 +45,10 @@ bool Loader::init() {
 
     if(!SDL_Init(SDL_INIT_VIDEO)) {
         SDL_Log("SDL couldnt initialize! SDL Error: %s\n", SDL_GetError());
+        return false;
+    }
+    if(!TTF_Init()) {
+        SDL_Log("TTF couldnt initialize! SDL Error: %s\n", SDL_GetError());
         return false;
     }
     if(!SDL_CreateWindowAndRenderer("SDL3 Text", screenWidth, screenHeight, SDL_WINDOW_FULLSCREEN, &window, &renderer)) {
@@ -93,6 +98,7 @@ void Loader::close() {
         texInfo->texture->free();
     }
 
+    TTF_Quit();
     SDL_Quit();
 
 }

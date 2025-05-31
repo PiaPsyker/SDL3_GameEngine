@@ -14,6 +14,7 @@
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <string>
 #include <iostream>
 
@@ -79,6 +80,9 @@ Tilemap* gTilemap{nullptr};
 
 Player* gPlayer{nullptr};
 LTexture* playerTex{nullptr};
+
+TTF_Font* gFont{nullptr};
+LTexture* gTextTexture{nullptr};
 
 Loader* loader;
 
@@ -148,6 +152,19 @@ int main(int argc, char* args[]) {
 
             bool quit{false};
 
+            gTextTexture = new LTexture(loader->getRenderer());
+
+            gTextTexture->setCamera(loader->getCamera());
+
+            std::string fontPath = "resources/ByteBounce.ttf";
+            SDL_Color textColor = { 0xFF, 0xFF, 0xFF, 0xFF };
+            gFont = TTF_OpenFont( fontPath.c_str(), 48 );
+            std::string text;
+            
+            gTextTexture->setPosition(10,10);
+
+
+
             gPlayer = new Player("sprite.png", 1, 1, 48, 0, loader->getCamera());
 
             gMap = new Map();
@@ -158,18 +175,23 @@ int main(int argc, char* args[]) {
             gTilemap->setTileMap();
 
             gMap->addLayer(gTilemap);
-            
+
             gPlayer->setMap(gMap);
 
             while(quit == false) {
 
                 SDL_RenderClear(loader->getRenderer());
+                gTextTexture->loadFromText(gFont, text, textColor );
+                text = "PX: " + std::to_string(gPlayer->getMapX()) + " | PY: " + std::to_string(gPlayer->getMapY());
 
                 handleInput(&quit);
                 
                 gMap->renderLayers();
 
                 gPlayer->render();
+
+                gTextTexture->setPosition(0, 0);
+                gTextTexture->render();
 
                 SDL_RenderPresent(loader->getRenderer());
 

@@ -12,8 +12,9 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
-#include <SDL3/SDL_rect.h>
+#include <SDL3/SDL_oldnames.h>
 #include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <string>
 
 //---------------------------------------------------------//
@@ -30,6 +31,7 @@ class LTexture{
         void setRender(SDL_Renderer* ren);
 
         bool loadFromFile(std::string path);
+        bool loadFromText(TTF_Font* font, std::string text, SDL_Color textColor);
 
         void free();
 
