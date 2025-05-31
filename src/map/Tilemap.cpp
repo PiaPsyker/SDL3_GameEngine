@@ -2,6 +2,7 @@
 #include "LTexture.hpp"
 #include "Tile.hpp"
 #include <SDL3/SDL_rect.h>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -32,6 +33,27 @@ Tilemap::Tilemap(LTexture* tex, int w, int h, int ts, SDL_FRect* cam) {
 
     }
 }
+
+Tilemap::~Tilemap() {
+
+    for(int i = 0; i < tilemapWidth; i++){
+
+        for(int j = 0; j < tilemapHeight; j++) {
+
+            delete tileArray[i][j];
+
+        }
+
+        delete indexMap[i];
+        delete tileArray[i];
+
+    }
+
+    delete tileArray;
+    delete configMap;
+
+}
+
 
 //---------------------------------------------------------//
 

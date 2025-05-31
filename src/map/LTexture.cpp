@@ -136,9 +136,11 @@ bool LTexture::loadFromText(TTF_Font* font, std::string text, SDL_Color textColo
             rHeight = mHeight;
 
             clip = new SDL_FRect{0.f, 0.f, static_cast<float>(mWidth), static_cast<float>(mHeight)};
+
         }
 
         SDL_DestroySurface(loadedSurface);
+        
     }
 
     return mTexture != nullptr;

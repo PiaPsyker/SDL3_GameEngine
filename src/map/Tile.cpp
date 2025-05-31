@@ -1,4 +1,5 @@
 #include "Tile.hpp"
+#include <cstdlib>
 
 //---------------------------------------------------------//
 /* Class Implementation */
@@ -22,6 +23,12 @@ Tile::Tile(LTexture* sprite, int index, float spriteSize, bool mv, int cols, SDL
     }
 
     clip = new SDL_FRect{tileX,tileY,this->spriteSize,this->spriteSize};
+
+}
+
+Tile::~Tile() {
+
+    delete clip;
 
 }
 

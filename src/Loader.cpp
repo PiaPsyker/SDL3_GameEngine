@@ -178,7 +178,6 @@ TTF_Font* Loader::getFont(std::string name) {
 
         if(ft->fileName == name) {
 
-            std::cout << "Found Font: " << ft->fileName << std::endl;
             return ft->font;
 
         }

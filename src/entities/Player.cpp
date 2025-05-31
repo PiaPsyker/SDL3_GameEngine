@@ -59,7 +59,7 @@ void Player::move(int x, int y) {
         sprite->setClip(0.f, size, size, size);
     }
 
-    if(checkCollision(mapX + x, mapY + y) == true) {
+    // if(checkCollision(mapX + x, mapY + y) == true) {
 
         mapX += x;
         mapY += y;
@@ -74,7 +74,7 @@ void Player::move(int x, int y) {
         camera->y = static_cast<int>( posY + sprite->getHeight() / 2 - Loader::getLoader()->getScreenHeight() / 2 );
 
 
-    }
+    // }
 }
 
 void Player::render() {

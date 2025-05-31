@@ -38,6 +38,7 @@ class Tilemap {
     public:
 
         Tilemap(LTexture* tex, int w, int h, int ts, SDL_FRect* cam);
+        ~Tilemap();
 
         void processTileSet(std::string cpath);
 

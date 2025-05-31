@@ -27,6 +27,8 @@ class MapGenerator {
 
         MapGenerator(int width, int height);
 
+        void regenerate(float fq, float amp);
+
         void generateMap();
 
         Map* getMap();
@@ -34,6 +36,8 @@ class MapGenerator {
     private:
 
         FractalNoise* noiseEngine;
+        int mapW;
+        int mapH;
 
         Map* currentMap;
 

@@ -26,6 +26,7 @@ class Map{
     public:
 
         Map();
+        ~Map();
 
         void addLayer(Tilemap* layer);
 
@@ -33,7 +34,7 @@ class Map{
 
         void renderLayers();
 
-        void generateMap(int** index);
+        void generateMap(int** index, int z);
 
         void saveMap();
 
@@ -42,6 +43,8 @@ class Map{
     private:
 
         Tilemap* layers[5];
+
+        std::string mapName;
 
         int layer_count;
 

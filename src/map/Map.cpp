@@ -1,5 +1,6 @@
 #include "Map.hpp"
 #include "Tilemap.hpp"
+#include <cstdlib>
 #include <string>
 #include <iostream>
 #include <filesystem>
@@ -13,6 +14,15 @@ Map::Map():
     layer_count(0)
 {
 
+}
+
+Map::~Map() {
+
+    for(int i = 0; i < layer_count; i++) {
+
+        delete layers[i];
+    
+    }
 }
 
 //---------------------------------------------------------//
@@ -45,15 +55,20 @@ void Map::renderLayers() {
 
 //---------------------------------------------------------//
 
-void Map::generateMap(int** index) {
+void Map::generateMap(int** index, int z) {
 
-    layers[0] = nullptr;
+    layers[z] = nullptr;
 
-    layers[0] = new Tilemap(Loader::getLoader()->getTexture("tileset.png"), 128, 128, 48, Loader::getLoader()->getCamera());
-    layers[0]->processTileSet("resources/tilesets/demo_tileset/tileset.txt");
-
-    layers[0]->setGeneratedTileMap(index);
-    layer_count = 1;
+    // if(z == 0) {
+        layers[z] = new Tilemap(Loader::getLoader()->getTexture("tileset.png"), 128, 128, 48, Loader::getLoader()->getCamera());
+        layers[z]->processTileSet("resources/tilesets/demo_tileset/tileset.txt");
+    // } else {
+    //     layers[z] = new Tilemap(Loader::getLoader()->getTexture("tileset_overlay.png"), 128, 128, 48, Loader::getLoader()->getCamera());
+    //     layers[z]->processTileSet("resources/tilesets/demo_tileset/tileset_overlay.txt");
+    // }
+    
+    layers[z]->setGeneratedTileMap(index);
+    layer_count = z+1;
 
 }
 
@@ -80,20 +95,26 @@ void Map::loadMap(std::string path) {
 
     for (const auto& dirEntry : std::filesystem::recursive_directory_iterator(path)) {
         
-        layer_count = 1;
+        layer_count = 2;
         
         if(dirEntry.path().extension() == ".bin") {
 
-            layers[i] = new Tilemap(Loader::getLoader()->getTexture("tileset.png"), 128, 128, 48, Loader::getLoader()->getCamera());
-            layers[i]->loadTileMap(path + "/" + (std::string)dirEntry.path().filename());
-            layers[i]->processTileSet("resources/tileset.txt");
+            //if(i == 0) {
+                layers[i] = new Tilemap(Loader::getLoader()->getTexture("tileset.png"), 128, 128, 48, Loader::getLoader()->getCamera());
+                layers[i]->loadTileMap(path + "/" + (std::string)dirEntry.path().filename());
+                layers[i]->processTileSet("resources/tilesets/demo_tileset/tileset.txt");
+            //}else {
+            //    layers[i] = new Tilemap(Loader::getLoader()->getTexture("tileset_overlay.png"), 128, 128, 48, Loader::getLoader()->getCamera());
+            //    layers[i]->loadTileMap(path + "/" + (std::string)dirEntry.path().filename());
+            //    layers[i]->processTileSet("resources/tilesets/demo_tileset/tileset_overlay.txt");
+            //}
+            
             layers[i]->setTileMap();
 
             i++;
-            //layer_count++;
-        
         }
     }
+    layer_count = i;
 }
 
 //---------------------------------------------------------//

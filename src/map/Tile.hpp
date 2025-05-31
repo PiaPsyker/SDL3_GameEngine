@@ -26,6 +26,7 @@ class Tile {
     public:
 
         Tile(LTexture* sprite = nullptr, int index=-1, float spriteSize = 0.f, bool mv = true, int cols = 0, SDL_FRect* cam = nullptr);
+        ~Tile();
 
         bool isMoveable();
 
