@@ -123,9 +123,7 @@ int main(int argc, char* args[]) {
 
             //Move this into its own class thingy?
             gTextTexture = new LTexture(loader->getRenderer());
-// 
-            gTextTexture->setCamera(loader->getCamera());
-// 
+
             std::string fontPath = "resources/ByteBounce.ttf";
             SDL_Color textColor = { 0xFF, 0xFF, 0xFF, 0xFF };
             gFont = TTF_OpenFont( fontPath.c_str(), 48 );
@@ -139,16 +137,7 @@ int main(int argc, char* args[]) {
             gPlayer = new Player("sprite.png", 1, 1, 48, 0, loader->getCamera());
 
             mapEngine->generateMap();
-
-            //gMap = new Map();
-            // This all into map class
-            // gTilemap = new Tilemap(loader->getTexture("tileset.png"), MAP_SIZE, MAP_SIZE, s, loader->getCamera());
-            // gTilemap->loadTileMap("build/currentMap.bin");
-            // gTilemap->processTileSet("resources/tileset.txt");
-            // gTilemap->setTileMap();
-            // gMap->addLayer(gTilemap);
             
-
             gPlayer->setMap(mapEngine->getMap());
 
             while(quit == false) {
@@ -162,7 +151,6 @@ int main(int argc, char* args[]) {
 
                 handleInput(&quit);
                 
-                //gMap->renderLayers();
                 mapEngine->getMap()->renderLayers();
 
                 gPlayer->render();

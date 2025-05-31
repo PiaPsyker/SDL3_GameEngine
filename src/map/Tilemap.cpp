@@ -263,26 +263,37 @@ void Tilemap::saveTileMap(std::string path) {
         int index = indexMap[i][j];
 
         if(index < 10 ) {
+
             outputIndex = "00" + std::to_string(index);
             outputFile << outputIndex;
             i++;
+
         } else if(index >= 10 && index <= 99) {
+
             outputIndex = "0" + std::to_string(index);
             outputFile << outputIndex;
             i++;
+
         } else {
+
             outputIndex = std::to_string(index);
             outputFile << outputIndex;
             i++;
+
         }
         if(i == tilemapWidth) {
+
             outputFile << "\n";
             j++;
             i = 0;
+
         } else {
+
             outputFile << "|";
+
         }
     }
+    
     outputFile.close();
 
 }
