@@ -15,6 +15,8 @@ Map::Map():
 
 }
 
+//---------------------------------------------------------//
+
 void Map::addLayer(Tilemap* layer) {
 
     layers[layer_count] = layer;
@@ -22,11 +24,15 @@ void Map::addLayer(Tilemap* layer) {
 
 }
 
+//---------------------------------------------------------//
+
 bool Map::isMoveable(int x, int y, int layer_id) {
 
     return layers[layer_id]->isMoveable(x, y);
 
 }
+
+//---------------------------------------------------------//
 
 void Map::renderLayers() {
 
@@ -37,17 +43,21 @@ void Map::renderLayers() {
     }
 }
 
+//---------------------------------------------------------//
+
 void Map::generateMap(int** index) {
 
     layers[0] = nullptr;
 
     layers[0] = new Tilemap(Loader::getLoader()->getTexture("tileset.png"), 128, 128, 48, Loader::getLoader()->getCamera());
-    layers[0]->processTileSet("resources/tileset.txt");
+    layers[0]->processTileSet("resources/tilesets/demo_tileset/tileset.txt");
 
     layers[0]->setGeneratedTileMap(index);
     layer_count = 1;
 
 }
+
+//---------------------------------------------------------//
 
 void Map::saveMap() {
 
@@ -59,6 +69,8 @@ void Map::saveMap() {
 
     }
 }
+
+//---------------------------------------------------------//
 
 void Map::loadMap(std::string path) {
 
@@ -83,3 +95,5 @@ void Map::loadMap(std::string path) {
         }
     }
 }
+
+//---------------------------------------------------------//

@@ -61,12 +61,16 @@ MapGenerator::MapGenerator(int width, int height) {
     outputFile.close();
 }
 
+//---------------------------------------------------------//
+
 void MapGenerator::generateMap() {
 
     currentMap = new Map();
     currentMap->generateMap(indexMap);
 
 }
+
+//---------------------------------------------------------//
 
 Map* MapGenerator::getMap() {
 

@@ -112,9 +112,11 @@ bool LTexture::loadFromFile(std::string path) {
 
 }
 
+//---------------------------------------------------------//
+
 bool LTexture::loadFromText(TTF_Font* font, std::string text, SDL_Color textColor) {
 
-    free();
+   free();
 
     if(SDL_Surface* loadedSurface = TTF_RenderText_Solid(font, text.c_str(), 0, textColor); loadedSurface == nullptr) {
     

@@ -189,8 +189,9 @@ void Tilemap::setTileMap() {
 
         }
     }
-
 }
+
+//---------------------------------------------------------//
 
 void Tilemap::setGeneratedTileMap(int** index) {
 
@@ -293,7 +294,9 @@ void Tilemap::saveTileMap(std::string path) {
 
         }
     }
-    
+
     outputFile.close();
 
 }
+
+//---------------------------------------------------------//

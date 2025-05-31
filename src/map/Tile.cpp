@@ -25,6 +25,8 @@ Tile::Tile(LTexture* sprite, int index, float spriteSize, bool mv, int cols, SDL
 
 }
 
+//---------------------------------------------------------//
+
 void Tile::init(int index, float spriteSize, bool mv, int cols) {
 
     moveable = mv;
@@ -52,11 +54,15 @@ int Tile::getPosX() {
 
 }
 
+//---------------------------------------------------------//
+
 int Tile::getPosY() {
 
     return (int)posY;
     
 }
+
+//---------------------------------------------------------//
 
 void Tile::render() {
 
@@ -66,6 +72,8 @@ void Tile::render() {
     spriteSheet->render(camera);
 
 }
+
+//---------------------------------------------------------//
 
 void Tile::setPosition(float x, float y) {
 

@@ -46,7 +46,6 @@ Tilemap* gTilemap{nullptr};
 
 Player* gPlayer{nullptr};
 
-TTF_Font* gFont{nullptr};
 LTexture* gTextTexture{nullptr};
 
 MapGenerator* mapEngine{nullptr};
@@ -124,20 +123,22 @@ int main(int argc, char* args[]) {
             //Move this into its own class thingy?
             gTextTexture = new LTexture(loader->getRenderer());
 
-            std::string fontPath = "resources/ByteBounce.ttf";
             SDL_Color textColor = { 0xFF, 0xFF, 0xFF, 0xFF };
-            gFont = TTF_OpenFont( fontPath.c_str(), 48 );
             std::string text;
             
+            TTF_Font* gFont;
+            gFont = loader->getFont("ByteBounce.ttf");
+            
+            gTextTexture->loadFromText(gFont, text, textColor);
             gTextTexture->setPosition(10,10);
 
+            //---------------------------------------------------------//
+
             mapEngine = new MapGenerator(128, 128);
+            mapEngine->generateMap();
 
             // Player creation in Map creation? or rather in loader?
             gPlayer = new Player("sprite.png", 1, 1, 48, 0, loader->getCamera());
-
-            mapEngine->generateMap();
-            
             gPlayer->setMap(mapEngine->getMap());
 
             while(quit == false) {
@@ -168,3 +169,5 @@ int main(int argc, char* args[]) {
     return exitCode;
 
 }
+
+//---------------------------------------------------------//

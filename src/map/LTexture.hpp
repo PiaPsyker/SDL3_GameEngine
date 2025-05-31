@@ -62,6 +62,8 @@ class LTexture{
         float posX;
         float posY;
 
+        std::string ttfText;
+
         SDL_FRect* clip;
 
 };

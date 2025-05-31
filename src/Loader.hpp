@@ -14,6 +14,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <string>
 #include <iostream>
 
@@ -26,8 +27,17 @@
 //---------------------------------------------------------//
 
 struct TextureInfo {
+
     std::string fileName;
     LTexture* texture;
+
+};
+
+struct FontInfo {
+
+    std::string fileName;
+    TTF_Font* font;
+
 };
 
 class Loader {
@@ -52,6 +62,7 @@ class Loader {
         int getScreenHeight();
 
         LTexture* getTexture(std::string name);
+        TTF_Font* getFont(std::string name);
 
         SDL_FRect* getCamera();
 
@@ -77,6 +88,7 @@ class Loader {
         MapGenerator* genMap;
 
         std::list<TextureInfo*> textures;
+        std::list<FontInfo*> fonts;
 
 };
 

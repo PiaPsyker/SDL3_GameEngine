@@ -10,6 +10,8 @@
 
 Loader * Loader::singleton = nullptr;
 
+//---------------------------------------------------------//
+
 Loader* Loader::getLoader() {
     
     if (Loader::singleton == nullptr) {
@@ -19,6 +21,7 @@ Loader* Loader::getLoader() {
     return Loader::singleton;
 }
 
+//---------------------------------------------------------//
 
 Loader::Loader(int screenW, int screenH, int mapS):
 
@@ -38,6 +41,8 @@ Loader::Loader(int screenW, int screenH, int mapS):
 
 
 }
+
+//---------------------------------------------------------//
 
 bool Loader::init() {
     
@@ -62,6 +67,8 @@ bool Loader::init() {
 
 }
 
+//---------------------------------------------------------//
+
 bool Loader::loadTextures() {
 
     bool success{true};
@@ -78,14 +85,32 @@ bool Loader::loadTextures() {
 
             textures.push_front(tex);
 
-            std::cout << "Added Texture: " << dirEntry.path().filename() << std::endl;
+            std::cout << "Added Texture: " << dirEntry.path() << std::endl;
     
+        }
+
+        if(dirEntry.path().extension() == ".ttf") {
+
+            TTF_Font* tempFont;
+
+            std::string fPath = dirEntry.path();
+            std::cout << fPath << std::endl;
+
+            tempFont = TTF_OpenFont(dirEntry.path().c_str(), 48 );
+            FontInfo* font = new FontInfo{dirEntry.path().filename(), tempFont};
+
+            fonts.push_front(font);
+
+            std::cout << "Added Font: " << dirEntry.path() << std::endl;
+
         }
     }
 
     return success;
 
 }
+
+//---------------------------------------------------------//
 
 void Loader::close() {
 
@@ -103,11 +128,15 @@ void Loader::close() {
 
 }
 
+//---------------------------------------------------------//
+
 void Loader::setRenderer(SDL_Renderer* ren) {
 
     renderer = ren;
 
 }
+
+//---------------------------------------------------------//
 
 int Loader::getScreenWidth() {
 
@@ -115,11 +144,15 @@ int Loader::getScreenWidth() {
 
 }
 
+//---------------------------------------------------------//
+
 int Loader::getScreenHeight() {
 
     return screenHeight;
 
 }
+
+//---------------------------------------------------------//
 
 LTexture* Loader::getTexture(std::string name) {
 
@@ -137,11 +170,34 @@ LTexture* Loader::getTexture(std::string name) {
 
 }
 
+//---------------------------------------------------------//
+
+TTF_Font* Loader::getFont(std::string name) {
+
+    for(FontInfo* ft : fonts) {
+
+        if(ft->fileName == name) {
+
+            std::cout << "Found Font: " << ft->fileName << std::endl;
+            return ft->font;
+
+        }
+
+    }
+
+    return nullptr;
+
+}
+
+//---------------------------------------------------------//
+
 SDL_FRect* Loader::getCamera() {
 
     return &camera;
 
 }
+
+//---------------------------------------------------------//
 
 SDL_Renderer* Loader::getRenderer() {
 
