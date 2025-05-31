@@ -44,13 +44,13 @@ Tilemap::~Tilemap() {
 
         }
 
-        delete indexMap[i];
-        delete tileArray[i];
+        free(indexMap[i]);
+        free(tileArray[i]);
 
     }
 
-    delete tileArray;
-    delete indexMap;
+    free(tileArray);
+    free(indexMap);
 
     configSettings.~list();
 

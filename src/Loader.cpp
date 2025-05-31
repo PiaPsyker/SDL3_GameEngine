@@ -125,12 +125,6 @@ void Loader::close() {
     SDL_DestroyWindow( window );
     window = nullptr;
 
-    for(TextureInfo* texInfo : textures) {
-        texInfo->texture->free();
-    }
-
-    textures.~list();
-    fonts.~list();
     delete genMap;
 
     TTF_Quit();

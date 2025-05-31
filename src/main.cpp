@@ -164,8 +164,8 @@ int main(int argc, char* args[]) {
         }
     }
 
-    gTextTexture->free();
-    
+    //gTextTexture->free();
+
     loader->~Loader();
 
     return exitCode;

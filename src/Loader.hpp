@@ -30,6 +30,12 @@ struct TextureInfo {
 
     std::string fileName;
     LTexture* texture;
+    ~TextureInfo() {
+
+        texture->free();
+        delete texture;
+
+    }
 
 };
 
@@ -37,6 +43,11 @@ struct FontInfo {
 
     std::string fileName;
     TTF_Font* font;
+    ~FontInfo(){
+
+        TTF_CloseFont(font);
+
+    }
 
 };
 
