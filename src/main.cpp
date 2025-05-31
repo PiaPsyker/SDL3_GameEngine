@@ -190,7 +190,6 @@ int main(int argc, char* args[]) {
 
                 gPlayer->render();
 
-                gTextTexture->setPosition(0, 0);
                 gTextTexture->render();
 
                 SDL_RenderPresent(loader->getRenderer());
