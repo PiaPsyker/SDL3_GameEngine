@@ -51,6 +51,8 @@ class Tilemap {
 
         int** getMap();
 
+        void saveTileMap(std::string path);
+
     private:
 
         int tilemapWidth;

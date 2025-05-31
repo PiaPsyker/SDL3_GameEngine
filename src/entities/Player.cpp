@@ -44,20 +44,20 @@ bool Player::checkCollision(int x, int y){
 
 void Player::move(int x, int y) {
 
-    //if(checkCollision(mapX + x, mapY + y) == true) {
+    if(x > 0) {
+        sprite->setClip(size, size, size, size);
+    }
+    if(x < 0) {
+        sprite->setClip(size, 0.f, size, size);
+    }
+    if(y > 0) {
+        sprite->setClip(0.f, 0.f, size, size);
+    }
+    if(y < 0) {
+        sprite->setClip(0.f, size, size, size);
+    }
 
-        if(x > 0) {
-            sprite->setClip(size, size, size, size);
-        }
-        if(x < 0) {
-            sprite->setClip(size, 0.f, size, size);
-        }
-        if(y > 0) {
-            sprite->setClip(0.f, 0.f, size, size);
-        }
-        if(y < 0) {
-            sprite->setClip(0.f, size, size, size);
-        }
+    if(checkCollision(mapX + x, mapY + y) == true) {
 
         mapX += x;
         mapY += y;
@@ -72,7 +72,7 @@ void Player::move(int x, int y) {
         camera->y = static_cast<int>( posY + sprite->getHeight() / 2 - Loader::getLoader()->getScreenHeight() / 2 );
 
 
-    //}
+    }
 }
 
 void Player::render() {

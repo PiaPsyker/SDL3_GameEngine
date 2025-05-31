@@ -33,9 +33,13 @@ class Map{
 
         void renderLayers();
 
+        void saveMap();
+
+        void loadMap(std::string path);
+
     private:
 
-        Tilemap* layers[10];
+        Tilemap* layers[5];
 
         int layer_count;
 

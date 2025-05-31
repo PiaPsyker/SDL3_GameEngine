@@ -47,3 +47,4 @@ test: build/test
 
 clean:
 	rm -rf ./build/*
+	mkdir ./build/testMap

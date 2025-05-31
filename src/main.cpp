@@ -22,7 +22,7 @@
 #include "map/Tilemap.hpp"
 #include "entities/Player.hpp"
 
-#include "generator/MapGenerator.hpp"
+//#include "generator/MapGenerator.hpp"
 
 #include "Loader.hpp"
 
@@ -112,6 +112,11 @@ void handleInput(bool* quit) {
                     gPlayer->move(1, 0);
                     //playerTex->setClip(rightX,rightY,s,s);
                     break;
+                case SDLK_E:
+                    gMap->saveMap();
+                    break;
+                case SDLK_S:
+                    gMap->loadMap("build/testMap");
             }
         }
     }
@@ -153,6 +158,8 @@ int main(int argc, char* args[]) {
             gTilemap->setTileMap();
 
             gMap->addLayer(gTilemap);
+            
+            gPlayer->setMap(gMap);
 
             while(quit == false) {
 

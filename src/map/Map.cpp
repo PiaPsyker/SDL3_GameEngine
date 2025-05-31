@@ -1,4 +1,9 @@
 #include "Map.hpp"
+#include "Tilemap.hpp"
+#include <string>
+#include <iostream>
+#include <filesystem>
+#include "../Loader.hpp"
 
 //---------------------------------------------------------//
 /* Class Implementation */
@@ -29,5 +34,42 @@ void Map::renderLayers() {
 
         layers[i]->renderTileMap();
         
+    }
+}
+
+void Map::saveMap() {
+
+    for(int i = 0; i < layer_count; i++) {
+
+        std::cout << "Saving Map Layer " << i << std::endl;
+        std::string path = "build/testMap/layer" + std::to_string(i) + ".bin";
+        layers[i]->saveTileMap(path);
+
+    }
+}
+
+void Map::loadMap(std::string path) {
+
+    int i = 0;
+
+    std::cout << "Loading Map in: " << path << std::endl;
+
+    for (const auto& dirEntry : std::filesystem::recursive_directory_iterator(path)) {
+        
+        layer_count = 1;
+        
+        if(dirEntry.path().extension() == ".bin") {
+        
+            std::cout << "Setting Tilemap: " << dirEntry.path().filename() << " in Index: " << i << std::endl;
+
+            layers[i] = new Tilemap(Loader::getLoader()->getTexture("tileset.png"), 128, 128, 48, Loader::getLoader()->getCamera());
+            layers[i]->loadTileMap(path + "/" + (std::string)dirEntry.path().filename());
+            layers[i]->processTileSet("resources/tileset.txt");
+            layers[i]->setTileMap();
+            
+            i++;
+            layer_count++;
+        
+        }
     }
 }

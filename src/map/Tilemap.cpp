@@ -229,3 +229,44 @@ int** Tilemap::getMap(){
 }
 
 //---------------------------------------------------------//
+
+void Tilemap::saveTileMap(std::string path) {
+
+    std::fstream outputFile;
+
+    // std::remove(path);
+    outputFile.open(path, std::ios::out);
+
+    int i = 0;
+    int j = 0;
+
+    while(i != tilemapWidth && j != tilemapHeight) {
+        
+        std::string outputIndex;
+
+        int index = indexMap[i][j];
+
+        if(index < 10 ) {
+            outputIndex = "00" + std::to_string(index);
+            outputFile << outputIndex;
+            i++;
+        } else if(index >= 10 && index <= 99) {
+            outputIndex = "0" + std::to_string(index);
+            outputFile << outputIndex;
+            i++;
+        } else {
+            outputIndex = std::to_string(index);
+            outputFile << outputIndex;
+            i++;
+        }
+        if(i == tilemapWidth) {
+            outputFile << "\n";
+            j++;
+            i = 0;
+        } else {
+            outputFile << "|";
+        }
+    }
+    outputFile.close();
+
+}

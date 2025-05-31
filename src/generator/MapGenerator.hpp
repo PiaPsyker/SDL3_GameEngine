@@ -17,6 +17,7 @@
 #include <SDL3_image/SDL_image.h>
 #include <fstream>
 #include "../noise/FractalNoise.hpp"
+#include "../map/Map.hpp"
 
 //---------------------------------------------------------//
 
@@ -29,6 +30,8 @@ class MapGenerator {
     private:
 
         FractalNoise* noiseEngine;
+
+        Map* currentMap;
 
         std::fstream outputFile;
 
