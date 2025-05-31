@@ -10,9 +10,6 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
-#include <SDL3/SDL_oldnames.h>
-#include <SDL3/SDL_rect.h>
-#include <SDL3/SDL_render.h>
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <string>
@@ -22,7 +19,6 @@
 #include "map/Map.hpp"
 #include "map/Tilemap.hpp"
 #include "entities/Player.hpp"
-
 //#include "generator/MapGenerator.hpp"
 
 #include "Loader.hpp"
@@ -38,25 +34,11 @@
 /* Function Prototypes */
 //---------------------------------------------------------//
 
-bool init();
-
-bool loadMedia();
-
 void handleInput(bool* quit);
-
-void close();
 
 //---------------------------------------------------------//
 /* Global Variables */
 //---------------------------------------------------------//
-
-//SDL_Window* gWindow{nullptr};
-    
-//SDL_Renderer* gRenderer{nullptr};
-
-//SDL_FRect camera{ 0.f, 0.f, kScreenWidth, kScreenHeight };
-// 
-// LTexture* backgroundTex;
 
 Map* gMap{nullptr};
 
@@ -131,6 +113,7 @@ int main(int argc, char* args[]) {
 
             bool quit{false};
 
+            //Move this into its own class thingy?
             gTextTexture = new LTexture(loader->getRenderer());
 
             gTextTexture->setCamera(loader->getCamera());
@@ -143,11 +126,12 @@ int main(int argc, char* args[]) {
             gTextTexture->setPosition(10,10);
 
 
-
+            // Player creation in Map creation? or rather in loader?
             gPlayer = new Player("sprite.png", 1, 1, 48, 0, loader->getCamera());
 
             gMap = new Map();
     
+            // This all into map class
             gTilemap = new Tilemap(loader->getTexture("tileset.png"), MAP_SIZE, MAP_SIZE, s, loader->getCamera());
             gTilemap->loadTileMap("build/currentMap.bin");
             gTilemap->processTileSet("resources/tileset.txt");
