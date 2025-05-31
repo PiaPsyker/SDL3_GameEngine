@@ -133,6 +133,8 @@ LTexture* Loader::getTexture(std::string name) {
 
     }
 
+    return nullptr;
+
 }
 
 SDL_FRect* Loader::getCamera() {

@@ -1,9 +1,4 @@
 #include "LTexture.hpp"
-#include <SDL3/SDL_rect.h>
-#include <SDL3/SDL_render.h>
-#include <SDL3/SDL_surface.h>
-#include <SDL3_ttf/SDL_ttf.h>
-
 
 //---------------------------------------------------------//
 /* Class Implementation */
@@ -119,12 +114,19 @@ bool LTexture::loadFromFile(std::string path) {
 
 bool LTexture::loadFromText(TTF_Font* font, std::string text, SDL_Color textColor) {
 
+    free();
+
     if(SDL_Surface* loadedSurface = TTF_RenderText_Solid(font, text.c_str(), 0, textColor); loadedSurface == nullptr) {
+    
         SDL_Log("Unable to load Text! SDL Error: %s\n", SDL_GetError());
+    
     } else {
         if(mTexture = SDL_CreateTextureFromSurface(mRenderer,loadedSurface); mTexture == nullptr) {
+            
             SDL_Log( "Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError() );
+        
         } else {
+
             mWidth = loadedSurface->w;
             mHeight = loadedSurface->h;
 

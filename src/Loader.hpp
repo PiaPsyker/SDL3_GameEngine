@@ -13,17 +13,11 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
-#include <SDL3/SDL_oldnames.h>
-#include <SDL3/SDL_rect.h>
-#include <SDL3/SDL_render.h>
 #include <SDL3_image/SDL_image.h>
 #include <string>
 #include <iostream>
 
 #include "map/LTexture.hpp"
-#include "map/Map.hpp"
-#include "map/Tilemap.hpp"
-#include "entities/Player.hpp"
 
 #include "generator/MapGenerator.hpp"
 
