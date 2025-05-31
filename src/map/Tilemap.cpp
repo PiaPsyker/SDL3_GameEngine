@@ -192,6 +192,21 @@ void Tilemap::setTileMap() {
 
 }
 
+void Tilemap::setGeneratedTileMap(int** index) {
+
+    for(int x = 0; x < tilemapWidth; x++){
+
+        for(int y = 0; y < tilemapHeight; y++) {
+
+            tileArray[x][y] = new Tile(tilemapTex, index[x][y], tileSize, true, 6, camera);
+            tileArray[x][y]->setPosition(x * tileSize, y * 48);
+            tileArray[x][y]->init(index[x][y], tileSize, configMap[index[x][y]].moveable, 6);
+
+        }
+    }
+}
+
+
 //---------------------------------------------------------//
 
 void Tilemap::renderTileMap() {

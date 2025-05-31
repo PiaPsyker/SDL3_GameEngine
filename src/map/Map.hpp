@@ -33,6 +33,8 @@ class Map{
 
         void renderLayers();
 
+        void generateMap(int** index);
+
         void saveMap();
 
         void loadMap(std::string path);

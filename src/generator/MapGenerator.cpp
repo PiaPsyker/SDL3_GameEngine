@@ -8,6 +8,15 @@
 
 MapGenerator::MapGenerator(int width, int height) {
 
+
+    indexMap = new int*[width];
+
+    for(int i = 0; i < width; i++) {
+
+        indexMap[i] = new int[height];
+
+    }
+
     noiseEngine = new FractalNoise();
 
     noiseEngine->setBaseFrequency(.02f);
@@ -25,6 +34,9 @@ MapGenerator::MapGenerator(int width, int height) {
         std::string outputIndex;
 
         int index = abs((int)((noiseEngine->noise(i, j, 0.f)) * 100));
+        
+        indexMap[i][j] = index;
+        std::cout << "indexMap[" << i << "][" << j << "] = " << index << std::endl;
 
         if(index < 10 ) {
             outputIndex = "00" + std::to_string(index);
@@ -48,4 +60,17 @@ MapGenerator::MapGenerator(int width, int height) {
         }
     }
     outputFile.close();
+}
+
+void MapGenerator::generateMap() {
+
+    currentMap = new Map();
+    currentMap->generateMap(indexMap);
+
+}
+
+Map* MapGenerator::getMap() {
+
+    return currentMap;
+
 }

@@ -56,7 +56,7 @@ bool Loader::init() {
         return false;
     }
 
-    SDL_SetRenderVSync( renderer, ( true ) ? 1 : SDL_RENDERER_VSYNC_DISABLED );
+    // SDL_SetRenderVSync( renderer, ( true ) ? 1 : SDL_RENDERER_VSYNC_DISABLED );
 
     return success;
 

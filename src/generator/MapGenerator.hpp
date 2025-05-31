@@ -27,11 +27,17 @@ class MapGenerator {
 
         MapGenerator(int width, int height);
 
+        void generateMap();
+
+        Map* getMap();
+
     private:
 
         FractalNoise* noiseEngine;
 
         Map* currentMap;
+
+        int** indexMap;
 
         std::fstream outputFile;
 

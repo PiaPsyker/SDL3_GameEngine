@@ -44,6 +44,7 @@ class Tilemap {
         void loadTileMap(std::string path);
 
         void setTileMap();
+        void setGeneratedTileMap(int** index);
 
         void renderTileMap();
 

@@ -16,10 +16,10 @@
 //#include <iostream>
 
 #include "map/LTexture.hpp"
-#include "map/Map.hpp"
+//#include "map/Map.hpp"
 #include "map/Tilemap.hpp"
 #include "entities/Player.hpp"
-//#include "generator/MapGenerator.hpp"
+#include "generator/MapGenerator.hpp"
 
 #include "Loader.hpp"
 
@@ -48,6 +48,8 @@ Player* gPlayer{nullptr};
 
 TTF_Font* gFont{nullptr};
 LTexture* gTextTexture{nullptr};
+
+MapGenerator* mapEngine{nullptr};
 
 Loader* loader;
 
@@ -82,6 +84,11 @@ void handleInput(bool* quit) {
                     break;
                 case SDLK_S:
                     gMap->loadMap("build/testMap");
+                    break;
+                case SDLK_R:
+                    mapEngine = new MapGenerator(128, 128);
+                    mapEngine->generateMap();
+                    break;
             }
         }
     }
@@ -115,9 +122,9 @@ int main(int argc, char* args[]) {
 
             //Move this into its own class thingy?
             gTextTexture = new LTexture(loader->getRenderer());
-
+// 
             gTextTexture->setCamera(loader->getCamera());
-
+// 
             std::string fontPath = "resources/ByteBounce.ttf";
             SDL_Color textColor = { 0xFF, 0xFF, 0xFF, 0xFF };
             gFont = TTF_OpenFont( fontPath.c_str(), 48 );
@@ -125,21 +132,23 @@ int main(int argc, char* args[]) {
             
             gTextTexture->setPosition(10,10);
 
+            mapEngine = new MapGenerator(128, 128);
 
             // Player creation in Map creation? or rather in loader?
             gPlayer = new Player("sprite.png", 1, 1, 48, 0, loader->getCamera());
 
-            gMap = new Map();
-    
+            mapEngine->generateMap();
+
+            //gMap = new Map();
             // This all into map class
-            gTilemap = new Tilemap(loader->getTexture("tileset.png"), MAP_SIZE, MAP_SIZE, s, loader->getCamera());
-            gTilemap->loadTileMap("build/currentMap.bin");
-            gTilemap->processTileSet("resources/tileset.txt");
-            gTilemap->setTileMap();
+            // gTilemap = new Tilemap(loader->getTexture("tileset.png"), MAP_SIZE, MAP_SIZE, s, loader->getCamera());
+            // gTilemap->loadTileMap("build/currentMap.bin");
+            // gTilemap->processTileSet("resources/tileset.txt");
+            // gTilemap->setTileMap();
+            // gMap->addLayer(gTilemap);
+            
 
-            gMap->addLayer(gTilemap);
-
-            gPlayer->setMap(gMap);
+            // gPlayer->setMap(gMap);
 
             while(quit == false) {
 
@@ -152,7 +161,8 @@ int main(int argc, char* args[]) {
 
                 handleInput(&quit);
                 
-                gMap->renderLayers();
+                //gMap->renderLayers();
+                mapEngine->getMap()->renderLayers();
 
                 gPlayer->render();
 
