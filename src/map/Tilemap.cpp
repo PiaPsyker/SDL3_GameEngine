@@ -52,7 +52,7 @@ Tilemap::~Tilemap() {
     free(tileArray);
     free(indexMap);
 
-    configSettings.~list();
+    delete[] configMap;
 
 }
 
@@ -115,6 +115,8 @@ void Tilemap::processTileSet(std::string cpath) {
                 i++;
 
             }
+
+
 
             count++;
 

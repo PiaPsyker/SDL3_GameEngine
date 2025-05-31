@@ -27,6 +27,9 @@ struct config{
     std::string name;
     bool moveable;
     bool interaction;
+    ~config() {
+
+    }
 };
 
 //---------------------------------------------------------//

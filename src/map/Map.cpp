@@ -58,8 +58,10 @@ void Map::renderLayers() {
 void Map::generateMap(int** index, int z) {
 
     // if(z == 0) {
-        layers[z] = new Tilemap(Loader::getLoader()->getTexture("tileset.png"), 128, 128, 48, Loader::getLoader()->getCamera());
-        layers[z]->processTileSet("resources/tilesets/demo_tileset/tileset.txt");
+
+    layers[z] = new Tilemap(Loader::getLoader()->getTexture("tileset.png"), 128, 128, 48, Loader::getLoader()->getCamera());
+    layers[z]->processTileSet("resources/tilesets/demo_tileset/tileset.txt");
+    
     // } else {
     //     layers[z] = new Tilemap(Loader::getLoader()->getTexture("tileset_overlay.png"), 128, 128, 48, Loader::getLoader()->getCamera());
     //     layers[z]->processTileSet("resources/tilesets/demo_tileset/tileset_overlay.txt");
