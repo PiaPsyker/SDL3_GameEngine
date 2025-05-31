@@ -87,11 +87,11 @@ MapGenerator::~MapGenerator() {
 
     for(int i = 0; i < mapW; i++) {
 
-        delete indexMap[i];
+        free(indexMap[i]);
 
     }
 
-    delete indexMap;
+    free(indexMap);
 
 }
 
