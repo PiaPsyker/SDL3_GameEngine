@@ -44,7 +44,8 @@ class Loader {
 
     public:
 
-        static Loader * getLoader();    
+        static Loader * getLoader();
+        ~Loader();
 
         bool init();
 
@@ -70,8 +71,7 @@ class Loader {
 
     private:
 
-        Loader(int screenW, int screenH, int mapS);
-        ~Loader();
+        Loader(int screenW, int screenH, int mapS);   
 
         static Loader* singleton;
 

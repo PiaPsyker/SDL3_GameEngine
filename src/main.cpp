@@ -82,10 +82,10 @@ void handleInput(bool* quit) {
                     mapEngine->getMap()->saveMap();
                     break;
                 case SDLK_S:
+                    //mapEngine->getMap()->~Map();
                     mapEngine->getMap()->loadMap("./build/testMap");
                     break;
                 case SDLK_R:
-                    mapEngine = new MapGenerator(128, 128);
                     mapEngine->generateMap();
                     gPlayer->setMap(mapEngine->getMap());
                     break;
@@ -164,7 +164,9 @@ int main(int argc, char* args[]) {
         }
     }
 
-    loader->close();
+    gTextTexture->free();
+    
+    loader->~Loader();
 
     return exitCode;
 

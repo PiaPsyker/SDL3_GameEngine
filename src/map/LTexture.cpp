@@ -1,4 +1,5 @@
 #include "LTexture.hpp"
+#include <SDL3/SDL_rect.h>
 
 //---------------------------------------------------------//
 /* Class Implementation */
@@ -11,10 +12,10 @@ LTexture::LTexture(SDL_Renderer* pRenderer):
     mWidth{0},
     mHeight{0},
     posX{0},
-    posY{0},
-    clip{nullptr}
+    posY{0}
 
 {
+    clip = new SDL_FRect();
     this->mRenderer = pRenderer;
 }
 
@@ -100,7 +101,7 @@ bool LTexture::loadFromFile(std::string path) {
             rWidth =  mWidth;
             rHeight = mHeight;
 
-            clip = new SDL_FRect{0.f, 0.f, static_cast<float>(mWidth), static_cast<float>(mHeight)};
+            *clip = {0.f, 0.f, static_cast<float>(mWidth), static_cast<float>(mHeight)};
 
         }
 
@@ -135,12 +136,12 @@ bool LTexture::loadFromText(TTF_Font* font, std::string text, SDL_Color textColo
             rWidth =  mWidth;
             rHeight = mHeight;
 
-            clip = new SDL_FRect{0.f, 0.f, static_cast<float>(mWidth), static_cast<float>(mHeight)};
+            *clip = {0.f, 0.f, static_cast<float>(mWidth), static_cast<float>(mHeight)};
 
         }
 
         SDL_DestroySurface(loadedSurface);
-        
+
     }
 
     return mTexture != nullptr;
@@ -159,6 +160,7 @@ void LTexture::free() {
         mHeight = 0;
 
     }
+
 }
 
 //---------------------------------------------------------//

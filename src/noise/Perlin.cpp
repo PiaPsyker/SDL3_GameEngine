@@ -37,6 +37,14 @@ Perlin::Perlin() {
         p[j] = swp;
 
     }
+}
+
+Perlin::~Perlin() {
+
+    free(p);
+    free(Gx);
+    free(Gy);
+    free(Gz);
 
 }
 

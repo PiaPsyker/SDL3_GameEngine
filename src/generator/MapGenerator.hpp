@@ -26,6 +26,7 @@ class MapGenerator {
     public:
 
         MapGenerator(int width, int height);
+        ~MapGenerator();
 
         void regenerate(float fq, float amp);
 

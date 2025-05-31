@@ -50,7 +50,9 @@ Tilemap::~Tilemap() {
     }
 
     delete tileArray;
-    delete configMap;
+    delete indexMap;
+
+    configSettings.~list();
 
 }
 

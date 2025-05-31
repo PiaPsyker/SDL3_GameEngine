@@ -57,8 +57,6 @@ void Map::renderLayers() {
 
 void Map::generateMap(int** index, int z) {
 
-    layers[z] = nullptr;
-
     // if(z == 0) {
         layers[z] = new Tilemap(Loader::getLoader()->getTexture("tileset.png"), 128, 128, 48, Loader::getLoader()->getCamera());
         layers[z]->processTileSet("resources/tilesets/demo_tileset/tileset.txt");

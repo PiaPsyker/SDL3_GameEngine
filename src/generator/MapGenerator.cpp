@@ -80,6 +80,21 @@ MapGenerator::MapGenerator(int width, int height):
 
 }
 
+MapGenerator::~MapGenerator() {
+
+    delete currentMap;
+    delete noiseEngine;
+
+    for(int i = 0; i < mapW; i++) {
+
+        delete indexMap[i];
+
+    }
+
+    delete indexMap;
+
+}
+
 //---------------------------------------------------------//
 
 void MapGenerator::regenerate(float fq, float amp) {
@@ -152,7 +167,6 @@ void MapGenerator::generateMap() {
 
     if(currentMap != nullptr) {
 
-        currentMap->~Map();
         delete currentMap;
 
     }
@@ -173,10 +187,8 @@ void MapGenerator::generateMap() {
         for(int y = 0; y < mapH; y++) {
 
             tempIndex3[x][y] = tempIndex1[x][y] + tempIndex2[x][y];
-            //tempIndex3[x][y] -= 1;
 
         }
-
     }
 
     currentMap->generateMap(tempIndex3, 1);

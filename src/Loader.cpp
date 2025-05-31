@@ -39,6 +39,12 @@ Loader::Loader(int screenW, int screenH, int mapS):
 
     genMap = new MapGenerator(mapSize, mapSize);
 
+}
+
+Loader::~Loader() {
+
+    close();
+    singleton = nullptr;
 
 }
 
@@ -122,6 +128,10 @@ void Loader::close() {
     for(TextureInfo* texInfo : textures) {
         texInfo->texture->free();
     }
+
+    textures.~list();
+    fonts.~list();
+    delete genMap;
 
     TTF_Quit();
     SDL_Quit();
