@@ -80,10 +80,10 @@ void handleInput(bool* quit) {
                     gPlayer->move(1, 0);
                     break;
                 case SDLK_E:
-                    gMap->saveMap();
+                    mapEngine->getMap()->saveMap();
                     break;
                 case SDLK_S:
-                    gMap->loadMap("build/testMap");
+                    mapEngine->getMap()->loadMap("./build/testMap");
                     break;
                 case SDLK_R:
                     mapEngine = new MapGenerator(128, 128);

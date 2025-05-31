@@ -24,8 +24,8 @@ LDFLAGS = -w -lSDL3 -lSDL3_image -lSDL3_ttf -Iinclude -Lsrc
 	-Wvariadic-macros \
 	-Wwrite-strings
 
-#-g $(CFLAGS)
-#
+# -g $(CFLAGS)
+# mkdir ./build/testMap
 
 build/test: src/main.cpp
 	cp -r ./resources ./build/
@@ -46,5 +46,7 @@ test: build/test
 	./build/test
 
 clean:
-	rm -rf ./build/*
-	mkdir ./build/testMap
+	rm -rf ./build/resources
+	rm -rf ./build/test
+	rm -rf ./build/currentMap.bin
+	

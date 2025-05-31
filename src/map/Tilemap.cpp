@@ -162,7 +162,7 @@ void Tilemap::setTileMap() {
                 i3 = i2 * 10;
                 i3 += (int)ch - 48;
                 indexMap[i][j] = i3;
-                //std::cout << "Adding : " << i3 << " to indexMap[" << i << "][" << j << "] " << std::endl;
+                std::cout << "Adding : " << i3 << " to indexMap[" << i << "][" << j << "] " << std::endl;
 
             }
         } else if(ch == '|') {
@@ -197,6 +197,8 @@ void Tilemap::setGeneratedTileMap(int** index) {
     for(int x = 0; x < tilemapWidth; x++){
 
         for(int y = 0; y < tilemapHeight; y++) {
+
+            indexMap[x][y] = index[x][y];
 
             tileArray[x][y] = new Tile(tilemapTex, index[x][y], tileSize, true, 6, camera);
             tileArray[x][y]->setPosition(x * tileSize, y * 48);
@@ -249,7 +251,6 @@ void Tilemap::saveTileMap(std::string path) {
 
     std::fstream outputFile;
 
-    // std::remove(path);
     outputFile.open(path, std::ios::out);
 
     int i = 0;
