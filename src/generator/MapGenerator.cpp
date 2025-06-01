@@ -173,7 +173,7 @@ void MapGenerator::generateMap() {
 
     currentMap = new Map();
 
-    currentMap->generateMap(indexMap, 0);
+    currentMap->generateMap(indexMap, 0, "tileset");
 
     int** tempIndex1 = indexMap;
 
@@ -191,7 +191,10 @@ void MapGenerator::generateMap() {
         }
     }
 
-    currentMap->generateMap(tempIndex3, 1);
+    currentMap->generateMap(tempIndex3, 1, "tileset");
+
+    //regenerate(0.025f, 0.05f);
+    //currentMap->generateMap(indexMap, 2);
 }
 
 //---------------------------------------------------------//

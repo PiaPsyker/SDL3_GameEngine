@@ -16,10 +16,20 @@
 #include <SDL3/SDL_rect.h>
 #include <SDL3_image/SDL_image.h>
 #include "Tilemap.hpp"
+#include <list>
 
 //---------------------------------------------------------//
 /* Class Prototype */
 //---------------------------------------------------------//
+
+struct Layer {
+
+    int index;
+    std::string tilemapName;
+    std::string tilemapConfig;
+    Tilemap* tilemap;
+
+};
 
 class Map{
 
@@ -30,11 +40,11 @@ class Map{
 
         void addLayer(Tilemap* layer);
 
-        bool isMoveable(int x, int y, int layer_id);
+        bool isMoveable(int x, int y, int z_index);
 
         void renderLayers();
 
-        void generateMap(int** index, int z);
+        void generateMap(int** index, int z, std::string tileName);
 
         void saveMap();
 
@@ -42,7 +52,9 @@ class Map{
 
     private:
 
-        Tilemap* layers[5];
+        //Tilemap* layers[5];
+
+        std::list<Layer*> layers;
 
         std::string mapName;
 

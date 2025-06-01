@@ -60,6 +60,7 @@ void handleInput(bool* quit) {
 
     SDL_Event e;
     SDL_zero(e);
+    std::string mapName;
 
     while(SDL_PollEvent(&e)) {
         if(e.type == SDL_EVENT_QUIT){
@@ -83,7 +84,9 @@ void handleInput(bool* quit) {
                     break;
                 case SDLK_S:
                     //mapEngine->getMap()->~Map();
-                    mapEngine->getMap()->loadMap("./build/testMap");
+                    std::cout << "Enter Map Name to load: " << std::endl;
+                    std::cin >> mapName;
+                    mapEngine->getMap()->loadMap("./build/maps/" + mapName);
                     break;
                 case SDLK_R:
                     mapEngine->generateMap();
@@ -138,7 +141,7 @@ int main(int argc, char* args[]) {
             mapEngine->generateMap();
 
             // Player creation in Map creation? or rather in loader?
-            gPlayer = new Player("sprite.png", 1, 1, 48, 0, loader->getCamera());
+            gPlayer = new Player("sprite.png", 1, 1, 48, 1, loader->getCamera());
             gPlayer->setMap(mapEngine->getMap());
 
             while(quit == false) {

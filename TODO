@@ -1,7 +1,6 @@
 - Map Generation stuff so that the MapGenerator creates a finished Map Object
 
 - Finish Loader Class for dynamic loading of textures and other assets
-    - Including TTF_Fonts now
 
 - UI Element class that handles texts and on-screen-elements not affected by the camera?
 
