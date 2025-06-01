@@ -272,6 +272,20 @@ int** Tilemap::getMap(){
 
 }
 
+std::string Tilemap::getTileInfo(int x, int y) {
+
+    int tempIndex = indexMap[x][y];
+    for(int i = 0; i < (tilemapWidth * tilemapHeight); i++) {
+
+        if(configMap[i].index == tempIndex) {
+
+            return configMap[i].name;
+
+        }
+    }
+    return "Not Found!";
+}
+
 //---------------------------------------------------------//
 
 void Tilemap::saveTileMap(std::string path) {

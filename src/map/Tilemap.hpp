@@ -56,6 +56,8 @@ class Tilemap {
 
         int** getMap();
 
+        std::string getTileInfo(int x, int y);
+
         void saveTileMap(std::string path);
 
     private:

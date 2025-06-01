@@ -57,6 +57,19 @@ bool Map::isMoveable(int x, int y, int z) {
 
 }
 
+std::string Map::getTileInfo(int x, int y, int z_index) {
+
+    for(Layer* lay : layers) {
+
+        if(lay->index == z_index) {
+         
+            return lay->tilemap->getTileInfo(x, y);
+
+        }
+    }
+    return "Not Found!";
+}
+
 //---------------------------------------------------------//
 
 void Map::renderLayers() {

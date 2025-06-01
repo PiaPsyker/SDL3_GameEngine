@@ -47,10 +47,14 @@ Tilemap* gTilemap{nullptr};
 Player* gPlayer{nullptr};
 
 LTexture* gTextTexture{nullptr};
+LTexture* tileInfoTexture{nullptr};
 
 MapGenerator* mapEngine{nullptr};
 
 Loader* loader;
+
+float mx = -1.f, my = -1.f;
+std::string tileInfo;
 
 //---------------------------------------------------------//
 /* Function Implementation */
@@ -93,6 +97,9 @@ void handleInput(bool* quit) {
                     gPlayer->setMap(mapEngine->getMap());
                     break;
             }
+        } else if(e.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
+            SDL_GetMouseState( &mx, &my );
+            tileInfo = mapEngine->getMap()->getTileInfo((int)((mx + gPlayer->getPosX()) / 48) - 19,(int)((my + gPlayer->getPosY()) / 48) - 10, 1);
         }
     }
 }
@@ -125,16 +132,20 @@ int main(int argc, char* args[]) {
 
             //Move this into its own class thingy?
             gTextTexture = new LTexture(loader->getRenderer());
+            tileInfoTexture = new LTexture(loader->getRenderer());
 
             SDL_Color textColor = { 0xFF, 0xFF, 0xFF, 0xFF };
             std::string text;
-            float mx = -1.f, my = -1.f;
+            
             
             TTF_Font* gFont;
             gFont = loader->getFont("ByteBounce.ttf");
             
             gTextTexture->loadFromText(gFont, text, textColor);
             gTextTexture->setPosition(10,10);
+
+            tileInfoTexture->loadFromText(gFont, tileInfo, textColor);
+            tileInfoTexture->setPosition(10,50);
 
             //---------------------------------------------------------//
 
@@ -150,6 +161,7 @@ int main(int argc, char* args[]) {
                 SDL_RenderClear(loader->getRenderer());
 
                 gTextTexture->loadFromText(gFont, text, textColor );
+                tileInfoTexture->loadFromText(gFont, tileInfo, textColor );
 
                 SDL_GetMouseState( &mx, &my );
 
@@ -167,6 +179,7 @@ int main(int argc, char* args[]) {
                 gPlayer->render();
 
                 gTextTexture->render();
+                tileInfoTexture->render();
 
                 SDL_RenderPresent(loader->getRenderer());
 
@@ -174,7 +187,8 @@ int main(int argc, char* args[]) {
         }
     }
 
-    //gTextTexture->free();
+    gTextTexture->~LTexture();
+    tileInfoTexture->~LTexture();
 
     loader->~Loader();
 

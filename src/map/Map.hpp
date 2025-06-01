@@ -42,6 +42,8 @@ class Map{
 
         bool isMoveable(int x, int y, int z_index);
 
+        std::string getTileInfo(int x, int y, int z_index);
+
         void renderLayers();
 
         void generateMap(int** index, int z, std::string tileName);
