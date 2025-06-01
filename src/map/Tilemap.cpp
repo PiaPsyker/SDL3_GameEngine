@@ -274,16 +274,24 @@ int** Tilemap::getMap(){
 
 std::string Tilemap::getTileInfo(int x, int y) {
 
-    int tempIndex = indexMap[x][y];
-    for(int i = 0; i < (tilemapWidth * tilemapHeight); i++) {
+    if(x < 0 || x >= tilemapWidth || y < 0 || y >= tilemapHeight) {
+        return "Out of bounds!";
+    }else {
 
-        if(configMap[i].index == tempIndex) {
+        int tempIndex = indexMap[x][y];
 
-            return configMap[i].name;
+        for(int i = 0; i < (tilemapWidth * tilemapHeight); i++) {
 
+            if(configMap[i].index == tempIndex) {
+
+                return configMap[i].name;
+
+            }
         }
     }
+    
     return "Not Found!";
+
 }
 
 //---------------------------------------------------------//
