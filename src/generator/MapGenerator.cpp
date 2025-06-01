@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <filesystem>
 
 //---------------------------------------------------------//
 /* Class Implementation */
@@ -30,53 +31,24 @@ MapGenerator::MapGenerator(int width, int height):
     noiseEngine->setBaseAmplitude(.2f);
     noiseEngine->setOctaves(1);
 
-    std::remove("build/currentMap.bin");
-    outputFile.open("build/currentMap.bin", std::ios::out);
-
     int i = 0;
     int j = 0;
 
     while(i != mapW && j != mapH) {
-        
-        std::string outputIndex;
 
         int index = abs((int)((noiseEngine->noise(i, j, 0.f)) * 100));
         
         indexMap[i][j] = index;
 
-        if(index < 10 ) {
-        
-            outputIndex = "00" + std::to_string(index);
-            outputFile << outputIndex;
-            i++;
-        
-        } else if(index >= 10 && index <= 99) {
-        
-            outputIndex = "0" + std::to_string(index);
-            outputFile << outputIndex;
-            i++;
-        
-        } else {
-        
-            outputIndex = std::to_string(index);
-            outputFile << outputIndex;
-            i++;
-        
-        }
+        i++;
+
         if(i == mapW) {
         
-            outputFile << "\n";
             j++;
             i = 0;
         
-        } else {
-
-            outputFile << "|";
-
-        }
+        } 
     }
-
-    outputFile.close();
 
 }
 
@@ -111,61 +83,33 @@ void MapGenerator::regenerate(float fq, float amp) {
     noiseEngine->setBaseAmplitude(amp);
     noiseEngine->setOctaves(1);
 
-    std::remove("build/currentMap.bin");
-    outputFile.open("build/currentMap.bin", std::ios::out);
-
     int i = 0;
     int j = 0;
 
     while(i != mapW && j != mapH) {
-        
-        std::string outputIndex;
 
         int index = abs((int)((noiseEngine->noise(i, j, 0.f)) * 100));
         
         indexMap[i][j] = index;
+        i++;
 
-        if(index < 10 ) {
-        
-            outputIndex = "00" + std::to_string(index);
-            outputFile << outputIndex;
-            i++;
-        
-        } else if(index >= 10 && index <= 99) {
-        
-            outputIndex = "0" + std::to_string(index);
-            outputFile << outputIndex;
-            i++;
-        
-        } else {
-        
-            outputIndex = std::to_string(index);
-            outputFile << outputIndex;
-            i++;
-        
-        }
         if(i == mapW) {
         
-            outputFile << "\n";
             j++;
             i = 0;
         
-        } else {
-
-            outputFile << "|";
-
         }
     }
-
-    outputFile.close();
-
 }
 
 //---------------------------------------------------------//
 
 void MapGenerator::generateMap() {
 
+    std::filesystem::remove_all("./build/maps/tempMap");
+
     std::cout << "Regenerating Map..." << std::endl;
+    std::cout << "#########################" << std::endl;
 
     if(currentMap != nullptr) {
 
@@ -197,8 +141,10 @@ void MapGenerator::generateMap() {
 
     regenerate(0.025f, 0.05f);
     currentMap->generateMap(indexMap, 2, "tileset_overlay");
+    currentMap->saveMap("tempMap");
 
     std::cout << "Finished generating Map..." << std::endl;
+    std::cout << "#########################" << std::endl;
 
 }
 

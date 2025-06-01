@@ -57,8 +57,6 @@ LTexture* gTextTexture{nullptr};
 LTexture* tileInfoTexture{nullptr};
 LTexture* timeTexture{nullptr};
 
-MapGenerator* mapEngine{nullptr};
-
 Loader* loader;
 
 float mx = -1.f, my = -1.f;
@@ -94,22 +92,21 @@ void handleInput(bool* quit) {
                     gPlayer->move(1, 0);
                     break;
                 case SDLK_E:
-                    mapEngine->getMap()->saveMap();
+                    loader->getMapEngine()->getMap()->saveMap();
                     break;
                 case SDLK_S:
-                    //mapEngine->getMap()->~Map();
                     std::cout << "Enter Map Name to load: " << std::endl;
                     std::cin >> mapName;
-                    mapEngine->getMap()->loadMap(mapName);
+                    loader->getMapEngine()->getMap()->loadMap(mapName);
                     break;
                 case SDLK_R:
-                    mapEngine->generateMap();
-                    gPlayer->setMap(mapEngine->getMap());
+                    loader->getMapEngine()->generateMap();
+                    gPlayer->setMap(loader->getMapEngine()->getMap());
                     break;
             }
         } else if(e.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
             SDL_GetMouseState( &mx, &my );
-            tileInfoText = mapEngine->getMap()->getTileInfo((int)((mx + gPlayer->getPosX()) / 48) - 19,(int)((my + gPlayer->getPosY()) / 48) - 10, 1);
+            tileInfoText = loader->getMapEngine()->getMap()->getTileInfo((int)((mx + gPlayer->getPosX()) / 48) - 19,(int)((my + gPlayer->getPosY()) / 48) - 10, 1);
         }
     }
 }
@@ -150,12 +147,11 @@ int main(int argc, char* args[]) {
 
             //---------------------------------------------------------//
 
-            mapEngine = new MapGenerator(128, 128);
-            mapEngine->generateMap();
+            loader->getMapEngine()->generateMap();
 
-            // Player creation in Map creation? or rather in loader?
+            // Move this to Map somehow? or at least have Map set Player position?
             gPlayer = new Player("sprite.png", 1, 1, 48, 1, loader->getCamera());
-            gPlayer->setMap(mapEngine->getMap());
+            gPlayer->setMap(loader->getMapEngine()->getMap());
 
             Timer fpsTimer;
             Timer capTimer;
@@ -191,7 +187,7 @@ int main(int argc, char* args[]) {
 
                 }
 
-                mapEngine->getMap()->renderLayers();
+                loader->getMapEngine()->getMap()->renderLayers();
 
                 gPlayer->render();
 

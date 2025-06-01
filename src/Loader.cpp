@@ -1,5 +1,6 @@
 #include "Loader.hpp"
 #include "LTexture.hpp"
+#include "generator/MapGenerator.hpp"
 #include <SDL3/SDL_render.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <filesystem>
@@ -78,6 +79,7 @@ bool Loader::init() {
 bool Loader::loadTextures() {
 
     bool success{true};
+    std::cout << "#########################" << std::endl;
 
     for (const auto& dirEntry : std::filesystem::recursive_directory_iterator("resources")) {
 
@@ -111,6 +113,7 @@ bool Loader::loadTextures() {
         }
     }
 
+    std::cout << "#########################" << std::endl;
     return success;
 
 }
@@ -204,5 +207,11 @@ SDL_FRect* Loader::getCamera() {
 SDL_Renderer* Loader::getRenderer() {
 
     return renderer;
+
+}
+
+MapGenerator* Loader::getMapEngine() {
+
+    return genMap;
 
 }

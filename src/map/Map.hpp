@@ -48,13 +48,11 @@ class Map{
 
         void generateMap(int** index, int z, std::string tileName);
 
-        void saveMap();
+        void saveMap(std::string name = "");
 
         void loadMap(std::string path);
 
     private:
-
-        //Tilemap* layers[5];
 
         std::list<Layer*> layers;
 

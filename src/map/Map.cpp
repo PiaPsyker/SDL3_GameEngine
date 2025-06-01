@@ -101,12 +101,15 @@ void Map::generateMap(int** index, int z, std::string tileName) {
 
 //---------------------------------------------------------//
 
-void Map::saveMap() {
+void Map::saveMap(std::string name) {
 
+    mapName = name;
     if(mapName == "") {
 
+        std::cout << "#########################" << std::endl;
         std::cout << "Enter Map Name to save: " << std::endl;
         std::cin >> mapName;
+        std::cout << "#########################" << std::endl;
 
     }
     
@@ -132,6 +135,10 @@ void Map::saveMap() {
 
     }
 
+    std::cout << "#########################" << std::endl;
+    std::cout << "Saving complete!" << std::endl;
+    std::cout << "#########################" << std::endl;
+
     outputFile.close();
 
 }
@@ -148,6 +155,7 @@ void Map::loadMap(std::string path) {
 
     layers.clear();
 
+    std::cout << "#########################" << std::endl;
     std::cout << "Loading Map in: " << path << std::endl;
 
     std::fstream inputFile("./build/maps/" + path + "/mapConfig.txt");
@@ -162,7 +170,7 @@ void Map::loadMap(std::string path) {
 
         std::string s;
         
-        std::cout << "Size of Layers " << layers.size() << std::endl;
+        std::cout << "#########################" << std::endl;
         
         while(getline(inputFile, s)){
             
@@ -188,7 +196,7 @@ void Map::loadMap(std::string path) {
             }
             
             layers.push_front(tempLayer);
-            std::cout << "Size of Layers " << layers.size() << std::endl;
+
         }
         
     }
@@ -197,8 +205,7 @@ void Map::loadMap(std::string path) {
 
     layers.reverse();
 
-    std::cout << "TEST" <<  std::endl;
-    std::cout << "Size of Layers " << layers.size() << std::endl;
+    std::cout << "#########################" << std::endl;
 
     Tilemap* tempTilemap;
     
@@ -219,6 +226,8 @@ void Map::loadMap(std::string path) {
 
     std::cout << "Proccessed " << layers.size() << " Layers" << std::endl;
     
+    std::cout << "#########################" << std::endl;
+
     layer_count = layers.size();
 
 }

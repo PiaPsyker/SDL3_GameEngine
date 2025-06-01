@@ -80,6 +80,8 @@ class Loader {
 
         SDL_Renderer* getRenderer();
 
+        MapGenerator* getMapEngine();
+
     private:
 
         Loader(int screenW, int screenH, int mapS);   

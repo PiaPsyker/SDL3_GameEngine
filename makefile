@@ -49,5 +49,5 @@ test: build/test
 clean:
 	rm -rf ./build/resources
 	rm -rf ./build/test
-	rm -rf ./build/currentMap.bin
+	rm -rf ./build/maps/tempMap/
 	
