@@ -10,9 +10,11 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
+#include <SDL3/SDL_timer.h>
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <string>
+#include <sstream>
 //#include <iostream>
 
 #include "map/LTexture.hpp"
@@ -20,6 +22,7 @@
 #include "map/Tilemap.hpp"
 #include "entities/Player.hpp"
 #include "generator/MapGenerator.hpp"
+#include "Timer.hpp"
 
 #include "Loader.hpp"
 
@@ -48,6 +51,7 @@ Player* gPlayer{nullptr};
 
 LTexture* gTextTexture{nullptr};
 LTexture* tileInfoTexture{nullptr};
+LTexture* timeTexture{nullptr};
 
 MapGenerator* mapEngine{nullptr};
 
@@ -55,6 +59,7 @@ Loader* loader;
 
 float mx = -1.f, my = -1.f;
 std::string tileInfo;
+std::stringstream timeText;
 
 //---------------------------------------------------------//
 /* Function Implementation */
@@ -133,10 +138,10 @@ int main(int argc, char* args[]) {
             //Move this into its own class thingy?
             gTextTexture = new LTexture(loader->getRenderer());
             tileInfoTexture = new LTexture(loader->getRenderer());
+            timeTexture = new LTexture(loader->getRenderer());
 
             SDL_Color textColor = { 0xFF, 0xFF, 0xFF, 0xFF };
             std::string text;
-            
             
             TTF_Font* gFont;
             gFont = loader->getFont("ByteBounce.ttf");
@@ -147,6 +152,9 @@ int main(int argc, char* args[]) {
             tileInfoTexture->loadFromText(gFont, tileInfo, textColor);
             tileInfoTexture->setPosition(10,50);
 
+            timeTexture->loadFromText(gFont, timeText.str(), textColor);
+            timeTexture->setPosition(10,90);
+
             //---------------------------------------------------------//
 
             mapEngine = new MapGenerator(128, 128);
@@ -156,7 +164,16 @@ int main(int argc, char* args[]) {
             gPlayer = new Player("sprite.png", 1, 1, 48, 1, loader->getCamera());
             gPlayer->setMap(mapEngine->getMap());
 
+            Timer fpsTimer;
+            Timer capTimer;
+
+            Uint64 renderedFrames = 0;
+            Uint64 renderingNS = 0;
+
             while(quit == false) {
+
+                fpsTimer.start();
+                capTimer.start();
 
                 SDL_RenderClear(loader->getRenderer());
 
@@ -174,15 +191,33 @@ int main(int argc, char* args[]) {
 
                 handleInput(&quit);
                 
+                if( renderedFrames != 0 ) {
+                    
+                    timeText.str("");
+                    timeText << "FPS: " << static_cast<double>( renderedFrames ) / ( static_cast<double>( renderingNS ) / 1000000000.0 ); 
+                    timeTexture->loadFromText(gFont, timeText.str().c_str(), textColor );
+
+                }
+
                 mapEngine->getMap()->renderLayers();
 
                 gPlayer->render();
 
                 gTextTexture->render();
                 tileInfoTexture->render();
+                timeTexture->render();
 
                 SDL_RenderPresent(loader->getRenderer());
 
+                renderingNS = fpsTimer.getTicksNS();
+                renderedFrames++;
+
+                Uint64 frameNs = capTimer.getTicksNS();
+                constexpr Uint64 nsPerFrame = 1000000000 / 144;
+
+                if(frameNs < nsPerFrame) {
+                    SDL_DelayNS(nsPerFrame - frameNs);
+                }
             }
         }
     }

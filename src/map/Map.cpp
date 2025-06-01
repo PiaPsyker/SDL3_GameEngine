@@ -86,11 +86,9 @@ void Map::renderLayers() {
 void Map::generateMap(int** index, int z, std::string tileName) {
 
     Layer* tempLayer = new Layer{z, tileName + ".png", "resources/tilesets/demo_tileset/" + tileName + ".txt", nullptr};
-    std::cout << tileName + ".png" << std::endl;
 
     Tilemap* tempTilemap = new Tilemap(Loader::getLoader()->getTexture(tileName + ".png"), 128, 128, 48, Loader::getLoader()->getCamera());
 
-    std::cout << "resources/tilesets/demo_tileset/" + tileName + ".txt" << std::endl;
     tempTilemap->processTileSet("resources/tilesets/demo_tileset/" + tileName + ".txt");
     tempTilemap->setGeneratedTileMap(index);
     

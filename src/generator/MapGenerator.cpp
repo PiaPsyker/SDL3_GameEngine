@@ -165,6 +165,8 @@ void MapGenerator::regenerate(float fq, float amp) {
 
 void MapGenerator::generateMap() {
 
+    std::cout << "Regenerating Map..." << std::endl;
+
     if(currentMap != nullptr) {
 
         delete currentMap;
@@ -195,6 +197,9 @@ void MapGenerator::generateMap() {
 
     regenerate(0.025f, 0.05f);
     currentMap->generateMap(indexMap, 2, "tileset_overlay");
+
+    std::cout << "Finished generating Map..." << std::endl;
+
 }
 
 //---------------------------------------------------------//
