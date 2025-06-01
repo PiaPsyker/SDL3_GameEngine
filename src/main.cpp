@@ -172,6 +172,9 @@ int main(int argc, char* args[]) {
             fpsTimer.start();
             //double seconds;
 
+            tileInfo = "No Tile selected!";
+            text = "No Position loaded!";
+
             while(quit == false) {
        
                 capTimer.start();
@@ -195,8 +198,6 @@ int main(int argc, char* args[]) {
                 if( renderedFrames != 0 ) {
                     
                     timeText.str("");
-                    //std::cout << "Seconds pass: " << seconds << std::endl;
-                    //seconds += static_cast<double>(renderingNS) / 1000000000.0;
                     timeText << "FPS: " << static_cast<double>( renderedFrames ) / ( static_cast<double>( renderingNS ) / 1000000000.0 ); 
                     timeTexture->loadFromText(gFont, timeText.str().c_str(), textColor );
 
@@ -216,7 +217,7 @@ int main(int argc, char* args[]) {
                 renderedFrames++;
 
                 Uint64 frameNs = capTimer.getTicksNS();
-                constexpr Uint64 nsPerFrame = 1000000000 / 30;
+                constexpr Uint64 nsPerFrame = 1000000000 / 60;
 
                 if(frameNs < nsPerFrame) {
                    SDL_DelayNS(nsPerFrame - frameNs);

@@ -1,13 +1,11 @@
-- Map Generation stuff so that the MapGenerator creates a finished Map Object
+- Build out Player class for animation handling // animation handler class?
 
-- Finish Loader Class for dynamic loading of textures and other assets
+(- Finish Loader Class for dynamic loading of textures and other assets)
 
 - UI Element class that handles texts and on-screen-elements not affected by the camera?
 
 - Camera class maybe? check if neccessary
-- Timing and VSync integration for making stuff based on frame-time
-- Build out Player class for animation handling // animation handler class?
 
 - Expand map functionality -> interactions
-- Write down naming scheme for tilesets
+    -> Probably need some form of state machines for this
 
