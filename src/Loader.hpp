@@ -18,7 +18,7 @@
 #include <string>
 #include <iostream>
 
-#include "map/LTexture.hpp"
+#include "LTexture.hpp"
 
 #include "generator/MapGenerator.hpp"
 

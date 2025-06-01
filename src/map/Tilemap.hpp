@@ -17,7 +17,7 @@
 #include <SDL3_image/SDL_image.h>
 #include <string>
 #include <list>
-#include "LTexture.hpp"
+#include "../LTexture.hpp"
 #include "Tile.hpp"
 
 //---------------------------------------------------------//

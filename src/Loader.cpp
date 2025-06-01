@@ -1,5 +1,5 @@
 #include "Loader.hpp"
-#include "map/LTexture.hpp"
+#include "LTexture.hpp"
 #include <SDL3/SDL_render.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <filesystem>
@@ -100,7 +100,6 @@ bool Loader::loadTextures() {
             TTF_Font* tempFont;
 
             std::string fPath = dirEntry.path();
-            std::cout << fPath << std::endl;
 
             tempFont = TTF_OpenFont(dirEntry.path().c_str(), 48 );
             FontInfo* font = new FontInfo{dirEntry.path().filename(), tempFont};

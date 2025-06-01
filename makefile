@@ -31,6 +31,7 @@ build/test: src/main.cpp
 	cp -r ./resources ./build/
 	g++ -std=c++23 -g -o build/test \
 	src/*.cpp \
+	src/ui/*.cpp \
 	src/map/*.cpp \
 	src/entities/*.cpp \
 	src/noise/*.cpp \

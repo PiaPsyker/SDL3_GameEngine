@@ -13,7 +13,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <SDL3_image/SDL_image.h>
-#include "../map/LTexture.hpp"
+#include "../LTexture.hpp"
 #include "../map/Map.hpp"
 
 //---------------------------------------------------------//

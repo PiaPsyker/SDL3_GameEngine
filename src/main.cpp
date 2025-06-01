@@ -15,16 +15,16 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <string>
 #include <sstream>
-//#include <iostream>
 
-#include "map/LTexture.hpp"
-//#include "map/Map.hpp"
+#include "Loader.hpp"
+#include "LTexture.hpp"
+#include "Timer.hpp"
+
+#include "ui/UIElement.hpp"
 #include "map/Tilemap.hpp"
 #include "entities/Player.hpp"
 #include "generator/MapGenerator.hpp"
-#include "Timer.hpp"
 
-#include "Loader.hpp"
 
 //---------------------------------------------------------//
 /* Constants */
@@ -49,6 +49,10 @@ Tilemap* gTilemap{nullptr};
 
 Player* gPlayer{nullptr};
 
+UIElement* position{nullptr};
+UIElement* tileInfo{nullptr};
+UIElement* timeInfo{nullptr};
+
 LTexture* gTextTexture{nullptr};
 LTexture* tileInfoTexture{nullptr};
 LTexture* timeTexture{nullptr};
@@ -58,8 +62,9 @@ MapGenerator* mapEngine{nullptr};
 Loader* loader;
 
 float mx = -1.f, my = -1.f;
-std::string tileInfo;
-std::stringstream timeText;
+std::string positionText;
+std::string tileInfoText;
+std::string timeText;
 
 //---------------------------------------------------------//
 /* Function Implementation */
@@ -104,7 +109,7 @@ void handleInput(bool* quit) {
             }
         } else if(e.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
             SDL_GetMouseState( &mx, &my );
-            tileInfo = mapEngine->getMap()->getTileInfo((int)((mx + gPlayer->getPosX()) / 48) - 19,(int)((my + gPlayer->getPosY()) / 48) - 10, 1);
+            tileInfoText = mapEngine->getMap()->getTileInfo((int)((mx + gPlayer->getPosX()) / 48) - 19,(int)((my + gPlayer->getPosY()) / 48) - 10, 1);
         }
     }
 }
@@ -135,25 +140,13 @@ int main(int argc, char* args[]) {
 
             bool quit{false};
 
-            //Move this into its own class thingy?
-            gTextTexture = new LTexture(loader->getRenderer());
-            tileInfoTexture = new LTexture(loader->getRenderer());
-            timeTexture = new LTexture(loader->getRenderer());
+            timeText = "Not yet started!";
+            tileInfoText = "No Tile selected!";
+            positionText = "No Position loaded!";
 
-            SDL_Color textColor = { 0xFF, 0xFF, 0xFF, 0xFF };
-            std::string text;
-            
-            TTF_Font* gFont;
-            gFont = loader->getFont("ByteBounce.ttf");
-            
-            gTextTexture->loadFromText(gFont, text, textColor);
-            gTextTexture->setPosition(10,10);
-
-            tileInfoTexture->loadFromText(gFont, tileInfo, textColor);
-            tileInfoTexture->setPosition(10,50);
-
-            timeTexture->loadFromText(gFont, timeText.str(), textColor);
-            timeTexture->setPosition(10,90);
+            position = new UIElement("ByteBounce.ttf", &positionText, 10, 10);
+            tileInfo = new UIElement("ByteBounce.ttf", &tileInfoText, 10, 50);
+            timeInfo = new UIElement("ByteBounce.ttf", &timeText, 10, 90);
 
             //---------------------------------------------------------//
 
@@ -169,11 +162,7 @@ int main(int argc, char* args[]) {
 
             Uint64 renderedFrames = 0;
             Uint64 renderingNS = 0;
-            fpsTimer.start();
-            //double seconds;
-
-            tileInfo = "No Tile selected!";
-            text = "No Position loaded!";
+            fpsTimer.start(); 
 
             while(quit == false) {
        
@@ -181,12 +170,13 @@ int main(int argc, char* args[]) {
 
                 SDL_RenderClear(loader->getRenderer());
 
-                gTextTexture->loadFromText(gFont, text, textColor );
-                tileInfoTexture->loadFromText(gFont, tileInfo, textColor );
-
                 SDL_GetMouseState( &mx, &my );
 
-                text = "PX: " + std::to_string(gPlayer->getMapX()) +
+                position->setText(&positionText);
+                tileInfo->setText(&tileInfoText);
+                timeInfo->setText(&timeText);
+
+                positionText = "PX: " + std::to_string(gPlayer->getMapX()) +
                     " | PY: " + std::to_string(gPlayer->getMapY()) +
                     " || GPX:" + std::to_string(gPlayer->getPosX()) +
                     " | GPY: "  + std::to_string(gPlayer->getPosY()) +
@@ -197,9 +187,7 @@ int main(int argc, char* args[]) {
                 
                 if( renderedFrames != 0 ) {
                     
-                    timeText.str("");
-                    timeText << "FPS: " << static_cast<double>( renderedFrames ) / ( static_cast<double>( renderingNS ) / 1000000000.0 ); 
-                    timeTexture->loadFromText(gFont, timeText.str().c_str(), textColor );
+                    timeText = "FPS: " + std::to_string(static_cast<double>( renderedFrames ) / ( static_cast<double>( renderingNS ) / 1000000000.0 )); 
 
                 }
 
@@ -207,11 +195,13 @@ int main(int argc, char* args[]) {
 
                 gPlayer->render();
 
-                gTextTexture->render();
-                tileInfoTexture->render();
-                timeTexture->render();
+                position->render();
+                tileInfo->render();
+                timeInfo->render();
 
                 SDL_RenderPresent(loader->getRenderer());
+
+                //---------------------------------------------------------//
 
                 renderingNS = fpsTimer.getTicksNS();
                 renderedFrames++;
@@ -220,15 +210,17 @@ int main(int argc, char* args[]) {
                 constexpr Uint64 nsPerFrame = 1000000000 / 60;
 
                 if(frameNs < nsPerFrame) {
+
                    SDL_DelayNS(nsPerFrame - frameNs);
+
                 }
             }
         }
     }
 
-    gTextTexture->~LTexture();
-    tileInfoTexture->~LTexture();
-    timeTexture->~LTexture();
+    position->~UIElement();
+    tileInfo->~UIElement();
+    timeInfo->~UIElement();
 
     loader->~Loader();
 
