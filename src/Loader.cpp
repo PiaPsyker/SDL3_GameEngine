@@ -91,7 +91,7 @@ bool Loader::loadTextures() {
 
             textures.push_front(tex);
 
-            std::cout << "Added Texture: " << dirEntry.path() << std::endl;
+            std::cout << "Added Texture: " << dirEntry.path().filename() << std::endl;
     
         }
 

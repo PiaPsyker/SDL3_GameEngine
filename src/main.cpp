@@ -86,7 +86,7 @@ void handleInput(bool* quit) {
                     //mapEngine->getMap()->~Map();
                     std::cout << "Enter Map Name to load: " << std::endl;
                     std::cin >> mapName;
-                    mapEngine->getMap()->loadMap("./build/maps/" + mapName);
+                    mapEngine->getMap()->loadMap(mapName);
                     break;
                 case SDLK_R:
                     mapEngine->generateMap();

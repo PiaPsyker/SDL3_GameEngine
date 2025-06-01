@@ -193,8 +193,8 @@ void MapGenerator::generateMap() {
 
     currentMap->generateMap(tempIndex3, 1, "tileset");
 
-    //regenerate(0.025f, 0.05f);
-    //currentMap->generateMap(indexMap, 2);
+    regenerate(0.025f, 0.05f);
+    currentMap->generateMap(indexMap, 2, "tileset_overlay");
 }
 
 //---------------------------------------------------------//

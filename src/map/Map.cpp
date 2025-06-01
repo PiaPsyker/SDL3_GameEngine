@@ -1,5 +1,6 @@
 #include "Map.hpp"
 #include "Tilemap.hpp"
+#include <cstddef>
 #include <string>
 #include <iostream>
 #include <filesystem>
@@ -22,6 +23,9 @@ Map::~Map() {
         delete lay->tilemap;
 
     }
+
+    layers.clear();
+
 }
 
 //---------------------------------------------------------//
@@ -46,8 +50,6 @@ bool Map::isMoveable(int x, int y, int z) {
 
         if(lay->index == z) {
          
-            std::cout << "Found Layer: " << lay->index << std::endl;
-            std:: cout << "Is moveable: " << lay->tilemap->isMoveable(x, y) << std::endl;
             return lay->tilemap->isMoveable(x, y);
 
         }
@@ -111,12 +113,23 @@ void Map::saveMap() {
     }
     
     std::filesystem::create_directory("./build/maps/" + mapName);
+    std::filesystem::create_directory("./build/maps/" + mapName + "/layers");
+
+    std::fstream outputFile;
+    outputFile.open("./build/maps/" + mapName + "/mapConfig.txt", std::ios::out);
 
     for(Layer* lay : layers) {
         std::cout << "Saving Map Layer " << lay->index << std::endl;
-        std::string path = "./build/maps/" + mapName + "/layer" + std::to_string(lay->index) + ".bin";
+        outputFile << lay->index;
+        outputFile << "|";
+        outputFile << lay->tilemapName;
+        outputFile << "|";
+        outputFile << lay->tilemapConfig;
+        outputFile << "\n";
+        std::string path = "./build/maps/" + mapName + "/layers/layer" + std::to_string(lay->index) + ".bin";
         lay->tilemap->saveTileMap(path);
     }
+    outputFile.close();
 
     // for(int i = 0; i < layer_count; i++) {
     // 
@@ -131,32 +144,88 @@ void Map::saveMap() {
 
 void Map::loadMap(std::string path) {
 
-    // int i = 0;
-// 
-    // std::cout << "Loading Map in: " << path << std::endl;
-// 
-    // for (const auto& dirEntry : std::filesystem::recursive_directory_iterator(path)) {
-    //     
-    //     layer_count = 2;
-    //     
-    //     if(dirEntry.path().extension() == ".bin") {
-// 
-    //         if(i == 0 or i == 1) {
-    //             layers[i] = new Tilemap(Loader::getLoader()->getTexture("tileset.png"), 128, 128, 48, Loader::getLoader()->getCamera());
-    //             layers[i]->loadTileMap(path + "/" + (std::string)dirEntry.path().filename());
-    //             layers[i]->processTileSet("resources/tilesets/demo_tileset/tileset.txt");
-    //         }else {
-    //             layers[i] = new Tilemap(Loader::getLoader()->getTexture("tileset_overlay.png"), 128, 128, 48, Loader::getLoader()->getCamera());
-    //             layers[i]->loadTileMap(path + "/" + (std::string)dirEntry.path().filename());
-    //             layers[i]->processTileSet("resources/tilesets/demo_tileset/tileset_overlay.txt");
-    //         }
-    //         
-    //         layers[i]->setTileMap();
-// 
-    //         i++;
-    //     }
-    // }
-    // layer_count = i;
+    for(Layer* lay : layers) {
+
+        delete lay->tilemap;
+
+    }
+    layers.clear();
+
+    std::cout << "Loading Map in: " << path << std::endl;
+
+    std::fstream inputFile("./build/maps/" + path + "/mapConfig.txt");
+    std::string delimitedString;
+    
+
+    if(!inputFile.is_open()) {
+
+        SDL_Log("Error opening Tilemap Config file");
+
+    } else {
+
+        std::string s;
+        
+        std::cout << "Size of Layers " << layers.size() << std::endl;
+        
+        while(getline(inputFile, s)){
+            
+            Layer* tempLayer = new Layer{-1, "nullptr", "nullptr"};
+            std::stringstream fullLine(s);
+            int i = 0;
+
+            while(getline(fullLine,delimitedString, '|')){
+
+                if(i == 0) {
+                    tempLayer->index = std::stoi(delimitedString);
+                    std::cout << "Set Index: " << std::stoi(delimitedString) << std::endl;
+                } else if(i == 1) {
+                    tempLayer->tilemapName = delimitedString;
+                    std::cout << "Set TilemapName: " << delimitedString << std::endl;
+                } else if(i == 2){
+                    tempLayer->tilemapConfig = delimitedString;
+                    std::cout << "Set TilemapConfig: " << delimitedString << std::endl;
+                }
+
+                i++;
+                
+            }
+            
+            layers.push_front(tempLayer);
+            std::cout << "Size of Layers " << layers.size() << std::endl;
+        }
+        
+    }
+    
+    inputFile.close();
+
+    layers.reverse();
+
+    std::cout << "TEST" <<  std::endl;
+    std::cout << "Size of Layers " << layers.size() << std::endl;
+
+    Tilemap* tempTilemap;
+    
+    for(Layer* lay : layers) {
+
+        std::cout << "Processing Layer Index: " << lay->index << std::endl;
+
+        //if(lay->index == j) {
+
+            tempTilemap = new Tilemap(Loader::getLoader()->getTexture(lay->tilemapName), 128, 128, 48, Loader::getLoader()->getCamera());
+
+            tempTilemap->loadTileMap("./build/maps/" + path + "/layers" + "/layer" + std::to_string(lay->index) + ".bin");
+            tempTilemap->processTileSet("./build/" + lay->tilemapConfig);
+
+            tempTilemap->setTileMap();
+
+            lay->tilemap = tempTilemap;
+        //}
+    }
+
+    std::cout << "Proccessed " << layers.size() << " Layers" << std::endl;
+    
+    layer_count = layers.size();
+
 }
 
 //---------------------------------------------------------//
