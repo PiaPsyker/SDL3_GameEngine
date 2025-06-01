@@ -35,8 +35,6 @@ void Map::addLayer(Tilemap* newLayer) {
     Layer* tempLayer = new Layer{layer_count,"test","test", newLayer};
 
     layers.push_front(tempLayer);
-
-    //layers[layer_count] = layer;
     
     layer_count++;
 
@@ -88,19 +86,6 @@ void Map::generateMap(int** index, int z, std::string tileName) {
 
     layer_count = z+1;
 
-    // if(z == 0 or z == 1) {
-    // 
-    //     layers[z] = new Tilemap(Loader::getLoader()->getTexture("tileset.png"), 128, 128, 48, Loader::getLoader()->getCamera());
-    //     layers[z]->processTileSet("resources/tilesets/demo_tileset/tileset.txt");
-    // 
-    // } else {
-    //      layers[z] = new Tilemap(Loader::getLoader()->getTexture("tileset_overlay.png"), 128, 128, 48, Loader::getLoader()->getCamera());
-    //      layers[z]->processTileSet("resources/tilesets/demo_tileset/tileset_overlay.txt");
-    // }
-    // 
-    // layers[z]->setGeneratedTileMap(index);
-    // layer_count = z+1;
-
 }
 
 //---------------------------------------------------------//
@@ -108,8 +93,10 @@ void Map::generateMap(int** index, int z, std::string tileName) {
 void Map::saveMap() {
 
     if(mapName == "") {
+
         std::cout << "Enter Map Name to save: " << std::endl;
         std::cin >> mapName;
+
     }
     
     std::filesystem::create_directory("./build/maps/" + mapName);
@@ -119,25 +106,23 @@ void Map::saveMap() {
     outputFile.open("./build/maps/" + mapName + "/mapConfig.txt", std::ios::out);
 
     for(Layer* lay : layers) {
+
         std::cout << "Saving Map Layer " << lay->index << std::endl;
+
         outputFile << lay->index;
         outputFile << "|";
         outputFile << lay->tilemapName;
         outputFile << "|";
         outputFile << lay->tilemapConfig;
         outputFile << "\n";
+
         std::string path = "./build/maps/" + mapName + "/layers/layer" + std::to_string(lay->index) + ".bin";
         lay->tilemap->saveTileMap(path);
+
     }
+
     outputFile.close();
 
-    // for(int i = 0; i < layer_count; i++) {
-    // 
-    //     std::cout << "Saving Map Layer " << i << std::endl;
-    //     std::string path = "./build/maps/" + mapName + "/layer" + std::to_string(i) + ".bin";
-    //     layers[i]->saveTileMap(path);
-    // 
-    // }
 }
 
 //---------------------------------------------------------//
@@ -149,6 +134,7 @@ void Map::loadMap(std::string path) {
         delete lay->tilemap;
 
     }
+
     layers.clear();
 
     std::cout << "Loading Map in: " << path << std::endl;
@@ -209,17 +195,15 @@ void Map::loadMap(std::string path) {
 
         std::cout << "Processing Layer Index: " << lay->index << std::endl;
 
-        //if(lay->index == j) {
+        tempTilemap = new Tilemap(Loader::getLoader()->getTexture(lay->tilemapName), 128, 128, 48, Loader::getLoader()->getCamera());
 
-            tempTilemap = new Tilemap(Loader::getLoader()->getTexture(lay->tilemapName), 128, 128, 48, Loader::getLoader()->getCamera());
+        tempTilemap->loadTileMap("./build/maps/" + path + "/layers" + "/layer" + std::to_string(lay->index) + ".bin");
+        tempTilemap->processTileSet("./build/" + lay->tilemapConfig);
 
-            tempTilemap->loadTileMap("./build/maps/" + path + "/layers" + "/layer" + std::to_string(lay->index) + ".bin");
-            tempTilemap->processTileSet("./build/" + lay->tilemapConfig);
+        tempTilemap->setTileMap();
 
-            tempTilemap->setTileMap();
-
-            lay->tilemap = tempTilemap;
-        //}
+        lay->tilemap = tempTilemap;
+            
     }
 
     std::cout << "Proccessed " << layers.size() << " Layers" << std::endl;

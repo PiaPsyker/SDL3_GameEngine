@@ -68,7 +68,6 @@ void Player::move(int x, int y) {
         posY = mapY * size;
 
         sprite->setPosition(posX, posY);
-        std::cout << "PX: " << mapX << " | PY: " << mapY << std::endl;
 
         camera->x = static_cast<int>( posX + sprite->getWidth() / 2 - Loader::getLoader()->getScreenWidth() / 2 );
         camera->y = static_cast<int>( posY + sprite->getHeight() / 2 - Loader::getLoader()->getScreenHeight() / 2 );

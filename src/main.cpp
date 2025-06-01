@@ -128,6 +128,7 @@ int main(int argc, char* args[]) {
 
             SDL_Color textColor = { 0xFF, 0xFF, 0xFF, 0xFF };
             std::string text;
+            float mx = -1.f, my = -1.f;
             
             TTF_Font* gFont;
             gFont = loader->getFont("ByteBounce.ttf");
@@ -147,11 +148,17 @@ int main(int argc, char* args[]) {
             while(quit == false) {
 
                 SDL_RenderClear(loader->getRenderer());
+
                 gTextTexture->loadFromText(gFont, text, textColor );
+
+                SDL_GetMouseState( &mx, &my );
+
                 text = "PX: " + std::to_string(gPlayer->getMapX()) +
                     " | PY: " + std::to_string(gPlayer->getMapY()) +
                     " || GPX:" + std::to_string(gPlayer->getPosX()) +
-                    " | GPY: "  + std::to_string(gPlayer->getPosY());
+                    " | GPY: "  + std::to_string(gPlayer->getPosY()) +
+                    " || MX: " + std::to_string((int)((mx + gPlayer->getPosX()) / 48) - 19) + 
+                    " | MY: " + std::to_string((int)((my + gPlayer->getPosY()) / 48) - 10);
 
                 handleInput(&quit);
                 
