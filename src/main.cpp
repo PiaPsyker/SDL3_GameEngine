@@ -16,14 +16,13 @@
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <string>
-#include <sstream>
 
 #include "Loader.hpp"
 #include "Timer.hpp"
 
-#include "ui/UIElement.hpp"
 #include "map/Tilemap.hpp"
 #include "entities/Player.hpp"
+#include "entities/Enemy.hpp"
 #include "generator/MapGenerator.hpp"
 #include "ui/UIHandler.hpp"
 
@@ -50,6 +49,7 @@ Map* gMap{nullptr};
 Tilemap* gTilemap{nullptr};
 
 Player* gPlayer{nullptr};
+Enemy* gEnemy{nullptr};
 
 UIHandler* uiEngine{nullptr};
 
@@ -155,6 +155,9 @@ int main(int argc, char* args[]) {
 
             loader->getMapEngine()->generateMap();
 
+            gEnemy = new Enemy("sprite.png", 2, 2, 48, 1, loader->getCamera());
+            gEnemy->setMap(loader->getMapEngine()->getMap());
+
             // Move this to Map somehow? or at least have Map set Player position?
             gPlayer = new Player("sprite.png", 1, 1, 48, 1, loader->getCamera());
             gPlayer->setMap(loader->getMapEngine()->getMap());
@@ -192,6 +195,7 @@ int main(int argc, char* args[]) {
                 loader->getMapEngine()->getMap()->renderLayers();
 
                 gPlayer->render();
+                gEnemy->render();
 
                 uiEngine->render();
 

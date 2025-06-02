@@ -7,35 +7,40 @@
 //---------------------------------------------------------//
 /* Library Loading */
 //---------------------------------------------------------//
-#ifndef PLAYER_H
-#define PLAYER_H
+
+#ifndef ENTITY_H
+#define ENTITY_H
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <SDL3_image/SDL_image.h>
+
+#include "Moveable.hpp"
+
 #include "../LTexture.hpp"
 #include "../map/Map.hpp"
-#include "Entity.hpp"
+#include "../Loader.hpp"
 
 //---------------------------------------------------------//
 /* Class Prototype */
 //---------------------------------------------------------//
 
-class Player{
+class Entity : public Moveable{
 
     public:
 
-        Player(std::string spriteName, int x, int y, int sz, int z, SDL_FRect* cam);
+        Entity(std::string spriteName, int x, int y, int sz, int z, SDL_FRect* cam);
 
-        void move(int x, int y);
+        void move(int x, int y, int z) override;
+        void setPosition(int x, int y, int z) override;
+        
+        void interact(int x, int y, int z);
 
         void setMap(Map* m);
-
+        
         bool checkCollision(int x, int y);
-
+        
         void render();
-
-        LTexture* getSprite();
 
         int getPosX();
         int getPosY();
