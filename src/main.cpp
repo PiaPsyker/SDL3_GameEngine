@@ -9,6 +9,8 @@
 //---------------------------------------------------------//
 
 #include <SDL3/SDL.h>
+#include <SDL3/SDL_events.h>
+#include <SDL3/SDL_keycode.h>
 #include <SDL3/SDL_main.h>
 #include <SDL3/SDL_timer.h>
 #include <SDL3_image/SDL_image.h>
@@ -17,13 +19,13 @@
 #include <sstream>
 
 #include "Loader.hpp"
-#include "LTexture.hpp"
 #include "Timer.hpp"
 
 #include "ui/UIElement.hpp"
 #include "map/Tilemap.hpp"
 #include "entities/Player.hpp"
 #include "generator/MapGenerator.hpp"
+#include "ui/UIHandler.hpp"
 
 
 //---------------------------------------------------------//
@@ -49,13 +51,7 @@ Tilemap* gTilemap{nullptr};
 
 Player* gPlayer{nullptr};
 
-UIElement* position{nullptr};
-UIElement* tileInfo{nullptr};
-UIElement* timeInfo{nullptr};
-
-LTexture* gTextTexture{nullptr};
-LTexture* tileInfoTexture{nullptr};
-LTexture* timeTexture{nullptr};
+UIHandler* uiEngine{nullptr};
 
 Loader* loader;
 
@@ -79,22 +75,26 @@ void handleInput(bool* quit) {
             *quit = true;
         } else if(e.type == SDL_EVENT_KEY_DOWN){
             switch(e.key.key){
-                case SDLK_UP:
+                case SDLK_W:
                     gPlayer->move(0, -1);
-                    break;
-                case SDLK_DOWN:
-                    gPlayer->move(0, 1);
-                    break;
-                case SDLK_LEFT:
-                    gPlayer->move(-1, 0);
-                    break;
-                case SDLK_RIGHT:
-                    gPlayer->move(1, 0);
-                    break;
-                case SDLK_E:
-                    loader->getMapEngine()->getMap()->saveMap();
+                    uiEngine->setElementText("position",&positionText);
                     break;
                 case SDLK_S:
+                    gPlayer->move(0, 1);
+                    uiEngine->setElementText("position",&positionText);
+                    break;
+                case SDLK_A:
+                    gPlayer->move(-1, 0);
+                    uiEngine->setElementText("position",&positionText);
+                    break;
+                case SDLK_D:
+                    gPlayer->move(1, 0);
+                    uiEngine->setElementText("position",&positionText);
+                    break;
+                case SDLK_F5:
+                    loader->getMapEngine()->getMap()->saveMap();
+                    break;
+                case SDLK_F9:
                     std::cout << "Enter Map Name to load: " << std::endl;
                     std::cin >> mapName;
                     loader->getMapEngine()->getMap()->loadMap(mapName);
@@ -104,9 +104,13 @@ void handleInput(bool* quit) {
                     gPlayer->setMap(loader->getMapEngine()->getMap());
                     break;
             }
-        } else if(e.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
+        } else if(e.type == SDL_EVENT_MOUSE_BUTTON_DOWN || e.type == SDL_EVENT_MOUSE_MOTION) {
+
             SDL_GetMouseState( &mx, &my );
             tileInfoText = loader->getMapEngine()->getMap()->getTileInfo((int)((mx + gPlayer->getPosX()) / 48) - 19,(int)((my + gPlayer->getPosY()) / 48) - 10, 1);
+            uiEngine->setElementText("tileInfo",&tileInfoText);
+            uiEngine->setElementText("position",&positionText);
+
         }
     }
 }
@@ -141,9 +145,11 @@ int main(int argc, char* args[]) {
             tileInfoText = "No Tile selected!";
             positionText = "No Position loaded!";
 
-            position = new UIElement("ByteBounce.ttf", &positionText, 10, 10);
-            tileInfo = new UIElement("ByteBounce.ttf", &tileInfoText, 10, 50);
-            timeInfo = new UIElement("ByteBounce.ttf", &timeText, 10, 90);
+            uiEngine = new UIHandler();
+            
+            uiEngine->newElement("position","ByteBounce.ttf", &positionText, 10, 10);
+            uiEngine->newElement("tileInfo","ByteBounce.ttf", &tileInfoText, 10, 50);
+            uiEngine->newElement("timeInfo","ByteBounce.ttf", &timeText, 10, 90);
 
             //---------------------------------------------------------//
 
@@ -165,12 +171,8 @@ int main(int argc, char* args[]) {
                 capTimer.start();
 
                 SDL_RenderClear(loader->getRenderer());
-
-                SDL_GetMouseState( &mx, &my );
-
-                position->setText(&positionText);
-                tileInfo->setText(&tileInfoText);
-                timeInfo->setText(&timeText);
+                
+                uiEngine->setElementText("timeInfo",&timeText);
 
                 positionText = "PX: " + std::to_string(gPlayer->getMapX()) +
                     " | PY: " + std::to_string(gPlayer->getMapY()) +
@@ -191,9 +193,7 @@ int main(int argc, char* args[]) {
 
                 gPlayer->render();
 
-                position->render();
-                tileInfo->render();
-                timeInfo->render();
+                uiEngine->render();
 
                 SDL_RenderPresent(loader->getRenderer());
 
@@ -214,12 +214,17 @@ int main(int argc, char* args[]) {
         }
     }
 
-    position->~UIElement();
-    tileInfo->~UIElement();
-    timeInfo->~UIElement();
+    std::cout << "Freeing Memory..." << std::endl; 
+    
+    uiEngine->~UIHandler();
 
     loader->~Loader();
 
+    std::cout << "Done" << std::endl;
+    std::cout << "Closing..." << std::endl;
+    std::cout << "Goodbye :3" << std::endl;
+
     return exitCode;
+
 
 }

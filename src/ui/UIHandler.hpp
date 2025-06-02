@@ -8,9 +8,10 @@
 /* Library Loading */
 //---------------------------------------------------------//
 
-#ifndef UIELEMENT_H
-#define UIELEMENT_H
+#ifndef UIHANDLER_H
+#define UIHANDLER_H
 
+#include "UIElement.hpp"
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <SDL3/SDL_rect.h>
@@ -18,35 +19,38 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <string>
 #include <list>
-#include "../Loader.hpp"
+#include "UIElement.hpp"
 
+struct ElementInfo {
+
+    std::string name;
+    UIElement* element;
+
+};
 
 //---------------------------------------------------------//
 /* Class Prototype */
 //---------------------------------------------------------//
 
-class UIElement {
+class UIHandler {
 
     public:
+        
+        UIHandler();
+        ~UIHandler();
 
-        UIElement(TTF_Font* newFont, std::string* text, int x, int y);
-        ~UIElement();
+        void newElement(std::string name, std::string fontName, std::string* text, int x, int y);
+        void addElement(std::string name, UIElement* el);
 
-        void setText(std::string* text);
-        void setColor(SDL_Color col);
-        void setPosition(int x, int y);
+        void setElementText(std::string name, std::string* text);
+        void setElementColor(std::string name, SDL_Color color);
+        void setElementPosition(std::string name, int x, int y);
 
         void render();
 
     private:
 
-        int posX;
-        int posY;
-
-        TTF_Font* font;
-        std::string* uiText;
-        LTexture* texture;
-        SDL_Color textColor;
+        std::list<ElementInfo*> elements;
 
 };
 
