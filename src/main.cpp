@@ -77,19 +77,39 @@ void handleInput(bool* quit) {
         } else if(e.type == SDL_EVENT_KEY_DOWN){
             switch(e.key.key){
                 case SDLK_W:
-                    gPlayer->move(0, -1);
+                    gPlayer->move(0, -1, 0);
                     uiEngine->setElementText("position",&positionText);
                     break;
                 case SDLK_S:
-                    gPlayer->move(0, 1);
+                    gPlayer->move(0, 1, 0);
                     uiEngine->setElementText("position",&positionText);
                     break;
                 case SDLK_A:
-                    gPlayer->move(-1, 0);
+                    gPlayer->move(-1, 0, 0);
                     uiEngine->setElementText("position",&positionText);
                     break;
                 case SDLK_D:
-                    gPlayer->move(1, 0);
+                    gPlayer->move(1, 0, 0);
+                    uiEngine->setElementText("position",&positionText);
+                    break;
+                case SDLK_F1:
+                    int nextX;
+                    int nextY;
+                    if( gPlayer->getMapX() - gEnemy->getMapX() > 0) {
+                        nextX = 1;
+                    } else if( gPlayer->getMapX() - gEnemy->getMapX() < 0) {
+                        nextX = -1;
+                    }else {
+                        nextX = 0;
+                    }
+                    if( gPlayer->getMapY() - gEnemy->getMapY() > 0) {
+                        nextY = 1;
+                    } else if( gPlayer->getMapY() - gEnemy->getMapY() < 0) {
+                        nextY = -1;
+                    }else {
+                        nextY = 0;
+                    }
+                    gEnemy->move( nextX, nextY, 0);
                     uiEngine->setElementText("position",&positionText);
                     break;
                 case SDLK_F5:
@@ -103,6 +123,7 @@ void handleInput(bool* quit) {
                 case SDLK_R:
                     loader->getMapEngine()->generateMap();
                     gPlayer->setMap(loader->getMapEngine()->getMap());
+                    gEnemy->setMap(loader->getMapEngine()->getMap());
                     break;
             }
         } else if(e.type == SDL_EVENT_MOUSE_BUTTON_DOWN || e.type == SDL_EVENT_MOUSE_MOTION) {
@@ -156,7 +177,7 @@ int main(int argc, char* args[]) {
 
             loader->getMapEngine()->generateMap();
             
-            gEnemy = new Enemy("sprite2.png", 2, 2, 48, 1, loader->getCamera());
+            gEnemy = new Enemy("enemy.png", 2, 2, 48, 1, loader->getCamera());
             gEnemy->setMap(loader->getMapEngine()->getMap());
             
             // Move this to Map somehow? or at least have Map set Player position?

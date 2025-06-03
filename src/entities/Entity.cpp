@@ -1,4 +1,6 @@
 #include "Entity.hpp"
+#include "Sprite.hpp"
+#include <SDL3/SDL_rect.h>
 
 //---------------------------------------------------------//
 /* Class Implementation */
@@ -14,11 +16,7 @@ Entity::Entity(std::string spriteName, int x, int y, int sz, int z, SDL_FRect* c
     posY = mapY * size;
     camera = cam;
 
-    sprite = Loader::getLoader()->getTexture(spriteName);
-
-    sprite->setSize(size, size);
-    sprite->setPosition(posX, posY);
-    sprite->setClip(0.f, 0.f, size, size);
+    sprite = new Sprite(spriteName, x, y, sz, cam);
 
 }
 
@@ -33,6 +31,8 @@ void Entity::setPosition(int x, int y, int z) {
     posY = mapY * size;
 
     z_index = z;
+
+    sprite->setPosition(posX, posY);
 
 }
 
@@ -57,16 +57,16 @@ bool Entity::checkCollision(int x, int y){
 void Entity::move(int x, int y, int z) {
 
     if(x > 0) {
-        sprite->setClip(size, size, size, size);
+        sprite->getSpriteTex()->setClip(size, size, size, size);
     }
     if(x < 0) {
-        sprite->setClip(size, 0.f, size, size);
+        sprite->getSpriteTex()->setClip(size, 0.f, size, size);
     }
     if(y > 0) {
-        sprite->setClip(0.f, 0.f, size, size);
+        sprite->getSpriteTex()->setClip(0.f, 0.f, size, size);
     }
     if(y < 0) {
-        sprite->setClip(0.f, size, size, size);
+        sprite->getSpriteTex()->setClip(0.f, size, size, size);
     }
 
     if(checkCollision(mapX + x, mapY + y) == true) {
@@ -84,11 +84,9 @@ void Entity::move(int x, int y, int z) {
 
 void Entity::render() {
 
-    sprite->render(camera);
+    sprite->getSpriteTex()->render(camera);
 
 }
-
-
 
 int Entity::getPosX() {
 
@@ -111,5 +109,11 @@ int Entity::getMapX() {
 int Entity::getMapY() {
 
     return mapY;
+
+}
+
+Sprite* Entity::getSprite() {
+
+    return sprite;
 
 }

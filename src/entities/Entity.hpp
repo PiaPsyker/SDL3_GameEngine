@@ -13,11 +13,12 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
+#include <SDL3/SDL_rect.h>
 #include <SDL3_image/SDL_image.h>
 
 #include "Moveable.hpp"
 
-#include "../LTexture.hpp"
+#include "Sprite.hpp"
 #include "../map/Map.hpp"
 #include "../Loader.hpp"
 
@@ -48,9 +49,11 @@ class Entity : public Moveable{
         int getMapX();
         int getMapY();
 
+        Sprite* getSprite();
+
     private:
 
-        LTexture* sprite;
+        Sprite* sprite;
         SDL_FRect* camera;
         
         Map* map;

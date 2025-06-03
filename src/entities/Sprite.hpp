@@ -7,27 +7,42 @@
 //---------------------------------------------------------//
 /* Library Loading */
 //---------------------------------------------------------//
-#ifndef PLAYERNEW_H
-#define PLAYERNEW_H
+#ifndef SPRITE_H
+#define SPRITE_H
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3_image/SDL_image.h>
-#include "Entity.hpp"
+#include "../LTexture.hpp"
+#include "../Loader.hpp"
 
 //---------------------------------------------------------//
 /* Class Prototype */
 //---------------------------------------------------------//
 
-class Player : public Entity {
+class Sprite {
 
     public:
 
-        using Entity::Entity;
-        // Enemy();
+        Sprite(std::string spriteName, int x, int y, int sz, SDL_FRect* cam, LTexture* tex = nullptr);
 
-        void move(int x, int y, int z);
+        void setPosition(int x, int y);
+
+        LTexture* getSpriteTex();
+
+    private:
+
+        LTexture* spriteTex;
+        SDL_FRect* camera;
+
+        int posX;
+        int posY;
+
+        int mapX;
+        int mapY;
+
+        int size;
 
 };
 
