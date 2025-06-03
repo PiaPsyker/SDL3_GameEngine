@@ -15,7 +15,6 @@
 #include <SDL3_image/SDL_image.h>
 #include "../LTexture.hpp"
 #include "../map/Map.hpp"
-#include "Entity.hpp"
 
 //---------------------------------------------------------//
 /* Class Prototype */

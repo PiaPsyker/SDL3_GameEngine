@@ -20,6 +20,7 @@
 #include "Loader.hpp"
 #include "Timer.hpp"
 
+#include "entities/Enemy.hpp"
 #include "map/Tilemap.hpp"
 #include "entities/Player.hpp"
 #include "entities/Enemy.hpp"
@@ -154,10 +155,10 @@ int main(int argc, char* args[]) {
             //---------------------------------------------------------//
 
             loader->getMapEngine()->generateMap();
-
-            gEnemy = new Enemy("sprite.png", 2, 2, 48, 1, loader->getCamera());
+            
+            gEnemy = new Enemy("sprite2.png", 2, 2, 48, 1, loader->getCamera());
             gEnemy->setMap(loader->getMapEngine()->getMap());
-
+            
             // Move this to Map somehow? or at least have Map set Player position?
             gPlayer = new Player("sprite.png", 1, 1, 48, 1, loader->getCamera());
             gPlayer->setMap(loader->getMapEngine()->getMap());
